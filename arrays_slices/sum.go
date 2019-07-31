@@ -6,7 +6,7 @@ Range lets you iterate over an array.
  It's a bit like writing to the Unix /dev/null file:
 */
 
-package main
+package arrays
 
 func Sum(numbers []int) int {
     sum := 0

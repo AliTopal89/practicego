@@ -2,7 +2,7 @@
 // format strings: https://golang.org/pkg/fmt/
 
 
-package main
+package arrays
 
 import (
 	"testing"
