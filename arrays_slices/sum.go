@@ -24,12 +24,22 @@ For example, fmt.Println is a common variadic function.
 https://gobyexample.com/variadic-functions
 */
 
-func SumAll(numbersToSum ...[]int) []int {
-	lengthOfNumbers := len(numbersToSum)
-    sums := make([]int, lengthOfNumbers)
+// func SumAll(numbersToSum ...[]int) []int {
+// 	lengthOfNumbers := len(numbersToSum)
+//     sums := make([]int, lengthOfNumbers)
 
-    for i, numbers := range numbersToSum {
-        sums[i] = Sum(numbers)
+//     for i, numbers := range numbersToSum {
+//         sums[i] = Sum(numbers)
+//     }
+
+//     return sums
+// }
+// take from 1 to the end" with numbers[1:]
+func SumAllTails(numbersToSum ...[]int) []int {
+    var sums []int
+    for _, numbers := range numbersToSum {
+        tail := numbers[1:]
+        sums = append(sums, Sum(tail))
     }
 
     return sums
