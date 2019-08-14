@@ -20,6 +20,7 @@ func Sum(numbers []int) int {
 Variadic functions can be called with 
 any number of trailing arguments. 
 For example, fmt.Println is a common variadic function.
+variadic function is a function which accepts a variable number of arguments
 
 https://gobyexample.com/variadic-functions
 */

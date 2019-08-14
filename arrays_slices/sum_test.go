@@ -1,7 +1,20 @@
 // %v	the value in a default format
 // format strings: https://golang.org/pkg/fmt/
 
+/* 
+For example, the type [4]int represents 
+an array of four integer values layed out sequentially.
 
+The type specification for a slice is []T, where T is the 
+type of the elements of the slice. Unlike an array type, 
+a slice type has no specified length.
+
+Slicing does not copy the slice's data. 
+It creates a new slice value that points to the original array. 
+This makes slice operations as efficient as manipulating array indices. 
+Therefore, modifying the elements (not the slice itself) of a re-slice 
+modifies the elements of the original slice:
+*/
 package arrays
 
 import (
