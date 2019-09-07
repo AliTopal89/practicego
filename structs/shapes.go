@@ -11,6 +11,14 @@ import (
 	"math"
 )
 
+/* If we try to call an interface in this case 
+with something that isn't a shape, 
+then it will not compile
+*/
+type Shape interface {
+	Area() float64
+}
+
 // Defining a struct type 
 type Rectangle struct {
     Width float64
