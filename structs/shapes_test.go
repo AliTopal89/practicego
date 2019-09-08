@@ -15,23 +15,26 @@ func TestPerimeter(t *testing.T) {
 
 // Methods are called by invoking them on an instance of a particular type
 
+ //test cases that can be tested in the same manner.
 func TestArea(t *testing.T) {
-   checkArea := func(t *testing.T, shape Shape, want float64) {
-      t.Helper()
-      got := shape.Area()
-      if got != want {
-         t.Errorf("got %.2f want %.2f", got, want)
-      }
-   }
-   t.Run("rectangles", func(t *testing.T) {
-       rectangle := Rectangle{12, 6}
-       checkArea(t, rectangle, 72.0)
-   })
 
-   t.Run("circles", func(t *testing.T) {
-       circle := Circle{10}
-       checkArea(t, circle, 314.1592653589793)
-   })
+   areaTests := []struct {
+       shape Shape
+       want  float64
+   }{
+       {Rectangle{12, 6}, 72.0},
+       {Circle{10}, 314.1592653589793},
+       {Triangle{12, 6}, 36.0},
+   }
+// The blank identifier "_," provides a way to ignore 
+// left-hand side values in an assignment.
+
+   for _, tt := range areaTests {
+       got := tt.shape.Area()
+       if got != tt.want {
+           t.Errorf("got %.2f want %.2f", got, tt.want)
+       }
+   }
 
 }
 
