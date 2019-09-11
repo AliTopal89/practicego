@@ -23,6 +23,7 @@ func TestPerimeter(t *testing.T) {
 
 // Methods are called by invoking them on an instance of a particular type
 
+ // Table driven tests are useful when you want to build a list of
  //test cases that can be tested in the same manner.
  func TestArea(t *testing.T) {
 
@@ -31,6 +32,15 @@ func TestPerimeter(t *testing.T) {
        shape   Shape
        hasArea float64
    }{
+       /*
+       What we’d like to to set up all the inputs and expected outputs 
+       and feel them to a single test harness - "tests := []test{name rectangle..."
+       This is a great time to introduce table driven testing.
+       
+       we can use an anonymous struct literal to reduce the boilerplate
+
+       you can name the fields of instances of structs
+       */ 
        {name: "Rectangle", shape: Rectangle{Width: 12, Height: 6}, hasArea: 72.0},
        {name: "Circle", shape: Circle{Radius: 10}, hasArea: 314.1592653589793},
        {name: "Triangle", shape: Triangle{Base: 12, Height: 6}, hasArea: 36.0},
