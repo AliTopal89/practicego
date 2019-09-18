@@ -3,6 +3,7 @@ package split
 import (
 	"testing"
 	"reflect"
+	"fmt"
 )
 
 /*
@@ -56,20 +57,22 @@ func TestSplitNoSep(t *testing.T){
   We can even use an anonymous 
   struct literal to reduce the boilerplate
 */
-func TdTestSplit(t *testing.T){
+func TestSplitTd(t *testing.T){
 	tests := []struct{
+		name string
 		input string
 		s string //seperation string
 		want []string
 
 	}{
-		{input: "a/b/c", s: "/", want: []string{"a", "b", "c"}},
-		{input: "a/b/c", s: ",", want: []string{"a/b/c"}},
-		{input: "abc", s: "/", want: []string{"abc"}},
+		{name: "simple", input: "a/b/c", s: "/", want: []string{"a", "b", "c"}},
+		{name: "wrong seperation", input: "a/b/c", s: ",", want: []string{"a/b/c"}},
+		{name: "no seperation", input: "abc", s: "/", want: []string{"abc"}},
+		//{name: "trailing seperation", input: "a/b/c/", s: "/", want: []string{"a", "b", "c"}}, - //trailing sep
 	}
 	
 	/*  
-	   _, ~ It avoids having to declare all the variables 
+	   for _, ~ It avoids having to declare all the variables 
 	   for the returns values. You can see it in a loop too.
 
 	   If you only need the second item in the range (the value), 
@@ -83,8 +86,9 @@ func TdTestSplit(t *testing.T){
 
 	for _, tc := range tests { // tc - test cases
 		got := Split(tc.input, tc.s)
+		fmt.Printf("test %s: expected: %v, got: %v \n", tc.name, tc.want, got)
 		if !reflect.DeepEqual(tc.want, got) {
-			t.Fatalf("want: %v, got : %v", tc.want, got)
+			t.Fatalf("test %s: expected: %v, got: %v", tc.name, tc.want, got) // enumerating test cases
 		}	
 	}
 }
