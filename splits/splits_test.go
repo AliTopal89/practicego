@@ -68,7 +68,7 @@ func TestSplitTd(t *testing.T){
 		{name: "simple", input: "a/b/c", s: "/", want: []string{"a", "b", "c"}},
 		{name: "wrong seperation", input: "a/b/c", s: ",", want: []string{"a/b/c"}},
 		{name: "no seperation", input: "abc", s: "/", want: []string{"abc"}},
-		//{name: "trailing seperation", input: "a/b/c/", s: "/", want: []string{"a", "b", "c"}}, - //trailing sep
+		{name: "trailing seperation", input: "a/b/c/", s: "/", want: []string{"a", "b", "c", ""}}, //trailing sep
 	}
 	
 	/*  
@@ -88,7 +88,18 @@ func TestSplitTd(t *testing.T){
 		got := Split(tc.input, tc.s)
 		fmt.Printf("test %s: expected: %v, got: %v \n", tc.name, tc.want, got)
 		if !reflect.DeepEqual(tc.want, got) {
-			t.Fatalf("test %s: expected: %v, got: %v", tc.name, tc.want, got) // enumerating test cases
+			t.Fatalf("test %s: expected: %v, got: %v \n", tc.name, tc.want, got) // enumerating test cases
 		}	
 	}
 }
+
+/*
+   diff := cmp.Diff(tc.want, got)
+            if diff != "" {
+                t.Fatalf(diff)
+			}
+
+	'cmp.Diff' function which will produce a textual 
+	description of what is different between 
+	the two values, recursively.
+*/
