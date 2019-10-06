@@ -1,6 +1,8 @@
 # practicego
 
-## this README and curriculum is mostly by
+## this README and curriculum
+
+is mostly by the work that I followed from:
 
 Chris James [quii](https://github.com/quii/learn-go-with-tests)
 
