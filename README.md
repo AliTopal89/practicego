@@ -8,6 +8,10 @@ Chris James [quii](https://github.com/quii/learn-go-with-tests)
 
 ## Important notes
 
+### Declaring Variables, Constants, Switch
+
+ Declaring functions, with arguments and return types:
+
 ```go
 import (
     "fmt"
@@ -16,6 +20,10 @@ import (
 
 With import `"fmt"` we are importing a package 
 which contains the Println function that we use to print.
+
+an argument of type string - means "an array, 
+where every element inside of it is at least a String, 
+which we will name arguments".
 
 ```go
 func Hello(name string, language string) string {
@@ -29,6 +37,11 @@ func Hello(name string, language string) string {
 
 variable Prefix will be assigned the "zero" value. 
 This depends on the type, for example ints are 0 and for strings it is "".
+
+A switch statement is a shorter way to write a sequence of `if - else` statements.
+Go only runs the selected case, not all the cases that follow. 
+In effect, the break statement that is needed at the end of each case in 
+those languages is provided automatically in Go.
 
 ```go
 func greetingPrefix(language string) (prefix string) {
