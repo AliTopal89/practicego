@@ -1,4 +1,4 @@
-# practicego
+# practicego  [![Build Status](https://travis-ci.org/AliTopal89/practicego.svg?branch=master)](https://travis-ci.org/AliTopal89/practicego)
 
 ## this README and curriculum
 
