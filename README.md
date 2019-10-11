@@ -6,6 +6,11 @@ is mostly by the work that I followed from:
 
 Chris James [quii](https://github.com/quii/learn-go-with-tests)
 
+Go is a statically typed language meaning the type of a variable is known at compile time. To elaborate:
+ - Strongly typed languages, such as Go, don't allow for "type coercion" - `("3" + 5 )`: the ability for a value to change type implicitly in certain contexts (e.g. merging two types using +).
+ - Types are checked before run time
+ - Static typed languages are those in which type checking is done at compile-time(`Code translated into something the computer can read before run-time`), whereas dynamic typed languages (`Code translated during execution`) are those in which type checking is done at run-time(`Period when program is executing commands`).
+
 ## Important notes
 
 ### Declaring Variables, Constants, Switch
@@ -116,3 +121,8 @@ By adding this code `ExampleAdd()`, the example will appear in the documentation
 Godoc examples are snippets of Go code that are displayed as package documentation 
 and that are verified by running them as tests. To try this out, run `godoc -http=:6060` 
 and navigate to `http://localhost:6060/pkg/`
+
+
+#### Useful Resources:
+1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
+
