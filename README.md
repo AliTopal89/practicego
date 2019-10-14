@@ -122,6 +122,21 @@ Godoc examples are snippets of Go code that are displayed as package documentati
 and that are verified by running them as tests. To try this out, run `godoc -http=:6060` 
 and navigate to `http://localhost:6060/pkg/`
 
+### Iteration
+
+To do stuff repeatedly in Go, you'll need for. In Go there are no "while", "do", "until"
+
+```go
+func BenchmarkRepeat(b *testing.B) {
+    b.ResetTimer()
+    for i := 0; i < b.N; i++ {
+        Repeat("a", 20)  
+    }
+}
+```
+When the benchmark code is executed, 
+it runs b.N times and measures how long it takes.
+
 
 #### Useful Resources:
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
