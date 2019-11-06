@@ -137,6 +137,17 @@ func BenchmarkRepeat(b *testing.B) {
 When the benchmark code is executed, 
 it runs b.N times and measures how long it takes.
 
+```go
+func main(){
+    ...
+    f := "apple"
+    fmt.Println(f)
+}
+```
+
+The `:=` syntax is shorthand for declaring and initializing a variable, e.g. for var f string = "apple" in this case.
+
+Unlike regular variable declarations, is a short variable declaration may redeclare variables provided they were originally declared earlier in the same block
 
 #### Useful Resources:
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
