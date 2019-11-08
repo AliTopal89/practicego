@@ -171,8 +171,17 @@ func SumAll(numbersToSum ...[]int) []int {
 }
 ```
 A variadic func accepts variable number of input values — zero or more. Ellipsis (three-dots) prefix in front of an input type makes a func variadic. 
-Variadic functions can be called with any number of trailing arguments. Variadic function is a function which accepts a variable number of arguments.
+Variadic functions can be called with any number of trailing arguments. Variadic function is a function which accepts a variable number of arguments. Variadic functions are also functions but they can take an infinite or variable number of arguments.
 
+For example the signature append function:
+
+`func append(slice []Type, elems ...Type) []Type`
+
+You will see `elems ...Type` which means pack all incoming arguments into elems slice after the first argument.
+
+One important thing to notice is that only the last argument of a function is allowed to be variadic.
+
+So the first argument to append function will be a slice because it demands a slice but later arguments will be packed into one argument elems. When you do not pass any argument in the variadic function, then the silce inside the function is nil. The variadic functions are generally used for string formatting.
 
 #### Useful Resources:
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
