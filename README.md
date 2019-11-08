@@ -149,6 +149,32 @@ The `:=` syntax is shorthand for declaring and initializing a variable, e.g. for
 
 Unlike regular variable declarations, is a short variable declaration may redeclare variables provided they were originally declared earlier in the same block
 
+### Arrays and Slices
+
+```go
+package arrays
+
+func Sum(numbers []int) int {
+    sum := 0
+    for _, number := range numbers {
+        sum += number
+    }
+    return sum
+}
+```
+Range lets you iterate over an array. Every time it is called it returns two values, the index and the value. We are choosing to ignore the index value by using _ blank identifier, It's a bit like writing to the Unix /dev/null file.
+
+```go
+func SumAll(numbersToSum ...[]int) []int {
+    ...
+    return
+}
+```
+A variadic func accepts variable number of input values — zero or more. Ellipsis (three-dots) prefix in front of an input type makes a func variadic. 
+Variadic functions can be called with any number of trailing arguments. Variadic function is a function which accepts a variable number of arguments.
+
+
 #### Useful Resources:
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
+1. [Variadic Functions](https://blog.learngoprogramming.com/golang-variadic-funcs-how-to-patterns-369408f19085)
 
