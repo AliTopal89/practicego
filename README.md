@@ -164,6 +164,18 @@ func Sum(numbers []int) int {
 ```
 Range lets you iterate over an array. Every time it is called it returns two values, the index and the value. We are choosing to ignore the index value by using _ blank identifier, It's a bit like writing to the Unix /dev/null file.
 
+Slices wrap arrays to give a more general, powerful, and convenient interface to sequences of data. 
+Slices hold references to an underlying array, and if you assign one slice to another, both refer to the same array. Slices are indexable and have a length. But unlike arrays, they can be resized.
+
+The type specification for a slice is []T, where T is the type of the elements of the slice. Unlike an array type, a slice type has no specified length.
+
+
+```go
+// Slice of type `int`
+var s []int
+```
+The slice is declared just like an array except that we do not specify any size in the brackets `[]`.
+
 ```go
 func SumAll(numbersToSum ...[]int) []int {
     ...
@@ -183,7 +195,10 @@ One important thing to notice is that only the last argument of a function is al
 
 So the first argument to append function will be a slice because it demands a slice but later arguments will be packed into one argument elems. When you do not pass any argument in the variadic function, then the silce inside the function is nil. The variadic functions are generally used for string formatting.
 
+
 #### Useful Resources:
+1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
 1. [Variadic Functions](https://blog.learngoprogramming.com/golang-variadic-funcs-how-to-patterns-369408f19085)
+1. [GoLang Slices](https://www.callicoder.com/golang-slices/)
 

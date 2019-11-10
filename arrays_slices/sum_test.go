@@ -5,10 +5,6 @@
 For example, the type [4]int represents 
 an array of four integer values layed out sequentially.
 
-The type specification for a slice is []T, where T is the 
-type of the elements of the slice. Unlike an array type, 
-a slice type has no specified length.
-
 Slicing does not copy the slice's data. 
 It creates a new slice value that points to the original array. 
 This makes slice operations as efficient as manipulating array indices. 
@@ -47,16 +43,6 @@ func TestSum(t *testing.T) {
     })
 
 }
-
-// func TestSumAll(t *testing.T) {
-
-//     got := SumAll([]int{1,2}, []int{0,9})
-//     want := []int{3, 9}
-
-//     if !reflect.DeepEqual(got, want) {
-//         t.Errorf("got %v want %v", got, want)
-//     }
-// }
 
 // The tail of a collection is all the items apart from the first one (the "head")
 func TestSumAllTails(t *testing.T) {
