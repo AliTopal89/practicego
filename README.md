@@ -195,10 +195,52 @@ One important thing to notice is that only the last argument of a function is al
 
 So the first argument to append function will be a slice because it demands a slice but later arguments will be packed into one argument elems. When you do not pass any argument in the variadic function, then the silce inside the function is nil. The variadic functions are generally used for string formatting.
 
+```go
+func TestSumAll(t *testing.T) {
+
+    got := SumAll([]int{1,2}, []int{0,9})
+    want := []int{3, 9}
+
+    if !reflect.DeepEqual(got, want) {
+        t.Errorf("got %v want %v", got, want)
+    }
+}
+```
+Use `reflect.DeepEqual` which is useful for seeing if any two variables are the same. It's important to note that reflect.DeepEqual is not "type safe", you can even compare a slice integer with a string.
+
+```go
+func SumAll(numbersToSum ...[]int) []int {
+    lengthOfNumbers := len(numbersToSum)
+    sums := make([]int, lengthOfNumbers)
+    ...
+```
+make allows you to create a slice with a starting capacity of the len of the numbersToSum  The make built-in function allocates and initializes an object of type slice, map, or chan (only).
+
+```go
+package main
+import "fmt"
+func main() {
+  s := make([]string, 3)
+  fmt.Println("emp:", s)
+  s[0] = "a"
+  s[1] = "b"
+  s[2] = "c"
+  fmt.Println("set:", s)
+  fmt.Println("get:", s[2])
+}
+// OUTPUT:
+// emp: [  ]
+// set: [a b c]
+// get: c
+```
+To create an empty slice with non-zero length, use the builtin make. Here we make a slice of strings of length 3 (initially zero-valued).
+
+
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
 1. [Variadic Functions](https://blog.learngoprogramming.com/golang-variadic-funcs-how-to-patterns-369408f19085)
 1. [GoLang Slices](https://www.callicoder.com/golang-slices/)
+1. [Reflections in Go](https://golangbot.com/reflection/)
 
