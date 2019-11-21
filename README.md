@@ -182,7 +182,7 @@ func SumAll(numbersToSum ...[]int) []int {
     return
 }
 ```
-A variadic func accepts variable number of input values — zero or more. Ellipsis (three-dots) prefix in front of an input type makes a func variadic. 
+A variadic function accepts variable number of input values — zero or more. Ellipsis (three-dots) prefix in front of an input type makes a function variadic. 
 Variadic functions can be called with any number of trailing arguments. Variadic function is a function which accepts a variable number of arguments. Variadic functions are also functions but they can take an infinite or variable number of arguments.
 
 For example the signature append function:
@@ -193,7 +193,7 @@ You will see `elems ...Type` which means pack all incoming arguments into elems 
 
 One important thing to notice is that only the last argument of a function is allowed to be variadic.
 
-So the first argument to append function will be a slice because it demands a slice but later arguments will be packed into one argument elems. When you do not pass any argument in the variadic function, then the silce inside the function is nil. The variadic functions are generally used for string formatting.
+So the first argument to append function will be a slice because it demands a slice but later arguments will be packed into one argument elems. When you do not pass any argument in the variadic function, then the slice inside the function is nil. The variadic functions are generally used for string formatting.
 
 ```go
 func TestSumAll(t *testing.T) {
@@ -235,6 +235,25 @@ func main() {
 ```
 To create an empty slice with non-zero length, use the builtin make. Here we make a slice of strings of length 3 (initially zero-valued).
 
+```go
+b := []byte{'g', 'o', 'l', 'a', 'n', 'g'}
+// b[1:4] == []byte{'o', 'l', 'a'}, sharing the same storage as b
+```
+
+A slice can also be formed by "slicing" an existing slice or array. Slicing is done by specifying a half-open range with two indices separated by a colon. For example, the expression b[1:4] creates a slice including elements 1 through 3 of b above. 
+
+A slice is a descriptor of an array segment. It consists of a pointer to the array, the length of the segment, and its capacity (the maximum length of the segment).A slice cannot be grown beyond its capacity. Attempting to do so will cause a runtime panic, just as when indexing outside the bounds of a slice or array.
+
+```go
+d := []byte{'r', 'o', 'a', 'd'}
+e := d[2:] 
+// e == []byte{'a', 'd'}
+e[1] = 'm'
+// e == []byte{'a', 'm'}
+// d == []byte{'r', 'o', 'a', 'm'}
+```
+
+Slicing does not copy the slice's data. It creates a new slice value that points to the original array. This makes slice operations as efficient as manipulating array indices. Therefore, modifying the elements (not the slice itself) of a re-slice modifies the elements of the original slice:
 
 
 #### Useful Resources:
@@ -243,4 +262,6 @@ To create an empty slice with non-zero length, use the builtin make. Here we mak
 1. [Variadic Functions](https://blog.learngoprogramming.com/golang-variadic-funcs-how-to-patterns-369408f19085)
 1. [GoLang Slices](https://www.callicoder.com/golang-slices/)
 1. [Reflections in Go](https://golangbot.com/reflection/)
+1. [Slices Usage](https://blog.golang.org/go-slices-usage-and-internals)
+
 
