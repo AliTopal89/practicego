@@ -1,11 +1,3 @@
-//A struct is a sequence of named elements, 
-//called fields, each of which has a name and a type.
-
-/* A method is a function with a receiver.
-A method declaration binds an identifier, the method name, 
-to a method, and associates the method with the receiver's base type.
-*/
-
 package structs
 import (
 	"math"
