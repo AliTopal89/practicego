@@ -260,7 +260,13 @@ Slicing does not copy the slice's data. It creates a new slice value that points
 A struct is a sequence of named elements, called fields, each of which has a name and a type.
 
 A method is a function with a receiver. A method declaration binds an identifier, the method name, 
-to a method, and associates the method with the receiver's base type. Methods are very similar to functions but they are called by invoking them on an instance of a particular type. Where you can just call functions wherever you like, such as `Area(rectangle)` you can only call methods on "things".
+to a method, and associates the method with the receiver's base type. 
+
+```go
+MethodDecl = "func" Receiver MethodName Signature [ FunctionBody ] .
+Receiver   = Parameters .
+```
+Methods are very similar to functions but they are called by invoking them on an instance of a particular type. Where you can just call functions wherever you like, such as `Area(rectangle)` you can only call methods on "things".
 
 When your method is called on a variable of that type, you get your reference to its data via the `receiverName` variable. In many other programming languages this is done implicitly and you access the receiver via this.
 
