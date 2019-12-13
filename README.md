@@ -282,6 +282,16 @@ func (p *Point) Scale(factor float64) {
 ```
 Given defined type Point, the declarations bind the methods `Length` and `Scale`, with receiver type `*Point`, to the base type Point.
 
+Interfaces allow you to make functions that can be used with different types and create highly-decoupled code whilst still maintaining type-safety. 
+
+```go
+type Shape interface {
+    Area() float64
+}
+```
+
+This is creating a new type just like it did with Rectangle and Circle but this time it is an `interface` rather than a `struct.`
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
