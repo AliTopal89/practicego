@@ -268,7 +268,7 @@ Receiver   = Parameters .
 ```
 Methods are very similar to functions but they are called by invoking them on an instance of a particular type. Where you can just call functions wherever you like, such as `Area(rectangle)` you can only call methods on "things".
 
-When your method is called on a variable of that type, you get your reference to its data via the `receiverName` variable. In many other programming languages this is done implicitly and you access the receiver via this.
+When your method is called on a variable of that type, you get your reference to its data via the `receiverName` variable. In many other programming languages this is done implicitly and you access the receiver via `this`.
 
 ```go
 func (p *Point) Length() float64 {
@@ -292,6 +292,56 @@ type Shape interface {
 
 This is creating a new type just like it did with Rectangle and Circle but this time it is an `interface` rather than a `struct.`
 
+In our case:
+
+ - `Rectangle` has a method called `Area` that returns a `float64` so it satisfies the `Shape` interface.
+ - `Circle` has a method called `Area` that returns a `float64` so it satisfies the `Shape` interface.
+
+
+Table driven tests are useful when you want to build a list of test cases that can be tested in the same manner.
+
+```go
+func TestArea(t *testing.T) {
+
+   areaTests := []struct {
+       name    string
+       shape   Shape
+       hasArea float64
+   }{
+
+       {name: "Rectangle", shape: Rectangle{Width: 12, Height: 6}, hasArea: 72.0},
+       {name: "Circle", shape: Circle{Radius: 10}, hasArea: 314.1592653589793},
+       {name: "Triangle", shape: Triangle{Base: 12, Height: 6}, hasArea: 36.0},
+   }
+```
+
+What we’d like to do is to set up all the inputs and expected outputs and feel them to a single test harness - `"tests := []test{name rectangle..."`
+This is a great time to introduce table driven testing. We can use an anonymous struct literal `[]struct` to reduce the boilerplate so  now you can name the fields of instances of structs in the test fixture.
+
+
+```go
+   for _, tt := range areaTests {
+       t.Run(tt.name, func(t *testing.T) {
+           got := tt.shape.Area()
+           if got != tt.hasArea {
+               t.Errorf("%#v got %.2f want %.2f", tt.shape, got, tt.hasArea)
+           }
+       })
+
+   }
+
+}
+```
+The `%#v` format string will print out our struct with the values in its field, so the developer can see at a glance the properties that are being tested.
+
+By wrapping each case in a `t.Run` you will have clearer test output on failures as it will print the name of the case for example:
+
+```
+--- FAIL: TestArea (0.00s)
+    --- FAIL: TestArea/Rectangle (0.00s)
+        shapes_test.go:33: main.Rectangle{Width:12, Height:6} got 72.00 want 72.10
+```  
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
@@ -299,5 +349,6 @@ This is creating a new type just like it did with Rectangle and Circle but this 
 1. [GoLang Slices](https://www.callicoder.com/golang-slices/)
 1. [Reflections in Go](https://golangbot.com/reflection/)
 1. [Slices Usage](https://blog.golang.org/go-slices-usage-and-internals)
+1. [Table Driven Tests](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
 
 
