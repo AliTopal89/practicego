@@ -342,6 +342,26 @@ By wrapping each case in a `t.Run` you will have clearer test output on failures
         shapes_test.go:33: main.Rectangle{Width:12, Height:6} got 72.00 want 72.10
 ```  
 
+### Pointers & Errors
+
+```go
+type Wallet struct {
+    balance int
+}
+```
+In Go if a symbol (variables, types, functions etc.) starts with a lowercase symbol then it is private outside the package it's defined in.
+
+```go
+func (w Wallet) Deposit(amount int) {
+    w.balance += amount
+}
+
+func (w Wallet) Balance() int {
+    return w.balance
+}
+```
+Now we can access the internal `balance` field in the struct using the *receiver* variable.
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
