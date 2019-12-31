@@ -375,8 +375,9 @@ got := wallet.Balance()
 fmt.Printf("origin of balance in test is %v \n", &wallet.balance)
 ...
 ```
-you create a value - like a wallet, it is stored somewhere in memory. You can find out what the origin of that bit of memory with `&myVal.` We get the pointer to a thing(method) with the origin of symbol; `&`
+you create a value - like a wallet, it is stored somewhere in memory. You can find out what the origin of that bit of memory with `&myVal.` We get the pointer to a thing(method) with the origin of symbol; `&`.
 
+ Pointers let us point to some values and then let us change them. So rather than taking a copy of the Wallet, we take a pointer to the wallet so we can change it.
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)

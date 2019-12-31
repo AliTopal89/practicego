@@ -1,4 +1,4 @@
-package main
+package pointers
 
 import (
 	"fmt"
@@ -12,12 +12,12 @@ type Wallet struct {
 // remember methods
 // func (receiverName RecieverType) MethodName(args)
 
-func(w Wallet) Deposit(amount int) {
+func(w *Wallet) Deposit(amount int) {
+	//*Wallet ~ pointer to a wallet
 	fmt.Printf("origin of balance in Deposit method is %v \n", &w.balance)
 	w.balance += amount
-	fmt.Printf("origin of balance_two in Deposit method is %v \n", &w.balance)
 }
 
-func(w Wallet) Balance() int {
+func(w *Wallet) Balance() int {
 	return w.balance
 }
