@@ -360,7 +360,22 @@ func (w Wallet) Balance() int {
     return w.balance
 }
 ```
-Now we can access the internal `balance` field in the struct using the *receiver* variable.
+Now we can access the internal `balance` field in the struct using the **receiver** variable.
+
+In Go, **when you call a function or a method the arguments are copied.**
+
+When calling `func (w Wallet) Deposit(amount int)` the `w` is a copy of whatever we called the method from.
+
+```go
+...
+ wallet.Deposit(10)
+
+got := wallet.Balance()
+
+fmt.Printf("origin of balance in test is %v \n", &wallet.balance)
+...
+```
+you create a value - like a wallet, it is stored somewhere in memory. You can find out what the origin of that bit of memory with `&myVal.` We get the pointer to a thing(method) with the origin of symbol; `&`
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
