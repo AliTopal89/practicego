@@ -377,7 +377,45 @@ fmt.Printf("origin of balance in test is %v \n", &wallet.balance)
 ```
 you create a value - like a wallet, it is stored somewhere in memory. You can find out what the origin of that bit of memory with `&myVal.` We get the pointer to a thing(method) with the origin of symbol; `&`.
 
- Pointers let us point to some values and then let us change them. So rather than taking a copy of the Wallet, we take a pointer to the wallet so we can change it.
+Pointers let us point to some values and then let us change them. So rather than taking a copy of the Wallet, we take a pointer to the wallet so we can change it.
+
+>**Prereq of method set, interface type, interface** 
+
+>The `method set` of an `interface type` is its interface. An interface type in Go is kind of like a definition. It defines and describes the exact methods that some other type must have.
+
+> ```go
+>  type Stringer interface {
+>      String() string
+>  }
+ > ```
+
+>something satisfies/implements this interface if it has a method with the exact signature `String() string`.
+
+>```go
+>// Declare a Book type which satisfies the fmt.Stringer interface.
+>type Book struct {
+>    Title  string
+>    Author string
+>}
+>
+>func (b Book) String() string {
+>    return fmt.Sprintf("Book: %s - %s", b.Title, b.Author)
+>}
+>
+>// Declare a Count type which satisfies the fmt.Stringer interface.
+>type Count int
+>
+>func (c Count) String() string {
+>    return strconv.Itoa(int(c))
+>}
+>```
+
+>we have two different "interface types", `Book` and `Count`, which do different things. But the thing they have in common is that they both satisfy the `fmt.Stringer` *interface*.
+
+>Dereferencing a pointer means using the `*` operator to retrieve the value from the memory address that is pointed by the pointer.
+
+
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
@@ -386,5 +424,4 @@ you create a value - like a wallet, it is stored somewhere in memory. You can fi
 1. [Reflections in Go](https://golangbot.com/reflection/)
 1. [Slices Usage](https://blog.golang.org/go-slices-usage-and-internals)
 1. [Table Driven Tests](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
-
-
+1. [Interfaces in Go](https://www.alexedwards.net/blog/interfaces-explained)
