@@ -381,7 +381,7 @@ Pointers let us point to some values and then let us change them. So rather than
 
 >**Prereq of method set, interface type, interface** 
 
->The `method set` of an `interface type` is its interface. An interface type in Go is kind of like a definition. It defines and describes the exact methods that some other type must have.
+>The `method set` of an `interface type` is its interface. The method set of any other type T consists of all methods declared with receiver type T. The method set of the corresponding pointer type *T is the set of all methods declared with receiver *T or T. An interface type in Go is kind of like a definition. It defines and describes the exact methods that some other type must have.
 
 > ```go
 >  type Stringer interface {
@@ -414,7 +414,36 @@ Pointers let us point to some values and then let us change them. So rather than
 
 >Dereferencing a pointer means using the `*` operator to retrieve the value from the memory address that is pointed by the pointer.
 
+```go
+type Wallet struct {
+	balance int
+ }
 
+func(w *Wallet) Deposit(amount int) {
+	w.balance += amount
+}
+
+func(w *Wallet) Balance() int {
+    return w.balance
+```
+
+create a new type from original and be more descriptive, which also allows to declare methods on them
+
+```go
+type Bitcoin int
+
+type Wallet struct {
+    balance Bitcoin
+}
+
+func (w *Wallet) Deposit(amount Bitcoin) {
+    w.balance += amount
+}
+
+func (w *Wallet) Balance() Bitcoin {
+    return w.balance
+}
+```
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
