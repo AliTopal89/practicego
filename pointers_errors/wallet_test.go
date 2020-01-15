@@ -16,12 +16,23 @@ func TestWallet(t *testing.T)  {
 	   }
 	}
 
-	assertError := func (t *testing.T, err error)  {
+	assertNoError := func (t *testing.T, got error) {
 		t.Helper()
-		if err == nil {
+		if got != nil {
+			t.Fatal("got an error but didn't want one")
+		}
+	}
+
+	assertError := func (t *testing.T, got error, want error)  {
+		t.Helper()
+		if got == nil {
 			// Errors can be nil because the return type of Withdraw 
 			// will be "error", which is an interface.
-			t.Error("wanted an error but didn't get one")
+			t.Fatal("wanted an error but didn't get one")
+		}
+
+		if got != want {
+			t.Errorf("got %q want %q", got, want)
 		}
 		
 	}
@@ -39,11 +50,12 @@ func TestWallet(t *testing.T)  {
 	t. Run("Withdraw", func(t *testing.T){
 		 wallet := Wallet{balance: Bitcoin(20)}
 
-		 wallet.Withdraw(Bitcoin(10))
+		 err := wallet.Withdraw(Bitcoin(10))
 
 		 fmt.Printf("origin of withdrawal balance in test is %v \n", &wallet.balance)
 
 		 assertBalance(t, wallet, Bitcoin(10))
+		 assertNoError(t, err)
 	})
 
 	t.Run("Withdraw insuficient funds", func(t *testing.T){
@@ -52,7 +64,7 @@ func TestWallet(t *testing.T)  {
 		err := wallet.Withdraw(Bitcoin(100))
 
 		assertBalance(t, wallet, startingBalance)
-		assertError(t, err)
+		assertError(t, err, ErrInsufficientFunds)
 	} )
 }
 // in our very secure wallet we don't want to expose our inner state to the rest of the world
