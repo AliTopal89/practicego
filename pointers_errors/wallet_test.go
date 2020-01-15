@@ -6,19 +6,23 @@ import (
 )
 
 func TestWallet(t *testing.T)  {
+
+	assertBalance := func (t *testing.T, wallet Wallet, want Bitcoin)  {
+	   t.Helper()
+	   got := wallet.Balance()
+	   
+	   if got != want {
+		t.Errorf("got %s want %s", got, want)
+	   }
+	}
+
 	t.Run("Deposit", func(t *testing.T){
 	    wallet := Wallet{}
 	    wallet.Deposit(Bitcoin(10))
 
-		got := wallet.Balance()
-
 		fmt.Printf("origin of balance in test is %v \n", &wallet.balance)
 														//&myVal - origin of that bit of memory
-		want := Bitcoin(10)
-		
-		if got != want {
-			t.Errorf("got %s want %s", got, want)
-		}
+		assertBalance(t, wallet, Bitcoin(10))
 
 	})
 
@@ -27,15 +31,9 @@ func TestWallet(t *testing.T)  {
 
 		 wallet.Withdraw(Bitcoin(10))
 
-		 got := wallet.Balance()
-
 		 fmt.Printf("origin of withdrawal balance in test is %v \n", &wallet.balance)
 
-		 want := Bitcoin(10)
-
-		 if got != want {
-			 t.Errorf("got %s want %s", got, want)
-		 }
+		 assertBalance(t, wallet, Bitcoin(10))
 	})
 }
 // in our very secure wallet we don't want to expose our inner state to the rest of the world
