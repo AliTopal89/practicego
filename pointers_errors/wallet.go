@@ -2,6 +2,7 @@ package pointers
 
 import (
 	"fmt"
+	"errors"
 )
 
 type Bitcoin int 
@@ -35,9 +36,14 @@ func(w *Wallet) Balance() Bitcoin {
 	return w.balance
 }
 
-func(w *Wallet) Withdraw(amount Bitcoin) Bitcoin{
+func(w *Wallet) Withdraw(amount Bitcoin) error{
 	fmt.Printf("origin of balance in Withdraw method is %v \n", &w.balance)
+
+	if amount > w.balance {
+		return errors.New("Oh no cant do that")
+	}
 	w.balance -= amount
 
-	return w.balance
+	return nil
+	// to make this compile we will need to change it so it has a return type.
 }
