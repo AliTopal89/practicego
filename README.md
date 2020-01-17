@@ -445,6 +445,35 @@ func (w *Wallet) Balance() Bitcoin {
 }
 ```
 
+```go
+assertError := func(t *testing.T, got error, want string) {
+    t.Helper()
+    if got == nil {
+        t.Fatal("didn't get an error but wanted one")
+    }
+
+    if got.Error() != want {
+        t.Errorf("got %q, want %q", got, want)
+    }
+}
+```
+
+We've introduced `t.Fatal` which will stop the test if it is called. This is because we don't want to make any more assertions on the error returned if there isn't one around
+
+```go
+var ErrInsufficientFunds = errors.New("cannot withdraw, insufficient funds")
+
+func (w *Wallet) Withdraw(amount Bitcoin) error {
+
+    if amount > w.balance {
+        return ErrInsufficientFunds
+    }
+```
+
+We don't really care what the exact wording is, just that some kind of meaningful error around withdrawing is returned given a certain condition.
+
+In Go, errors are values, so we can refactor it out into a variable and have a single source of truth for it.
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
