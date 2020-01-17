@@ -474,6 +474,40 @@ We don't really care what the exact wording is, just that some kind of meaningfu
 
 In Go, errors are values, so we can refactor it out into a variable and have a single source of truth for it.
 
+### Maps
+
+```go 
+func main() {
+   var m = make(map[string]int)
+}
+```
+Initializing a map using the built-in make() function. The function will return an initialized and ready to use map -
+
+```go
+// Initialize an empty map
+var m = map[string]int{}
+```
+
+You can also create an empty map using a map literal by leaving the curly braces empty like above.
+
+`m[key] = value`
+
+You can add new items to an initialized map and you can retrieve the value assigned to a key in a map using the same syntax above.
+
+```go
+name, ok := employees[1010]  // "", false
+```
+
+If you try to access a key that doesn’t exist, then the map will return an empty string "" (zero value of strings), and false -
+
+If you just want to check for the existence of a key without retrieving the value associated with that key, then you can use an _ (underscore) in place of the first value so it reads `_ok := employees[1010]`
+
+```go
+func TestSearch(t *testing.T) {
+    dictionary := map[string]string{"test": "this is just a test"}
+```
+starts with the map keyword and requires two types. The first is the key type, which is written inside the `[]`. The second is the value type, which goes right after the `[]`.
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
