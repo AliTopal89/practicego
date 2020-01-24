@@ -24,8 +24,10 @@ func main() {
 }
 
 func printEmployee(employees map[int]string, employeeId int) {
+	                  // m				   , [key][KeyType]
 	if name, ok := employees[employeeId]; ok {
 		fmt.Printf("name = %s, ok = %v\n", name, ok)
+		                                   //[ValueType], ok
 	} else {
 		fmt.Printf("EmployeeId %d not found\n", employeeId)
 	}
