@@ -508,6 +508,15 @@ func TestSearch(t *testing.T) {
 ```
 starts with the map keyword and requires two types. The first is the key type, which is written inside the `[]`. The second is the value type, which goes right after the `[]`.
 
+```go
+func Search(dictionary map[string]string, word string) string {
+	return dictionary[word]
+}
+```
+`m[key] = value`You can add new items to an initialized map and you can retrieve the value assigned to a key in a map using the same syntax above.
+
+Assertions allow you to easily write test code, and are global funcs in the `assert` package. All assertion functions take, as the first argument, the `*testing.T` object provided by the testing framework. This allows the assertion funcs to write the failings and other details to the correct place
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)

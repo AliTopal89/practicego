@@ -2,17 +2,22 @@ package main
 
 import (
 	"testing"
-
 )
 //A map is declared using the following syntax -
 	// var m map[KeyType]ValueType
 func TestSearch(t *testing.T) {
-	dictionary := map[string]string{"test": "this is just a test"}
+	dictionary := Dictionary{"test": "this is just a test"}
 
-	got := Search(dictionary, "test")
+	got := dictionary.Search("test")
 	want := "this is just a test"
 
+	assertStrings(t, got, want)
+}
+
+func assertStrings(t *testing.T, got, want string) {
+	t.Helper()
+	
 	if got != want {
-		t.Errorf("got %q want %q given %q", got, want, "test")
-	}
+        t.Errorf("got %q want %q", got, want)
+    }
 }

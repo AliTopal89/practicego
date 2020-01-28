@@ -1,11 +1,8 @@
 package main
 
-func Search(dictionary map[string]string, word string) string {
-	//`m[key] = value`
-	//You can add new items to an initialized map 
-	//and you can retrieve the value assigned to a key 
-	//in a map using the same syntax above.
-	return dictionary[word]
-	
+type Dictionary map[string]string	
 
+func (d Dictionary) Search(word string) string {
+	// The `Dictionary` type is the receiver of the `Search` method
+	return d[word]
 }
