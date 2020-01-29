@@ -377,7 +377,15 @@ fmt.Printf("origin of balance in test is %v \n", &wallet.balance)
 ```
 you create a value - like a wallet, it is stored somewhere in memory. You can find out what the origin of that bit of memory with `&myVal.` We get the pointer to a thing(method) with the origin of symbol; `&`.
 
-Pointers let us point to some values and then let us change them. So rather than taking a copy of the Wallet, we take a pointer to the wallet so we can change it.
+A variable is just a convenient, alphanumeric pseudonym for a memory location; a label, or nickname.
+
+Now, rather than talking about memory locations, we can talk about variables, which are convenient names we give to memory locations.
+
+Now that we know that memory is just a series of numbered cells, and variables are just nicknames for a memory location assigned by the compiler, what is a pointer?
+
+>A pointer is a value that points to the memory address of another variable.
+
+The pointer points to memory address of a variable, just as a variable represents the memory address of value.
 
 >**Prereq of method set, interface type, interface** 
 
