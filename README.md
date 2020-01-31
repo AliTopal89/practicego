@@ -525,6 +525,22 @@ func Search(dictionary map[string]string, word string) string {
 
 Assertions allow you to easily write test code, and are global funcs in the `assert` package. All assertion functions take, as the first argument, the `*testing.T` object provided by the testing framework. This allows the assertion funcs to write the failings and other details to the correct place
 
+```go
+    assertStrings(t, err.Error(), want)
+```
+
+Errors can be converted to a string with the `.Error()` method, which we do when passing it to the assertion. We are also protecting `assertStrings` with **if** to ensure we don't call `.Error()` on `nil`.
+
+A two-value assignment tests for the existence of a key:
+
+```i, ok := m["route"]```
+
+In this statement, the first value (i) is assigned the value stored under the key "route". If that key doesn't exist, i is the value type's zero value (0). The second value (ok) is a bool that is true if the key exists in the map, and false if not.
+
+To test for a key without retrieving the value, use an underscore in place of the first value:
+
+```_, ok := m["route"]```
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
