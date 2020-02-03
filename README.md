@@ -537,9 +537,11 @@ A two-value assignment tests for the existence of a key:
 
 In this statement, the first value (i) is assigned the value stored under the key "route". If that key doesn't exist, i is the value type's zero value (0). The second value (ok) is a bool that is true if the key exists in the map, and false if not.
 
+```_, ok := m["route"]```
+
 To test for a key without retrieving the value, use an underscore in place of the first value:
 
-```_, ok := m["route"]```
+You can modify maps without passing them as a pointer. This is because map is a reference type. Meaning it holds a reference to the underlying data structure, much like a pointer. The underlying data structure is a `hash table`, or `hash map`.
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
