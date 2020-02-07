@@ -543,6 +543,21 @@ To test for a key without retrieving the value, use an underscore in place of th
 
 You can modify maps without passing them as a pointer. This is because map is a reference type. Meaning it holds a reference to the underlying data structure, much like a pointer. The underlying data structure is a `hash table`, or `hash map`.
 
+`var m map[string]string`
+
+Map types are reference types, like pointers or slices, and so the value of m above is nil; it doesn't point to an initialized map. A nil map behaves like an empty map when reading, but attempts to write to a nil map will cause a runtime panic; don't do that. To initialize a map, use the built in make function
+
+`var dictionary = make(map[string]string)`
+
+or 
+
+`var dictionary = map[string]string{}`
+
+so you can have an empty hash map and point dictionary at it, without runtime panic. 
+
+
+
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
