@@ -1,8 +1,9 @@
 package main
 
 const (
-	ErrorNotFound   = DictionaryErr("could not find the word you were looking for")
-	ErrorWordExists = DictionaryErr("cannot add word because it already exists")
+	ErrorNotFound         = DictionaryErr("could not find the word you were looking for")
+	ErrorWordExists       = DictionaryErr("cannot add word because it already exists")
+	ErrorWordDoesNotExist = DictionaryErr("cannoy update because the word does not exist")
 )
 
 type DictionaryErr string
@@ -41,7 +42,20 @@ func (d Dictionary) Add(word, definition string) error {
 
 }
 
-func (d Dictionary) Update(word, newDefinition string) string {
-	d[word] = newDefinition
-	return newDefinition
+/* You can redirect the user when ErrNotFound is encountered,
+   but display an error message when ErrWordDoesNotExist is encountered.
+*/
+func (d Dictionary) Update(word, newDefinition string) error {
+	_, err := d.Search(word)
+
+	switch err {
+	case ErrorNotFound:
+		return ErrorWordDoesNotExist
+	case nil:
+		d[word] = newDefinition
+	default:
+		return err
+	}
+
+	return nil
 }
