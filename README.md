@@ -555,6 +555,13 @@ or
 
 so you can have an empty hash map and point dictionary at it, without runtime panic. 
 
+```go
+func (d Dictionary) Delete(word string) {
+    delete(d, word)
+}
+```
+
+Go has a built-in function `delete` that works on maps. It takes two arguments. The first is the map and the second is the key to be removed.
 
 
 
