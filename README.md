@@ -563,6 +563,35 @@ func (d Dictionary) Delete(word string) {
 
 Go has a built-in function `delete` that works on maps. It takes two arguments. The first is the map and the second is the key to be removed.
 
+### Dependency Injection
+
+```go
+// It returns the number of bytes written and any write error encountered.
+func Printf(format string, a ...interface{}) (n int, err error) {
+    return Fprintf(os.Stdout, format, a...)
+}
+```
+
+Under the hood Printf just calls Fprintf passing in `os.Stdout`.
+
+```go
+func Fprint(w io.Writer, a ...interface{}) (n int, err error){
+
+}
+
+func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error) {
+}
+```
+
+`Fprint` formats using the default formats for its operands and writes to w. Spaces are added between operands when neither is a string. It returns the number of bytes written and any write error encountered. `Fprintf` formats according to a format specifier and writes to w. It returns the number of bytes written and any write error encountered.
+
+```go
+type Writer interface {
+    Write(p []byte) (n int, err error)
+}
+```
+
+Write writes len(p) bytes from p to the underlying data stream. It returns the number of bytes written from p (0 <= n <= len(p)) and any error encountered that caused the write to stop early.
 
 
 #### Useful Resources:
