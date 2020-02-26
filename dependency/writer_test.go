@@ -5,6 +5,7 @@ import (
 	"testing"
 )
 
+// The "buffer" type from the "bytes" package implements the "Writer" interface.
 func TestGreet(t *testing.T) {
 	buffer := bytes.Buffer{}
 	Greet(&buffer, "Chris")

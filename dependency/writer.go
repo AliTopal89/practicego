@@ -11,6 +11,12 @@ func Greet(writer io.Writer, name string) {
 	fmt.Fprintf(writer, "Hello, %s", name)
 }
 
+/*
+  `fmt.Fprintf` is like `fmt.Printf` but instead
+  takes a `Writer` to send the string to, whereas
+  `fmt.Printf` defaults to stdout.
+*/
+
 // MyGreeterHandler says Hello, world over HTTP
 func MyGreeterHandler(w http.ResponseWriter, r *http.Request) {
 	Greet(w, "world")

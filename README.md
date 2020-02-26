@@ -583,7 +583,11 @@ func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error) {
 }
 ```
 
-`Fprint` formats using the default formats for its operands and writes to w. Spaces are added between operands when neither is a string. It returns the number of bytes written and any write error encountered. `Fprintf` formats according to a format specifier and writes to w. It returns the number of bytes written and any write error encountered.
+`Fprint` formats using the default formats for its operands and writes to w. Spaces are added between operands when neither is a string. It returns the number of bytes written and any write error encountered. 
+
+`Fprintf` formats according to a format specifier and writes to w. It returns the number of bytes written and any write error encountered.
+
+`Fprintf` is like `printf` again. Here instead on displaying the data on the monitor, or saving it in some string, the formated data is saved on a file which is pointed to by the file pointer which is used as the first parameter to fprintf. 
 
 ```go
 type Writer interface {
@@ -592,6 +596,23 @@ type Writer interface {
 ```
 
 Write writes len(p) bytes from p to the underlying data stream. It returns the number of bytes written from p (0 <= n <= len(p)) and any error encountered that caused the write to stop early.
+
+```go
+func hello(w http.ResponseWriter, req *http.Request) {
+    fmt.FPrintf(w, "hello/n")
+}
+
+func main() {
+
+    http.HandleFunc("/hello", hello)
+
+    http.ListenAndServe(":8090", nil)
+}
+```
+A fundamental concept in net/http servers is handlers. A handler is an object implementing the http.Handler interface. A common way to write a handler is by using the http.HandlerFunc adapter on functions with the appropriate signature.
+
+Functions serving as handlers take a http.ResponseWriter and a http.Request as arguments. The response writer is used to fill in the HTTP response. Here our simple response is just “hello\n”. We register our handlers on server routes using the http.HandleFunc convenience function. It sets up the default router in the net/http package and takes a function as an argument.
+
 
 
 #### Useful Resources:
