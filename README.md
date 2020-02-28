@@ -617,6 +617,43 @@ Functions serving as handlers take a http.ResponseWriter and a http.Request as a
 
 `buffer.bytes` it’s an adaptor that lets you use a byte slice as an io.Writer and turn strings/byte slices into io.Readers.
 
+```go
+func (b *Buffer) Bytes() []byte
+```
+
+Bytes returns a slice of length `b.Len()` holding the unread portion of the buffer. The slice is valid for use only until the next buffer modification(that is, only until the next call to a method like Read, Write, Reset, or Truncate). 
+
+```go
+func main(){
+    fmt.Println("Using 'bytes standard package'")
+
+    var b bytes.Buffer
+    b.Write([]byte("Hello, World!\n"))
+    fmt.Fprintf(b, "Holly %s\n, smokes Batman!")
+}
+```
+we have this bytes buffer and we can use `b.Write` and thas fine because even if you look at implementation documentation you can see att all its a pointer to a buffer is the receiver for that write method, but the reason this will work when we are talking about methods, if you remember `b.Write` is shorthand for enclosing b and taking the address of it and then calling a write method on it, so we can do that. The reason why line `fmt.Fprintf(b,..)` isn't going to works is because now you are passing it to a function a copy of that buffer, and inside that function it wants to take a pointer,so you can get it working by passing a pointer in our buffer `fmt.Fprintf(&b), "Holy %s\n"`
+
+###### bytes vs strings
+Byte slices represent a mutable, resizable, contiguous list of bytes
+  - Given a slice of bytes:
+ `buf := []byte{1,2,3,4}`
+  - It’s mutable so you can update elements:
+  `buf[3] = 5  // []byte{1,2,3,5}`
+  - It’s resizable so you can shrink it or grow it:
+    ```go
+    buf = buf[:2]           // []byte{1,2}
+    buf = append(buf, 100)  // []byte{1,2,100}`
+    ```
+Strings, on the other hand, represent an immutable, fixed-size, contiguous list of bytes. That means that you can’t update a string — you can only create new ones.
+
+```go
+func NewReader(b []byte) *Reader
+func NewReader(s string) *Reader
+```
+
+The in memory reader functions above return `io.Reader`*(Reader is the interface that wraps the basic Read method.*
+*Read reads up to len(p) bytes into p. It returns the number of bytes read `(0 <= n <= len(p))` and any error encountered.)* implementation that wraps around your in-memory byte slice or string, which also implement all the read-related interfaces in `io`.
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
@@ -627,3 +664,4 @@ Functions serving as handlers take a http.ResponseWriter and a http.Request as a
 1. [Slices Usage](https://blog.golang.org/go-slices-usage-and-internals)
 1. [Table Driven Tests](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
 1. [Interfaces in Go](https://www.alexedwards.net/blog/interfaces-explained)
+1. [Bytes & Strings Package](https://medium.com/go-walkthrough/go-walkthrough-bytes-strings-packages-499be9f4b5bd)

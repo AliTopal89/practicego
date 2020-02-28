@@ -6,6 +6,7 @@ import (
 )
 
 func TestCountdown(t *testing.T) {
+	t.Logf("testing countdown from 3")
 	buffer := &bytes.Buffer{}
 
 	Countdown(buffer)
