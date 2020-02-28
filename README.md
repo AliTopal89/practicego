@@ -613,6 +613,9 @@ A fundamental concept in net/http servers is handlers. A handler is an object im
 
 Functions serving as handlers take a http.ResponseWriter and a http.Request as arguments. The response writer is used to fill in the HTTP response. Here our simple response is just “hello\n”. We register our handlers on server routes using the http.HandleFunc convenience function. It sets up the default router in the net/http package and takes a function as an argument.
 
+#### Mocking
+
+`buffer.bytes` it’s an adaptor that lets you use a byte slice as an io.Writer and turn strings/byte slices into io.Readers.
 
 
 #### Useful Resources:
