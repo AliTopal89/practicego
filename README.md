@@ -655,6 +655,16 @@ func NewReader(s string) *Reader
 The in memory reader functions above return `io.Reader`*(Reader is the interface that wraps the basic Read method.*
 *Read reads up to len(p) bytes into p. It returns the number of bytes read `(0 <= n <= len(p))` and any error encountered.)* implementation that wraps around your in-memory byte slice or string, which also implement all the read-related interfaces in `io`.
 
+```go
+got := buffer.String()
+	want := `3
+			 2
+			 1
+			 Go!`
+```
+
+The backtick syntax is another way of creating a string but lets you put things like newlines.
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
