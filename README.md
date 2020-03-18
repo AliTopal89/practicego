@@ -620,8 +620,9 @@ Functions serving as handlers take a http.ResponseWriter and a http.Request as a
 ```go
 func (b *Buffer) Bytes() []byte
 ```
+byte is an alias for `uint8` and is equivalent to `uint8` in all ways. It is used, by convention, to distinguish byte values from `8-bit` unsigned integer values. Bytes returns a slice of length `b.Len()` holding the unread portion of the buffer. The slice is valid for use only until the next buffer modification(that is, only until the next call to a method like Read, Write, Reset, or Truncate).
 
-Bytes returns a slice of length `b.Len()` holding the unread portion of the buffer. The slice is valid for use only until the next buffer modification(that is, only until the next call to a method like Read, Write, Reset, or Truncate). 
+`Bytes.Buffer`: Often we want to build up a long sequence of bytes. With bytes.Buffer we can write bytes into a single buffer, and then convert to a string when we are done. For performance, using bytes.Buffer is an ideal choice. And it can simplify some situations where we want to append many values together.
 
 ```go
 func main(){
@@ -632,7 +633,7 @@ func main(){
     fmt.Fprintf(b, "Holly %s\n, smokes Batman!")
 }
 ```
-we have this bytes buffer and we can use `b.Write` and thas fine because even if you look at implementation documentation you can see att all its a pointer to a buffer is the receiver for that write method, but the reason this will work when we are talking about methods, if you remember `b.Write` is shorthand for enclosing b and taking the address of it and then calling a write method on it, so we can do that. The reason why line `fmt.Fprintf(b,..)` isn't going to works is because now you are passing it to a function a copy of that buffer, and inside that function it wants to take a pointer,so you can get it working by passing a pointer in our buffer `fmt.Fprintf(&b), "Holy %s\n"`
+we have this bytes buffer and we can use `b.Write` and thas fine because even if you look at implementation documentation you can see att all its a pointer to a buffer is the receiver for that write method, but the reason this will work when we are talking about methods, if you remember `b.Write` is shorthand for enclosing b and taking the address of it and then calling a write method on it, so we can do that. The reason why line `fmt.Fprintf(b,..)` isn't going to works is because now you are passing it to a function a copy of that buffer, and inside that function it wants to take a pointer, so you can get it working by passing a pointer in our buffer `fmt.Fprintf(&b), "Holy %s\n"`
 
 ###### bytes vs strings
 Byte slices represent a mutable, resizable, contiguous list of bytes
@@ -665,6 +666,23 @@ got := buffer.String()
 
 The backtick syntax is another way of creating a string but lets you put things like newlines.
 
+The Go == operator compares not just the time instant but also the Location and the *monotonic clock*(is for measuring time) reading.
+Dependency injection is a technique whereby one struct supplies the dependencies of another struct, by explicitly providing components with all of the dependencies they need to work. Dependency injection is a useful tool for decoupling logical entities.
+
+```go
+type SpySleeper struct {
+    Calls int
+}
+
+func (s *SpySleeper) Sleep() {
+    s.Calls++
+}
+```
+
+Spies are a kind of mock which can record how a dependency is used. They can record the arguments sent in, how many times it has been called, etc. In our case, we're keeping track of how many times `Sleep()` is called so we can check it in our test.
+
+In Go increment and decrement operations can’t be used as expressions, only as statements. Without pointer arithmetic, the convenience value of pre- and postfix increment operators drops. By removing them from the expression hierarchy altogether, expression syntax is simplified and the messy issues around order of evaluation of `++` and `--` (consider `f(i++)` and `p[i] = q[++i]`) are eliminated as well.
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
@@ -675,3 +693,4 @@ The backtick syntax is another way of creating a string but lets you put things 
 1. [Table Driven Tests](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
 1. [Interfaces in Go](https://www.alexedwards.net/blog/interfaces-explained)
 1. [Bytes & Strings Package](https://medium.com/go-walkthrough/go-walkthrough-bytes-strings-packages-499be9f4b5bd)
+1. [Dependency Injection](https://appliedgo.net/di/)

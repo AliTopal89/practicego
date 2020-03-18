@@ -25,24 +25,31 @@ type SpySleeper struct {
 	Calls int
 }
 
+type DefaultSleeper struct{}
+
+func (d *DefaultSleeper) Sleep() {
+	time.Sleep(1 * time.Second)
+}
+
 func (s *SpySleeper) Sleep() {
 	s.Calls++
 }
 
 // use general purpose interface instead of *bytes.Buffer
 // Use a for loop counting backwards with i--
-func Countdown(out io.Writer) {
+func Countdown(out io.Writer, sleeper Sleeper) {
 	for i := 3; i > 0; i-- {
 		fmt.Fprintln(out, i)
 		fmt.Printf("Current Time: %v\n", time.Now())
-		time.Sleep(1 * time.Second)
+		sleeper.Sleep()
 		fmt.Printf("Current Time: %v\n", time.Now())
 	}
-	time.Sleep(1 * time.Second)
+	sleeper.Sleep()
 	fmt.Fprintf(out, finalWord)
 
 }
 
 func main() {
-	Countdown(os.Stdout)
+	sleeper := &DefaultSleeper{}
+	Countdown(os.Stdout, sleeper)
 }
