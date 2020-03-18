@@ -39,9 +39,9 @@ func (s *SpySleeper) Sleep() {
 // Use a for loop counting backwards with i--
 func Countdown(out io.Writer, sleeper Sleeper) {
 	for i := 3; i > 0; i-- {
-		fmt.Fprintln(out, i)
 		fmt.Printf("Current Time: %v\n", time.Now())
 		sleeper.Sleep()
+		fmt.Fprintln(out, i)
 		fmt.Printf("Current Time: %v\n", time.Now())
 	}
 	sleeper.Sleep()
