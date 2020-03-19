@@ -683,6 +683,15 @@ Spies are a kind of mock which can record how a dependency is used. They can rec
 
 In Go increment and decrement operations can’t be used as expressions, only as statements. Without pointer arithmetic, the convenience value of pre- and postfix increment operators drops. By removing them from the expression hierarchy altogether, expression syntax is simplified and the messy issues around order of evaluation of `++` and `--` (consider `f(i++)` and `p[i] = q[++i]`) are eliminated as well.
 
+```go
+type ConfigurableSleeper struct {
+    duration time.Duration
+    sleep    func(time.Duration)
+}
+```
+
+We are using duration to configure the time slept and sleep as a way to pass in a sleep function. The signature of `sleep` is the same as for `time.Sleep` allowing us to use `time.Sleep` in our real implementation and a *spy* in our tests.
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
