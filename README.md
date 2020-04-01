@@ -692,6 +692,33 @@ type ConfigurableSleeper struct {
 
 We are using duration to configure the time slept and sleep as a way to pass in a sleep function. The signature of `sleep` is the same as for `time.Sleep` allowing us to use `time.Sleep` in our real implementation and a *spy* in our tests.
 
+#### Concurrency
+
+Concurrency means multiple computations are happening at the same time - *having more than one thing in progress.*
+
+Normally in Go when we call a function `doSomething()` we wait for it to return (even if it has no value to return, we still wait for it to finish). We say that this operation is *blocking* - it makes us wait for it to finish. An operation that does not block in Go will run in a separate process called a *goroutine*. 
+
+Because the only way to start a goroutine is to put go in front of a function call, we often use "anonymous functions" when we want to start a *goroutine*.
+
+Anonymous functions have a number of features which make them useful, two of which we're using above. Firstly, they can be executed at the same time that the're declared - this is what the () at the end of the anonymous function is doing.Secondly they maintain access to the lexical scope they are defined in - all the variables that are available at the point when you declare the anonymous function are also available in the body of the function.
+
+ >Lexical scoping (sometimes known as static scoping ) is a convention used with many programming languages that sets the scope (range of functionality) of a variable so that it may only be called (referenced) from within the block of code in which it is defined.
+ 
+The body of the anonymous function above is just the same as the loop body was before. The only difference is that each iteration of the loop will start a new goroutine, concurrent with the current process (the WebsiteChecker function) each of which will add its result to the results map.
+
+```go
+for _, str := range []string{"a", "b", "c"} {
+    // Anonymous function
+	go func() {
+		fmt.Println(str)
+	}()
+}
+<-time.After(1 * time.Second)
+```
+
+Before `<-time.After(1 * time.Second)` goroutine exits just after finishing the for loop, this means that the program exits and the goroutines that print each of the values are not scheduled, so we get no ouput.
+
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)

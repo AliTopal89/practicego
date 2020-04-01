@@ -17,6 +17,7 @@ func BenchmarkCheckWebsites(b *testing.B) {
 	}
 
 	for i := 0; i < b.N; i++ {
+		// fmt.Printf("Current Time: %v\n", time.Now())
 		CheckWebsites(slowStubWebsiteChecker, urls)
 	}
 }
