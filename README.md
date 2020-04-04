@@ -700,11 +700,38 @@ Normally in Go when we call a function `doSomething()` we wait for it to return 
 
 Because the only way to start a goroutine is to put go in front of a function call, we often use "anonymous functions" when we want to start a *goroutine*.
 
+```go
+package concurrency
+
+type WebsiteChecker func(string) bool
+
+func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
+    results := make(map[string]bool)
+
+    for _, url := range urls {
+        go func() {
+            results[url] = wc(url)
+        }()
+    }
+
+    return results
+}
+```
+
 Anonymous functions have a number of features which make them useful, two of which we're using above. Firstly, they can be executed at the same time that the're declared - this is what the () at the end of the anonymous function is doing.Secondly they maintain access to the lexical scope they are defined in - all the variables that are available at the point when you declare the anonymous function are also available in the body of the function.
 
  >Lexical scoping (sometimes known as static scoping ) is a convention used with many programming languages that sets the scope (range of functionality) of a variable so that it may only be called (referenced) from within the block of code in which it is defined.
- 
+
 The body of the anonymous function above is just the same as the loop body was before. The only difference is that each iteration of the loop will start a new goroutine, concurrent with the current process (the WebsiteChecker function) each of which will add its result to the results map.
+
+```go
+for _, url := range urls {
+        go func(u string) {
+            results[u] = wc(u)
+        }(url)
+    }
+```
+By giving each anonymous function a parameter for the url - `u` - and then calling the anonymous function with the `url` as the argument, we make sure that the value of `u` is fixed as the value of `url` for the iteration of the loop that we're launching the goroutine in. `u` is a copy of the value of `url`, and so can't be changed.
 
 ```go
 for _, str := range []string{"a", "b", "c"} {
@@ -718,6 +745,7 @@ for _, str := range []string{"a", "b", "c"} {
 
 Before `<-time.After(1 * time.Second)` goroutine exits just after finishing the for loop, this means that the program exits and the goroutines that print each of the values are not scheduled, so we get no ouput.
 
+Channels are a Go data structure that can both receive and send values. These operations, along with their details, allow communication between different processes.
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
