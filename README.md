@@ -758,3 +758,4 @@ Channels are a Go data structure that can both receive and send values. These op
 1. [Interfaces in Go](https://www.alexedwards.net/blog/interfaces-explained)
 1. [Bytes & Strings Package](https://medium.com/go-walkthrough/go-walkthrough-bytes-strings-packages-499be9f4b5bd)
 1. [Dependency Injection](https://appliedgo.net/di/)
+1. [Anonymous Function Loops](https://zknill.io/posts/gos-anonymous-functions-loops/)
