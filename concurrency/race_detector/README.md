@@ -23,20 +23,6 @@ func randomDuration() time.Duration {
 Above snippet when ran with go run -race filename produces
 
 ```
-alitopaloglu~/go/src/github.com/AliTopal89 (master)$ go run concurrency/race_detector/race_detector.go
-953.017725ms
-1.038013796s
-1.706020482s
-1.943919132s
-2.234044685s
-2.788070264s
-3.421402404s
-3.758101296s
-3.946055609s
-4.428080639s
-alitopaloglu~/go/src/github.com/AliTopal89 (master)$ go test concurrency/race_detector/race_detector.go -race?   	command-line-arguments	[no test files]
-alitopaloglu~/go/src/github.com/AliTopal89 (master)$ go test --race concurrency/race_detector/race_detector.go
-?   	command-line-arguments	[no test files]
 alitopaloglu~/go/src/github.com/AliTopal89 (master)$ go run --race concurrency/race_detector/race_detector.go
 953.2977ms
 ==================
@@ -53,6 +39,19 @@ Goroutine 7 (running) created at:
   time.goFunc()
       /usr/local/Cellar/go/1.12.4/libexec/src/time/sleep.go:169 +0x51
 ==================
+1.038707616s
+1.709814068s
+1.94922919s
+2.23786492s
+2.790617615s
+3.423992935s
+3.758566823s
+3.947171137s
+4.4330058s
+5.196108986s
+5.462972639s
+Found 1 data race(s)
+exit status 66
 
 ```
 
@@ -66,3 +65,21 @@ for time.Since(start) < 5*time.Second {
 ```
 
 Here the main goroutine is wholly responsible for setting and resetting the Timer t and a new reset channel communicates the need to reset the timer in a thread-safe way.
+
+and when you run it again 
+
+```
+alitopaloglu~/go/src/github.com/AliTopal89 (master)$ go run --race concurrency/race_detector/race_detector.go
+953.328706ms
+1.038765614s
+1.710507119s
+1.947087978s
+2.234883857s
+2.78771125s
+3.424274345s
+3.760746756s
+3.945846468s
+4.427299413s
+5.193237478s
+5.459074635s
+```

@@ -745,6 +745,8 @@ for _, str := range []string{"a", "b", "c"} {
 
 Before `<-time.After(1 * time.Second)` goroutine exits just after finishing the for loop, this means that the program exits and the goroutines that print each of the values are not scheduled, so we get no ouput.
 
+Race condition [example](concurrency/race_detector/README.md)
+
 Channels are a Go data structure that can both receive and send values. These operations, along with their details, allow communication between different processes.
 
 #### Useful Resources:
