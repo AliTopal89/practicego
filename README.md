@@ -749,6 +749,30 @@ Race condition [example](concurrency/race_detector/README.md)
 
 Channels are a Go data structure that can both receive and send values. These operations, along with their details, allow communication between different processes.
 
+```go
+// Send statement
+resultChannel <- result{u, wc(u)}
+/*
+    instead of writing to the "map" directly we're sending a "result" struct for each call 
+    to "wc" to the "resultChannel" with a *send statement*. This uses the "<-" operator,
+
+*/
+...
+// Receive expression
+result := <-resultChannel
+
+/*
+  The next "for" loop iterates once for each of the "urls". Inside we're using a *receive expression*, 
+  which assigns a value received from a `channel` to a variable. This also uses 
+  the "<-" operator, but with the two operands now reversed: the channel is now on the right 
+  and the variable that we're assigning to is on the left
+*/
+```
+
+
+
+
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
