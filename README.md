@@ -745,9 +745,11 @@ for _, str := range []string{"a", "b", "c"} {
 
 Before `<-time.After(1 * time.Second)` goroutine exits just after finishing the for loop, this means that the program exits and the goroutines that print each of the values are not scheduled, so we get no ouput.
 
+A goroutine is a function that is capable of running concurrently with other functions. To create a goroutine we use the keyword go followed by a function invocation
+
 Race condition [example](concurrency/race_detector/README.md)
 
-Channels are a Go data structure that can both receive and send values. These operations, along with their details, allow communication between different processes.
+Channels are a Go data structure that can both receive and send values. These operations, along with their details, allow communication between different processes. Channels by default are **pointers**. Mostly, when you want to communicate with a goroutine, you pass the channel as an argument to the function or method. Hence when goroutine receives that channel as an argument, you don’t need to dereference it to push or pull data from that channel.
 
 ```go
 // Send statement
@@ -768,9 +770,6 @@ result := <-resultChannel
   and the variable that we're assigning to is on the left
 */
 ```
-
-
-
 
 
 #### Useful Resources:
