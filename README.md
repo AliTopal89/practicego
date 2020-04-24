@@ -613,7 +613,7 @@ A fundamental concept in net/http servers is handlers. A handler is an object im
 
 Functions serving as handlers take a http.ResponseWriter and a http.Request as arguments. The response writer is used to fill in the HTTP response. Here our simple response is just “hello\n”. We register our handlers on server routes using the http.HandleFunc convenience function. It sets up the default router in the net/http package and takes a function as an argument.
 
-#### Mocking
+### Mocking
 
 `buffer.bytes` it’s an adaptor that lets you use a byte slice as an io.Writer and turn strings/byte slices into io.Readers.
 
@@ -692,7 +692,7 @@ type ConfigurableSleeper struct {
 
 We are using duration to configure the time slept and sleep as a way to pass in a sleep function. The signature of `sleep` is the same as for `time.Sleep` allowing us to use `time.Sleep` in our real implementation and a *spy* in our tests.
 
-#### Concurrency
+### Concurrency
 
 Concurrency means multiple computations are happening at the same time - *having more than one thing in progress.*
 
@@ -770,6 +770,20 @@ result := <-resultChannel
   and the variable that we're assigning to is on the left
 */
 ```
+
+### Select
+
+Go has a special statement called `select` which works like a `switch` but for `channels`.
+
+##### Buffered Channels
+It's also possible to pass a second parameter to the make function when creating a channel:
+
+```go 
+c := make(chan int, 1)
+```
+
+This creates a buffered channel with a capacity of 1. Normally channels are synchronous; both sides of the channel will wait until the other side is ready. A buffered channel is asynchronous; sending or receiving a message will not wait unless the channel is already full.
+
 
 
 #### Useful Resources:
