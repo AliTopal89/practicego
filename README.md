@@ -775,6 +775,49 @@ result := <-resultChannel
 
 Go has a special statement called `select` which works like a `switch` but for `channels`.
 
+`http.HandlerFunc` is a type that looks like this: `type HandlerFunc func(ResponseWriter, *Request)`
+
+All it's really saying is it needs a function that takes a ResponseWriter and a Request, which is not too surprising for an HTTP server.
+
+It turns out there's really no extra magic here, this is also *** how you would write a real HTTP server in Go. *** The only difference is we are wrapping it in an `httptest.NewServer` which makes it easier to use with testing, as it finds an open port to listen on and then you can close it when you're done with your test.
+
+```go
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+)
+
+func handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
+}
+
+func main() {
+    http.HandleFunc("/", handler)
+    log.Fatal(http.ListenAndServe(":8080", nil))
+}
+```
+The main function begins with a call to `http.HandleFunc`, which tells the http package to handle all requests to the web root ("/") with handler.
+
+It then calls `http.ListenAndServe`, specifying that it should listen on port 8080 on any interface (":8080"). This function will block until the program is terminated.`ListenAndServe` always returns an error, since it only returns when an unexpected error occurs. In order to log that error we wrap the function call with log.Fatal.
+
+The function handler is of the type http.HandlerFunc. It takes an http.ResponseWriter and an http.Request as its arguments.
+
+An `http.ResponseWriter` value assembles the HTTP server's response; by writing to it, we send data to the HTTP client.
+
+An `http.Request` is a data structure that represents the client HTTP request. `r.URL.Path` is the path component of the request URL, in this case `/monkeys`. The trailing [1:] means "create a sub-slice of Path from the 1st character to the end." This drops the leading "/" from the path name.
+
+If you run this program and access the URL:
+
+```http://localhost:8080/monkeys```
+
+the program would present a page containing:
+
+```Hi there, I love monkeys!```
+
+
 ##### Buffered Channels
 It's also possible to pass a second parameter to the make function when creating a channel:
 
