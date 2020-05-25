@@ -5,19 +5,19 @@ import (
 	"time"
 )
 
-func Racer(slowURL, fastURL string) (winner string) {
-
-	startA := time.Now()
-	http.Get(slowURL)
-	aDuration := time.Since(startA)
-
-	startB := time.Now()
-	http.Get(fastURL)
-	bDuration := time.Since(startB)
+func Racer(a, b string) (winner string) {
+	aDuration := measureResponseTime(a)
+	bDuration := measureResponseTime(b)
 
 	if aDuration < bDuration {
-		return slowURL
+		return a
 	}
 
-	return fastURL
+	return b
+}
+
+func measureResponseTime(url string) time.Duration {
+	start := time.Now()
+	http.Get(url)
+	return time.Since(start)
 }
