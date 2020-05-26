@@ -817,6 +817,24 @@ the program would present a page containing:
 
 ```Hi there, I love monkeys!```
 
+```go
+package main
+
+import "fmt"
+
+func main() {
+    defer fmt.Println("world")
+	fmt.Println("hello")
+}
+
+/*
+hello
+world
+*/
+```
+A `defer` statement defers the execution of a function until the surrounding function returns.
+
+The deferred call's arguments are evaluated immediately, but the function call is not executed until the surrounding function returns.
 
 ##### Buffered Channels
 It's also possible to pass a second parameter to the make function when creating a channel:
@@ -827,6 +845,47 @@ c := make(chan int, 1)
 
 This creates a buffered channel with a capacity of 1. Normally channels are synchronous; both sides of the channel will wait until the other side is ready. A buffered channel is asynchronous; sending or receiving a message will not wait unless the channel is already full.
 
+##### select
+
+Introducing new construct called `select` which helps us synchronise processes really easily and clearly.
+
+```go
+func Racer(a, b string) (winner string) {
+	select {
+	case <-ping(a):
+		return a
+	case <-ping(b):
+		return b
+	}
+}
+```
+
+If you recall from the concurrency chapter, you can wait for values to be sent to a channel with `myVar := <-ch`. This is a *blocking call*, as you're waiting for a value.
+
+What `select` lets you do is wait on multiple channels. The first one to send a value "wins" and the code underneath the case is executed.
+
+We use `ping`  in our select to set up two channels for each of our URLs. Whichever one writes to its channel first will have its code executed in the select, which results in its URL being returned (and being the winner).
+
+```go
+
+func ping(url string) chan struct{} {
+    ch := make(chan struct{})
+    go func() {
+        http.Get(url)
+        close(ch)
+    }()
+    return ch
+}
+
+```
+A `chan struct{}` is the smallest data type available from a memory perspective so you get no allocation versus a bool.
+
+
+**Always `make` channels**
+
+Notice how we have to use make when creating a channel; rather than say `var ch chan struct{}`. When you use `var` the variable will be initialised with the "zero" value of the type. So for string it is `""`, int it is `0`, etc.
+
+For channels the zero value is `nil` and if you try and send to it with `<-` it will block forever because you cannot send to nil channels
 
 
 #### Useful Resources:
@@ -842,3 +901,4 @@ This creates a buffered channel with a capacity of 1. Normally channels are sync
 1. [Dependency Injection](https://appliedgo.net/di/)
 1. [Anonymous Function Loops](https://zknill.io/posts/gos-anonymous-functions-loops/)
 1. [Race condition detector](https://blog.golang.org/race-detector)
+1. [Concurrency Patters](https://blog.golang.org/pipelines)
