@@ -9,21 +9,40 @@ import (
 
 func TestRacer(t *testing.T) {
 
-	slowServer := makeDelayedServer(20 * time.Millisecond)
-	fastServer := makeDelayedServer(0 * time.Millisecond)
+	t.Run("returns which one of the servers was faster", func(t *testing.T) {
 
-	defer slowServer.Close()
-	defer fastServer.Close()
+		slowServer := makeDelayedServer(20 * time.Millisecond)
+		fastServer := makeDelayedServer(0 * time.Millisecond)
 
-	slowURL := slowServer.URL
-	fastURL := fastServer.URL
+		defer slowServer.Close()
+		defer fastServer.Close()
 
-	want := fastURL
-	got := Racer(slowURL, fastURL)
+		slowURL := slowServer.URL
+		fastURL := fastServer.URL
 
-	if got != want {
-		t.Errorf("got %q, want %q", got, want)
-	}
+		want := fastURL
+		// ignore the error value with blank identifier
+		got, _ := Racer(slowURL, fastURL)
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+
+	})
+
+	t.Run("returns an error if a server does not respond within 10s", func(t *testing.T) {
+		serverA := makeDelayedServer(11 * time.Second)
+		serverB := makeDelayedServer(12 * time.Second)
+
+		defer serverA.Close()
+		defer serverB.Close()
+		// _ in go lang is the blank identifier, ignore the winingURL
+		_, err := Racer(serverA.URL, serverB.URL)
+
+		if err == nil {
+			t.Error("expected error but got none")
+		}
+	})
 }
 
 func makeDelayedServer(delay time.Duration) *httptest.Server {
