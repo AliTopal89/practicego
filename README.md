@@ -891,6 +891,8 @@ For channels the zero value is `nil` and if you try and send to it with `<-` it 
 
 Reflection in computing is the ability of a program to examine its own structure, particularly through types. Reflection builds on the type system.
 
+##### Types and interfaces
+
 > One important category of type is `interface types`, which represent fixed sets of methods. An interface variable can store any concrete (non-interface) value as long as that value implements the interface's methods.
 >
 >io.Reader and io.Writer, the types Reader and Writer from the io package:
@@ -925,6 +927,75 @@ Reflection in computing is the ability of a program to examine its own structure
 important example of an interface type is the empty interface empty interface: `interface{}`
 
 represents the empty set of methods and is satisfied by any value at all, since any value has zero or more methods.
+
+`interface{}` An empty interface can be used to hold any data and it can be a useful parameter since it can work with any type.
+
+```go
+type emptyInterface struct {
+   typ  *rtype            // word 1 with type description
+   word unsafe.Pointer    // word 2 with the value
+}
+```
+
+```go
+type rtype struct {
+   size       uintptr
+   ptrdata    uintptr
+   hash       uint32
+   tflag      tflag
+   align      uint8
+   fieldAlign uint8
+   kind       uint8
+   alg        *typeAlg
+   gcdata     *byte
+   str        nameOff
+   ptrToThis  typeOff
+}
+```
+
+##### Representation of interfaces
+
+A variable of interface type stores a pair: the concrete value assigned to the variable and the value's type descriptor. To be more precise, the value is the underlying concrete data item that implements the interface and the type describes the full type of that item
+
+>```go
+> var r io.Reader
+>// r contains, schematically, the (value, type) pair, (tty, *os.File)
+>// even though the interface value provides access only to the Read method, the value inside carries all the type information about that value.
+>//               type                methods
+> tty, err := os.Openfile("/dev/tty", os.O_RDWR, 0)
+>// os.O_RDWR   int = syscall.O_RDWR   // open the file read-write. 
+>// type *os.File implements methods other than Read; even though the interface value provides access only to the Read method
+> if err != nil {
+>    return nil, err
+>}
+>    //concrete val
+>  r = tty
+>
+>```
+
+
+```go
+var w io.Writer
+w = r.(io.Writer)
+
+```
+
+The expression in this assignment is a type assertion; what it asserts is that the item inside `r` also implements `io.Writer`, and so we can assign it to `w`. After the assignment, `w` will contain the pair `(tty, *os.File)`, same pair as in `r`.
+
+The static `type(io.Reader)` of the interface determines what methods may be invoked with an interface `variable(r)`, even though the concrete `value(tty)` inside may have a larger set of `methods(("/dev/tty", os.O_RDWR, 0)`.
+
+Then you can:
+
+```go
+var empty interface{}
+empty = w
+
+```
+
+and our empty interface value empty will again contain that same pair, `(tty, *os.File)`. That's handy: an empty interface can hold any value and doesn't need explicit type assertion
+
+A `concrete type` is a regular type, it specifies the exact representation of the data and the methods, data specifically, but also methods that are used in the type of the receiver type. And `interface type` just specifies some method signatures. So no data is specified, just the methods.
+
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
