@@ -887,6 +887,44 @@ Notice how we have to use make when creating a channel; rather than say `var ch 
 
 For channels the zero value is `nil` and if you try and send to it with `<-` it will block forever because you cannot send to nil channels
 
+### Reflection
+
+Reflection in computing is the ability of a program to examine its own structure, particularly through types. Reflection builds on the type system.
+
+> One important category of type is `interface types`, which represent fixed sets of methods. An interface variable can store any concrete (non-interface) value as long as that value implements the interface's methods.
+>
+>io.Reader and io.Writer, the types Reader and Writer from the io package:
+>
+>```go
+>// Reader is the interface that wraps the basic Read method.
+>// Any type that implements a Read method with this signature is said to implement io.Reader. 
+>
+>// that means that a variable of type io.Reader can hold any value whose type has a Read method
+>type Reader interface {
+>    Read(p []byte) (n int, err error)
+>}
+>
+>// Writer is the interface that wraps the basic Write method.
+>// Any type that implement a Write method with this signature is said to implement io.Writer
+>
+> // that means that an "interface" variable of type io.Writer can hold any value whose "interface" type  has a Write "interface" method.
+>type Writer interface {
+>    Write(p []byte) (n int, err error)
+>} 
+>```
+>
+>```go
+>
+>// Whatever concrete "non interface" value "r" may hold "r's" type is always "io.Reader"
+>var r io.Reader
+>r = os.Stdin
+>r = bufio.NewReader(r)
+>r = new(bytes.Buffer)
+>```
+
+important example of an interface type is the empty interface empty interface: `interface{}`
+
+represents the empty set of methods and is satisfied by any value at all, since any value has zero or more methods.
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
