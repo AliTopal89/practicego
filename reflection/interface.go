@@ -39,12 +39,25 @@ var x MyStringer
 
 /*
   when you call a method on an interface value (this is "x"),
-  the method of its underlying type string is executed
+  the method "string" of its underlying type "myStringer interface" is executed
 */
 func main() {
+
 	x = Temp(24)
-	fmt.Println(x.String())
+	fmt.Println(x.String()) // 24 °C
 	// & - variable's memory address.
 	x = &Point{1, 2}
-	fmt.Println(x.String())
+	fmt.Println(x.String()) // (1,2)
+
+	var x MyStringer
+	fmt.Printf("%v %T\n", x, x) // <nil> <nil>
+
+	x = Temp(25)
+	fmt.Printf("%v %T\n", x, x) // 24 °C main.Temp
+
+	x = &Point{1, 200}
+	fmt.Printf("%v %T\n", x, x) // (1,2) *main.Point
+
+	x = (*Point)(nil)
+	fmt.Printf("%v %T\n", x, x) // <nil> *main.Point
 }
