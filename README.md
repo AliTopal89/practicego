@@ -924,6 +924,59 @@ Reflection in computing is the ability of a program to examine its own structure
 >r = new(bytes.Buffer)
 >```
 
+Another example:
+
+>```go
+> // concrete type
+>type file struct {
+>    name string
+>}
+> // concrete type
+>type pipe struct {
+>    name string
+>}
+>
+>func main() {
+>    var f file // you now have a value of type file
+>    var p pipe // you now have a value of type pipe
+>    fmt.Println(f, p)
+>}
+>```
+
+> ```go
+> // interface type
+> type reader interface {
+>   read(b []byte) (int, error)
+> }
+>```
+>
+> An `interface type` is the opposite of a `struct` type (concrete type). 
+> An interface type can only declare a method set of behavior.This means there
+> is nothing concrete about an interface type.
+>```go
+>  func retrieve(r reader) error {
+>    data := make([]byte, 100)
+>
+>    len, err := r.read(data)
+>    if err != nil {
+>        return err
+>    }
+>    fmt.Println(string(data[:len]))
+>    return nil
+>}
+>```
+>When you look at the function declaration for retrieve on line 37, the function
+>seems to say, pass me a value of type reader. But you know that’s impossible
+>because there is no such thing as a value of type reader. Values of type reader
+>do not exists because reader is an interface type. You know interface values are
+>valueless.
+>
+>Then what is the function declaration saying? It’s saying the following:
+>
+>*I will accept any piece of concrete data (any value or pointer) that implements*
+>*the reader contract. That implements the full method set of behavior defined by the reader interface.*
+
+
 important example of an interface type is the empty interface empty interface: `interface{}`
 
 represents the empty set of methods and is satisfied by any value at all, since any value has zero or more methods.
@@ -1004,7 +1057,7 @@ A `concrete type` is a regular type, it specifies the exact representation of th
 1. [GoLang Slices](https://www.callicoder.com/golang-slices/)
 1. [Reflections in Go](https://golangbot.com/reflection/)
 1. [Slices Usage](https://blog.golang.org/go-slices-usage-and-internals)
-1. [Table Driven Tests](https://dave.cheney.net/2019/05/07/prefer-table-driven-tests)
+1. [Table Driven Tests](https://dave.cheney.net/2019/07/prefer-table-driven-tests)
 1. [Interfaces in Go](https://www.alexedwards.net/blog/interfaces-explained)
 1. [Bytes & Strings Package](https://medium.com/go-walkthrough/go-walkthrough-bytes-strings-packages-499be9f4b5bd)
 1. [Dependency Injection](https://appliedgo.net/di/)
