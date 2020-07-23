@@ -145,7 +145,7 @@ func main(){
 }
 ```
 
-The `:=` syntax is shorthand for declaring and initializing a variable, e.g. for var f string = "apple" in this case.
+The `:=` syntax is shorthand for declaring and initializing a variable, e.g. for `var f string = "apple"` in this case.
 
 Unlike regular variable declarations, is a short variable declaration may redeclare variables provided they were originally declared earlier in the same block
 
@@ -162,12 +162,12 @@ func Sum(numbers []int) int {
     return sum
 }
 ```
-Range lets you iterate over an array. Every time it is called it returns two values, the index and the value. We are choosing to ignore the index value by using _ blank identifier, It's a bit like writing to the Unix /dev/null file.
+Range lets you iterate over an array. Every time it is called it returns two values, the index and the value. We are choosing to ignore the index value by using `_` blank identifier, It's a bit like writing to the Unix /dev/null file.
 
 Slices wrap arrays to give a more general, powerful, and convenient interface to sequences of data. 
 Slices hold references to an underlying array, and if you assign one slice to another, both refer to the same array. Slices are indexable and have a length. But unlike arrays, they can be resized.
 
-The type specification for a slice is []T, where T is the type of the elements of the slice. Unlike an array type, a slice type has no specified length.
+The type specification for a slice is `[]T`, where T is the type of the elements of the slice. Unlike an array type, a slice type has no specified length.
 
 
 ```go
@@ -182,7 +182,7 @@ func SumAll(numbersToSum ...[]int) []int {
     return
 }
 ```
-A variadic function accepts variable number of input values — zero or more. Ellipsis (three-dots) prefix in front of an input type makes a function variadic. 
+A variadic function accepts variable number of input values — zero or more. **Ellipsis** (three-dots) prefix in front of an input type makes a function variadic.
 Variadic functions can be called with any number of trailing arguments. Variadic function is a function which accepts a variable number of arguments. Variadic functions are also functions but they can take an infinite or variable number of arguments.
 
 For example the signature append function:
@@ -233,7 +233,7 @@ func main() {
 // set: [a b c]
 // get: c
 ```
-To create an empty slice with non-zero length, use the builtin make. Here we make a slice of strings of length 3 (initially zero-valued).
+To create an empty slice with non-zero length, use the built-in make. Here we make a slice of strings of length 3 (initially zero-valued).
 
 ```go
 b := []byte{'g', 'o', 'l', 'a', 'n', 'g'}
@@ -296,6 +296,8 @@ In our case:
 
  - `Rectangle` has a method called `Area` that returns a `float64` so it satisfies the `Shape` interface.
  - `Circle` has a method called `Area` that returns a `float64` so it satisfies the `Shape` interface.
+
+ Like a `struct` an `interface` is created using the type keyword, followed by a name and the keyword `interface`. But instead of defining fields, we define a “method set”. A method set is a list of methods that a type must have in order to “implement” the interface.
 
 
 Table driven tests are useful when you want to build a list of test cases that can be tested in the same manner.
@@ -535,7 +537,7 @@ A two-value assignment tests for the existence of a key:
 
 ```i, ok := m["route"]```
 
-In this statement, the first value (i) is assigned the value stored under the key "route". If that key doesn't exist, i is the value type's zero value (0). The second value (ok) is a bool that is true if the key exists in the map, and false if not.
+In this statement, the first value (i) is assigned the value stored under the key "route". If that key doesn't exist, (i) is the value type's zero value (0). The second value (ok) is a boolean that is true if the key exists in the map, and false if not.
 
 ```_, ok := m["route"]```
 
@@ -595,7 +597,7 @@ type Writer interface {
 }
 ```
 
-Write writes len(p) bytes from p to the underlying data stream. It returns the number of bytes written from p (0 <= n <= len(p)) and any error encountered that caused the write to stop early.
+Write writes `len(p)` bytes from p to the underlying data stream. It returns the number of bytes written from p (0 <= n <= len(p)) and any error encountered that caused the write to stop early.
 
 ```go
 func hello(w http.ResponseWriter, req *http.Request) {
@@ -609,9 +611,9 @@ func main() {
     http.ListenAndServe(":8090", nil)
 }
 ```
-A fundamental concept in net/http servers is handlers. A handler is an object implementing the http.Handler interface. A common way to write a handler is by using the http.HandlerFunc adapter on functions with the appropriate signature.
+A fundamental concept in net/http servers is handlers. A handler is an object implementing the **http.Handler** interface. A common way to write a handler is by using the `http.HandlerFunc` adapter on functions with the appropriate signature.
 
-Functions serving as handlers take a http.ResponseWriter and a http.Request as arguments. The response writer is used to fill in the HTTP response. Here our simple response is just “hello\n”. We register our handlers on server routes using the http.HandleFunc convenience function. It sets up the default router in the net/http package and takes a function as an argument.
+Functions serving as handlers take a `http.ResponseWriter` and a `http.Request` as arguments. The response writer is used to fill in the HTTP response. Here our simple response is just “hello\n”. We register our handlers on server routes using the `http.HandleFunc` convenience function. It sets up the default router in the net/http package and takes a function as an argument.
 
 ### Mocking
 
@@ -633,7 +635,7 @@ func main(){
     fmt.Fprintf(b, "Holly %s\n, smokes Batman!")
 }
 ```
-we have this bytes buffer and we can use `b.Write` and thas fine because even if you look at implementation documentation you can see att all its a pointer to a buffer is the receiver for that write method, but the reason this will work when we are talking about methods, if you remember `b.Write` is shorthand for enclosing b and taking the address of it and then calling a write method on it, so we can do that. The reason why line `fmt.Fprintf(b,..)` isn't going to works is because now you are passing it to a function a copy of that buffer, and inside that function it wants to take a pointer, so you can get it working by passing a pointer in our buffer `fmt.Fprintf(&b), "Holy %s\n"`
+we have this bytes buffer and we can use `b.Write` and thats fine because even if you look at implementation documentation you can see that all its a pointer to a buffer is the receiver for that write method, but the reason this will work when we are talking about methods, if you remember `b.Write` is shorthand for enclosing b and taking the address of it and then calling a write method on it, so we can do that. The reason why line `fmt.Fprintf(b,..)` isn't going to works is because now you are passing it to a function a copy of that buffer, and inside that function it wants to take a pointer, so you can get it working by passing a pointer in our buffer `fmt.Fprintf(&b), "Holy %s\n"`
 
 ###### bytes vs strings
 Byte slices represent a mutable, resizable, contiguous list of bytes
@@ -666,7 +668,7 @@ got := buffer.String()
 
 The backtick syntax is another way of creating a string but lets you put things like newlines.
 
-The Go == operator compares not just the time instant but also the Location and the *monotonic clock*(is for measuring time) reading.
+The Go `==` operator compares not just the time instant but also the Location and the *monotonic clock*(is for measuring time) reading.
 Dependency injection is a technique whereby one struct supplies the dependencies of another struct, by explicitly providing components with all of the dependencies they need to work. Dependency injection is a useful tool for decoupling logical entities.
 
 ```go
@@ -718,7 +720,7 @@ func CheckWebsites(wc WebsiteChecker, urls []string) map[string]bool {
 }
 ```
 
-Anonymous functions have a number of features which make them useful, two of which we're using above. Firstly, they can be executed at the same time that the're declared - this is what the () at the end of the anonymous function is doing.Secondly they maintain access to the lexical scope they are defined in - all the variables that are available at the point when you declare the anonymous function are also available in the body of the function.
+Anonymous functions have a number of features which make them useful, two of which we're using above. Firstly, they can be executed at the same time that the're declared - this is what the `()` at the end of the anonymous function is doing. Secondly they maintain access to the lexical scope they are defined in - all the variables that are available at the point when you declare the anonymous function are also available in the body of the function.
 
  >Lexical scoping (sometimes known as static scoping ) is a convention used with many programming languages that sets the scope (range of functionality) of a variable so that it may only be called (referenced) from within the block of code in which it is defined.
 
@@ -777,7 +779,7 @@ Go has a special statement called `select` which works like a `switch` but for `
 
 `http.HandlerFunc` is a type that looks like this: `type HandlerFunc func(ResponseWriter, *Request)`
 
-All it's really saying is it needs a function that takes a ResponseWriter and a Request, which is not too surprising for an HTTP server.
+All it's really saying is it needs a function that takes a **ResponseWriter** and a **Request**, which is not too surprising for an HTTP server.
 
 It turns out there's really no extra magic here, this is also *** how you would write a real HTTP server in Go. *** The only difference is we are wrapping it in an `httptest.NewServer` which makes it easier to use with testing, as it finds an open port to listen on and then you can close it when you're done with your test.
 
@@ -965,7 +967,7 @@ Another example:
 >    return nil
 >}
 >```
->When you look at the function declaration for retrieve on line 37, the function
+>When you look at the function declaration for retrieve, the function
 >seems to say, pass me a value of type reader. But you know that’s impossible
 >because there is no such thing as a value of type reader. Values of type reader
 >do not exists because reader is an interface type. You know interface values are
