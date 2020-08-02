@@ -4,7 +4,7 @@ A variable of interface type can hold any value that
 implements these methods.
 */
 
-package main
+package inter
 
 import (
 	"fmt"
@@ -41,7 +41,7 @@ var x MyStringer
   when you call a method on an interface value (this is "x"),
   the method "string" of its underlying type "myStringer interface" is executed
 */
-func main() {
+func inter() {
 
 	x = Temp(24)
 	fmt.Println(x.String()) // 24 °C

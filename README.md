@@ -953,7 +953,7 @@ Another example:
 >```
 >
 > An `interface type` is the opposite of a `struct` type (concrete type). 
-> An interface type can only declare a method set of behavior.This means there
+> An interface type can only declare a method set of behavior. This means there
 > is nothing concrete about an interface type.
 >```go
 >  func retrieve(r reader) error {
@@ -970,7 +970,7 @@ Another example:
 >When you look at the function declaration for retrieve, the function
 >seems to say, pass me a value of type reader. But you know that’s impossible
 >because there is no such thing as a value of type reader. Values of type reader
->do not exists because reader is an interface type. You know interface values are
+>does not exists because reader is an interface type. You know interface values are
 >valueless.
 >
 >Then what is the function declaration saying? It’s saying the following:
