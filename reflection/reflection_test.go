@@ -19,6 +19,15 @@ func TestWalk(t *testing.T) {
 			}{"Chris"},
 			[]string{"Chris"},
 		},
+
+		{
+			"Struct with two string fields",
+			struct {
+				Name      string
+				OtherName string
+			}{"Chris", "Leroy Jenkins"},
+			[]string{"Chris", "Leroy Jenkins"},
+		},
 	}
 
 	// blank identifier so you dont declare any variable at all
