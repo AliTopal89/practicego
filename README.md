@@ -1052,6 +1052,20 @@ and our empty interface value empty will again contain that same pair, `(tty, *o
 A `concrete type` is a regular type, it specifies the exact representation of the data and the methods, data specifically, but also methods that are used in the type of the receiver type. And `interface type` just specifies some method signatures. So no data is specified, just the methods.
 
 
+```go
+func walk(x interface{}, fn func(input string)) {
+    val := reflect.ValueOf(x)
+
+    for i:=0; i< val.NumField(); i++ {
+        field := val.Field(i)
+        fn(field.String())
+    }
+}
+```
+The `reflect` package has a function `ValueOf` which returns us a Value of a given variable.
+`Field `returns the `i'th` field of the struct value
+`val` has a method `NumField` which returns the number of fields in the value. 
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
