@@ -1070,7 +1070,7 @@ func Println(x interface{}){
 // type is 'complex128', value: (7+7i)
 ```
 
-On `x` we get the type of the value that is stored in `x`
+On `x` we get the type of the value that is stored in `x`. It looked like type of `x` was changing but type of `x` remained the same as an empty interface, what was changing was the information that `x` contain and thats what was dynamic.  Type of the varial is not changing but its the the informations about values that `x` is storing is changing. 
 
 ```go
 func walk(x interface{}, fn func(input string)) {
