@@ -1051,6 +1051,26 @@ and our empty interface value empty will again contain that same pair, `(tty, *o
 
 A `concrete type` is a regular type, it specifies the exact representation of the data and the methods, data specifically, but also methods that are used in the type of the receiver type. And `interface type` just specifies some method signatures. So no data is specified, just the methods.
 
+```go
+...
+func main(){
+    Println(true)
+	Println(2010)
+	Println(9.15)
+	Println(7 + 7i)
+}
+
+func Println(x interface{}){
+    fmt.Printf("type is '%T', value: %v\n",x,x)
+}
+
+// type is 'bool', value: true
+// type is 'int', value: 2010
+// type is 'float64', value: 9.15
+// type is 'complex128', value: (7+7i)
+```
+
+On `x` we get the type of the value that is stored in `x`
 
 ```go
 func walk(x interface{}, fn func(input string)) {
@@ -1080,3 +1100,4 @@ The `reflect` package has a function `ValueOf` which returns us a Value of a giv
 1. [Anonymous Function Loops](https://zknill.io/posts/gos-anonymous-functions-loops/)
 1. [Race condition detector](https://blog.golang.org/race-detector)
 1. [Concurrency Patters](https://blog.golang.org/pipelines)
+1. [Go Language Reflection part 1](https://www.youtube.com/watch?v=oiX7fAmOYX0&t=29s)
