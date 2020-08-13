@@ -55,6 +55,14 @@ func TestWalk(t *testing.T) {
 			},
 			[]string{"Franklin", "Los Santos"},
 		},
+		{
+			"Pointers to things",
+			&Person{
+				"Franklin",
+				Profile{23, "Los Santos"},
+			},
+			[]string{"Franklin", "Los Santos"},
+		},
 	}
 
 	// blank identifier so you dont declare any variable at all

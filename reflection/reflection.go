@@ -9,6 +9,17 @@ import "reflect"
 */
 func walk(x interface{}, fn func(input string)) {
 	val := reflect.ValueOf(x)
+
+	/*
+	  panic: reflect: call of reflect.Value.NumField on ptr Value
+	  In order to resolve this, we can check val.Kind()
+	  for a pointer result, and then get the actual value,
+	  resolving the pointer:
+	*/
+
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
 	for i := 0; i < val.NumField(); i++ {
 		field := val.Field(i)
 
@@ -21,6 +32,12 @@ func walk(x interface{}, fn func(input string)) {
 	}
 
 }
+
+// case reflect.Ptr:
+// 	ft := reflect.TypeOf(x)
+// 	fv := reflect.ValueOf(ft)
+// 	fp := fv.Elem()
+// 	walk(field.Interface())
 
 /* We look at the first and only field, there may be
    no fields at all which would cause a panic,We then call
