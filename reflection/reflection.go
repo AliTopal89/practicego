@@ -8,8 +8,7 @@ import "reflect"
    we use on the next line.
 */
 func walk(x interface{}, fn func(input string)) {
-	val := reflect.ValueOf(x)
-
+	val := getValue(x)
 	/*
 	  panic: reflect: call of reflect.Value.NumField on ptr Value
 	  In order to resolve this, we can check val.Kind()
@@ -17,9 +16,6 @@ func walk(x interface{}, fn func(input string)) {
 	  resolving the pointer:
 	*/
 
-	if val.Kind() == reflect.Ptr {
-		val = val.Elem()
-	}
 	for i := 0; i < val.NumField(); i++ {
 		field := val.Field(i)
 
@@ -30,7 +26,17 @@ func walk(x interface{}, fn func(input string)) {
 			walk(field.Interface(), fn)
 		}
 	}
+}
 
+func getValue(x interface{}) reflect.Value {
+	// Get the reflect.Value of x
+	val := reflect.ValueOf(x)
+
+	if val.Kind() == reflect.Ptr {
+		val = val.Elem()
+	}
+
+	return val
 }
 
 // case reflect.Ptr:
