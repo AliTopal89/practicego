@@ -1086,6 +1086,9 @@ The `reflect` package has a function `ValueOf` which returns us a Value of a giv
 `Field `returns the `i'th` field of the struct value
 `val` has a method `NumField` which returns the number of fields in the value. 
 
+Note: A literal of a value is a text representation of the value in code. `Composite literal` is something that can make our lives easier when we want to assign values upon a variable initialization.
+
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
