@@ -1088,6 +1088,30 @@ The `reflect` package has a function `ValueOf` which returns us a Value of a giv
 
 Note: A literal of a value is a text representation of the value in code. `Composite literal` is something that can make our lives easier when we want to assign values upon a variable initialization.
 
+Floating point literal example
+
+```go
+1.23e2  // == 123.0
+123E2   // == 12300.0
+123.E+2 // == 12300.0
+```
+numeric literal example
+
+```go
+0_33_77_22   // == 0337722
+0x_Bad_Face  // == 0xBadFace
+0X_1F_FFP-16 // == 0X1FFFP-16
+```
+
+string literals example
+
+```go
+// The following interpreted string literals are equivalent.
+"\141\142\143"
+"\x61\x62\x63"
+"\x61b\x63"
+"abc"
+```
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
