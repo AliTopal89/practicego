@@ -1104,3 +1104,4 @@ Note: A literal of a value is a text representation of the value in code. `Compo
 1. [Race condition detector](https://blog.golang.org/race-detector)
 1. [Concurrency Patters](https://blog.golang.org/pipelines)
 1. [Go Language Reflection part 1](https://www.youtube.com/watch?v=oiX7fAmOYX0&t=29s)
+1. [Basic types and Value Literals](https://go101.org/article/basic-types-and-value-literals.html)
