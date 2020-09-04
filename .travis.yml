@@ -4,12 +4,16 @@ go:
 - "1.12"
 - master
 
+before_install:
+  - go get github.com/urfave/cli/v2
+  - go get github.com/sirupsen/logrus
+
 env:
   - GO111MODULE=on
 
-before_install:
- - go get github.com/urfave/cli/v2
- - go get github.com/sirupsen/logrus
+install: true
+
+script: go test -v -mod=vendor ./...
 
 # Don't email me the results of the test runs.
 notifications:
