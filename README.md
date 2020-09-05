@@ -1129,3 +1129,4 @@ string literals example
 1. [Concurrency Patters](https://blog.golang.org/pipelines)
 1. [Go Language Reflection part 1](https://www.youtube.com/watch?v=oiX7fAmOYX0&t=29s)
 1. [Basic types and Value Literals](https://go101.org/article/basic-types-and-value-literals.html)
+1. [Modules with vendor support Travis CI](https://arslan.io/2018/08/26/using-go-modules-with-vendor-support-on-travis-ci/)
