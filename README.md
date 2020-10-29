@@ -1086,7 +1086,7 @@ The `reflect` package has a function `ValueOf` which returns us a Value of a giv
 `Field `returns the `i'th` field of the struct value
 `val` has a method `NumField` which returns the number of fields in the value. 
 
-Note: A literal of a value is a text representation of the value in code. `Composite literal` is something that can make our lives easier when we want to assign values upon a variable initialization.
+Note: A literal of a value is a text representation of the value in code. `Composite literal` is something that can make our lives easier when we want to assign values upon a variable initialization. Literals in source code allow to specify fixed values like numbers, strings or booleans In go Keys and values from `composite literals` must be assignable to respective keys, elements or struct fields.
 
 Floating point literal example
 
@@ -1130,3 +1130,4 @@ string literals example
 1. [Go Language Reflection part 1](https://www.youtube.com/watch?v=oiX7fAmOYX0&t=29s)
 1. [Basic types and Value Literals](https://go101.org/article/basic-types-and-value-literals.html)
 1. [Modules with vendor support Travis CI](https://arslan.io/2018/08/26/using-go-modules-with-vendor-support-on-travis-ci/)
+1. [ Composite literals in go](https://medium.com/golangspec/composite-literals-in-go-10dc62eec06a)
