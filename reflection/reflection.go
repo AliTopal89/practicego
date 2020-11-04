@@ -16,6 +16,19 @@ func walk(x interface{}, fn func(input string)) {
 	  resolving the pointer:
 	*/
 
+	if val.Kind() == reflect.Slice {
+		for i := 0; i < val.Len(); i++ {
+			walk(val.Index(i).Interface(), fn)
+			// val.Index(i).Interface() to reference the actual value.
+		}
+		return
+	}
+
+	/*
+	  if it is a slice you can call Len() and Index() on the value
+	  to get the len of the slice and element at an index
+	*/
+
 	for i := 0; i < val.NumField(); i++ {
 		field := val.Field(i)
 

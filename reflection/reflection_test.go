@@ -63,6 +63,15 @@ func TestWalk(t *testing.T) {
 			},
 			[]string{"Franklin", "Los Santos"},
 		},
+		{
+			"Slices",
+			[]Profile{
+				{33, "London"},
+				{34, "Reykjavík"},
+				{32, "Istanbul"},
+			},
+			[]string{"London", "Reykjavík", "Istanbul"},
+		},
 	}
 
 	// blank identifier so you dont declare any variable at all
