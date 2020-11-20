@@ -892,6 +892,11 @@ For channels the zero value is `nil` and if you try and send to it with `<-` it 
 ### Reflection
 
 Reflection in computing is the ability of a program to examine its own structure, particularly through types. Reflection builds on the type system.
+Reflection is the ability of a program to inspect its variables and values at run time and find their type.
+
+Why do we even need to inspect a variable and find its type at runtime when each and every variable in our program is defined by us and we know its type at compile time itself? In cases where we don’t know of the concrete types in compile time, reflections come into play.
+
+The reflect package implements run-time reflection in Go. The reflect package helps to identify the underlying concrete type and the value of a `interface{}` variable.
 
 ##### Types and interfaces
 
@@ -1113,6 +1118,9 @@ string literals example
 "abc"
 ```
 
+The concrete type of `interface{}` is represented by reflect.Type and the underlying value is represented by reflect.Value. There are two functions `reflect.TypeOf()` and `reflect.ValueOf()` which return the reflect.Type and reflect.Value respectively.
+
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
@@ -1130,4 +1138,6 @@ string literals example
 1. [Go Language Reflection part 1](https://www.youtube.com/watch?v=oiX7fAmOYX0&t=29s)
 1. [Basic types and Value Literals](https://go101.org/article/basic-types-and-value-literals.html)
 1. [Modules with vendor support Travis CI](https://arslan.io/2018/08/26/using-go-modules-with-vendor-support-on-travis-ci/)
-1. [ Composite literals in go](https://medium.com/golangspec/composite-literals-in-go-10dc62eec06a)
+1. [Composite literals in go](https://medium.com/golangspec/composite-literals-in-go-10dc62eec06a)
+1. [Breakdown of Reflections](https://golangbot.com/reflection/)
+1. [Reflections Deep Dive](https://medium.com/swlh/go-reflections-deep-dive-from-structs-and-interfaces-e1931f0c99af)
