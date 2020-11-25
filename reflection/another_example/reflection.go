@@ -215,3 +215,12 @@ func main() {
 	createQuery(e)
 
 }
+
+/*
+we first check whether the passed argument is a struct.
+In line no. 181 we get the name of the struct from its `reflect.Type`
+using the `Name()`` method. In the next line, we use `t` and start creating the query.
+The case statement in line. 186 checks whether the current field is reflect.Int,
+if that's the case we extract the value of that field as `int64` using the `Int()`` method.
+Similar logic is used to extract the string in line no. 188.
+*/
