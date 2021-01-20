@@ -16,18 +16,22 @@ func walk(x interface{}, fn func(input string)) {
 	  resolving the pointer:
 	*/
 
+	numberOfValues := 0
+	var getField func(int) reflect.Value
+
 	switch val.Kind() {
-	case reflect.Slice:
-		for i := 0; i < val.Len(); i++ {
-			walk(val.Index(i).Interface(), fn)
-			// val.Index(i).Interface() to reference the actual value.
-		}
-	case reflect.Struct:
-		for i := 0; i < val.NumField(); i++ {
-			walk(val.Field(i).Interface(), fn)
-		}
 	case reflect.String:
 		fn(val.String())
+	case reflect.Struct:
+		numberOfValues = val.NumField()
+		getField = val.Field
+	case reflect.Slice:
+		numberOfValues = val.Len()
+		getField = val.Index
+	}
+
+	for i := 0; i < numberOfValues; i++ {
+		walk(getField(i).Interface(), fn)
 	}
 
 	/*
@@ -52,6 +56,13 @@ func getValue(x interface{}) reflect.Value {
 // 	fv := reflect.ValueOf(ft)
 // 	fp := fv.Elem()
 // 	walk(field.Interface())
+
+/*
+for i := 0; i < val.Len(); i++ {
+    walk(val.Index(i).Interface(), fn)
+		// val.Index(i).Interface() to reference the actual value.
+	}
+*/
 
 /* We look at the first and only field, there may be
    no fields at all which would cause a panic,We then call
