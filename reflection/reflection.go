@@ -19,28 +19,34 @@ func walk(x interface{}, fn func(input string)) {
 	  resolving the pointer:
 	*/
 
-	numberOfValues := 0
-	var getField func(int) reflect.Value
+	walkValue := func(value reflect.Value) {
+		walk(value.Interface(), fn)
+	}
 
 	switch val.Kind() {
 	case reflect.String:
 		fn(val.String())
 	case reflect.Struct:
-		numberOfValues = val.NumField()
-		getField = val.Field
+		for i := 0; i < val.NumField(); i++ {
+			walkValue(val.Field(i))
+			fmt.Println("Key:", i, "Value", val)
+		}
 	case reflect.Slice, reflect.Array:
-		numberOfValues = val.Len()
-		getField = val.Index
+		for i := 0; i < val.Len(); i++ {
+			walkValue(val.Index(i))
+			fmt.Println("Key:", i, "Value", val)
+		}
+
 	case reflect.Map:
-		for _, key := range getValue(x).MapKeys() {
-			walk(getValue(x).MapIndex(key).Interface(), fn)
+		for _, key := range val.MapKeys() {
+			walkValue(val.MapIndex(key))
 			fmt.Println("Key:", key, "Value:", val)
 		}
 	}
 
-	for i := 0; i < numberOfValues; i++ {
-		walk(getField(i).Interface(), fn)
-	}
+	// for i := 0; i < numberOfValues; i++ {
+	// 	walk(getField(i).Interface(), fn)
+	// }
 
 	/*
 	  if it is a slice you can call Len() and Index() on the value
