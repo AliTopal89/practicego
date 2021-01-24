@@ -1,6 +1,9 @@
 package main
 
-import "reflect"
+import (
+	"fmt"
+	"reflect"
+)
 
 /* The reflect package has a function ValueOf which
    returns us a Value of a given variable. This has ways
@@ -28,6 +31,11 @@ func walk(x interface{}, fn func(input string)) {
 	case reflect.Slice, reflect.Array:
 		numberOfValues = val.Len()
 		getField = val.Index
+	case reflect.Map:
+		for _, key := range getValue(x).MapKeys() {
+			walk(getValue(x).MapIndex(key).Interface(), fn)
+			fmt.Println("Key:", key, "Value:", val)
+		}
 	}
 
 	for i := 0; i < numberOfValues; i++ {

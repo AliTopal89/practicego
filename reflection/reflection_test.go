@@ -80,6 +80,14 @@ func TestWalk(t *testing.T) {
 			},
 			[]string{"London", "Istanbul"},
 		},
+		{
+			"Maps",
+			map[string]string{
+				"Foo": "Bar",
+				"Baz": "Qux",
+			},
+			[]string{"Bar", "Qux"},
+		},
 	}
 
 	// blank identifier so you dont declare any variable at all
