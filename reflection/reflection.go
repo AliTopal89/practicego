@@ -42,6 +42,12 @@ func walk(x interface{}, fn func(input string)) {
 			walkValue(val.MapIndex(key))
 			fmt.Println("Key:", key, "Value:", val)
 		}
+
+	case reflect.Chan:
+
+		for v, ok := val.Recv(); ok; v, ok = val.Recv() {
+			walk(v.Interface(), fn)
+		}
 	}
 
 	// for i := 0; i < numberOfValues; i++ {
