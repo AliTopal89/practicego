@@ -109,6 +109,21 @@ func TestWalk(t *testing.T) {
 				t.Errorf("got %v, want %v", got, test.ExpectedCalls)
 			}
 		})
+
+		t.Run("with maps", func(t *testing.T) {
+			aMap := map[string]string{
+				"Foo": "Bar",
+				"Baz": "Boz",
+			}
+
+			var got []string
+			walk(aMap, func(input string) {
+				got = append(got, input)
+			})
+
+			assertContains(t, got, "Bar")
+			assertContains(t, got, "Boz")
+		})
 	}
 	// expected := "Chris"
 	// var got []string
@@ -128,4 +143,17 @@ func TestWalk(t *testing.T) {
 	// if got[0] != expected {
 	// 	t.Errorf("got %q, want %q", got[0], expected)
 	// }
+}
+
+func assertContains(t testing.TB, haystack []string, needle string) {
+	t.Helper()
+	contains := false
+	for _, x := range haystack {
+		if x == needle {
+			contains = true
+		}
+	}
+	if !contains {
+		t.Errorf("expected %+v to contain %q but it didn't", haystack, needle)
+	}
 }
