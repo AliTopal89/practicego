@@ -1127,6 +1127,32 @@ func (v Value) Call(in []Value) []Value
 Call calls the function v with the input arguments in. For example, if len(in) == 3, v.Call(in) represents the Go call v(in[0], in[1], in[2]). Call panics if v's Kind is not Func. It returns the output results as Values.
 
 
+### Sync
+
+Package sync provides basic synchronization primitives such as mutual exclusion locks.
+
+A Mutex is a method used as a locking mechanism to ensure that only one Goroutine is accessing the critical section of code at any point of time. This is done to prevent race conditions from happening. Sync package contains the Mutex. Two methods defined on Mutex
+
+ - Lock
+ - Unlock
+
+```go
+mutex.Lock() 
+
+x = x + 1 // this statement be executed
+          // by only one Goroutine 
+          // at any point of time  
+
+mutex.Unlock()
+```
+
+`sync.WaitGroup` which is a convenient way of synchronising concurrent processes.
+
+> A WaitGroup waits for a collection of goroutines to finish. The main goroutine calls Add to set
+> the number of goroutines to wait for. Then each of the goroutines runs and calls Done when
+> finished. At the same time, Wait can be used to block until all goroutines have finished.
+
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
