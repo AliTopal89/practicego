@@ -145,6 +145,23 @@ func TestWalk(t *testing.T) {
 				t.Errorf("got %v, want %v", got, want)
 			}
 		})
+
+		t.Run("with functions", func(t *testing.T) {
+			aFunnction := func() (Profile, Profile) {
+				return Profile{33, "Namek"}, Profile{34, "Konoha"}
+			}
+
+			var got []string
+			want := []string{"Namek", "Konoha"}
+
+			walk(aFunnction, func(input string) {
+				got = append(got, input)
+			})
+
+			if !reflect.DeepEqual(got, want) {
+				t.Errorf("got %v, want %v", got, want)
+			}
+		})
 	}
 	// expected := "Chris"
 	// var got []string

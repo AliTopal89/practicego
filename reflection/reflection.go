@@ -44,8 +44,14 @@ func walk(x interface{}, fn func(input string)) {
 		}
 
 	case reflect.Chan:
-
 		for v, ok := val.Recv(); ok; v, ok = val.Recv() {
+			walk(v.Interface(), fn)
+		}
+	case reflect.Func:
+		v := val.Call(nil)
+		// A nil interface value, which is an interface value that doesn't
+		// have an underlying value. This is the zero value of an interface type.
+		for _, v := range v {
 			walk(v.Interface(), fn)
 		}
 	}

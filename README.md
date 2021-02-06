@@ -1120,6 +1120,12 @@ string literals example
 
 The concrete type of `interface{}` is represented by reflect.Type and the underlying value is represented by reflect.Value. There are two functions `reflect.TypeOf()` and `reflect.ValueOf()` which return the reflect.Type and reflect.Value respectively.
 
+```go
+func (v Value) Call(in []Value) []Value
+```
+
+Call calls the function v with the input arguments in. For example, if len(in) == 3, v.Call(in) represents the Go call v(in[0], in[1], in[2]). Call panics if v's Kind is not Func. It returns the output results as Values.
+
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
@@ -1141,3 +1147,4 @@ The concrete type of `interface{}` is represented by reflect.Type and the underl
 1. [Composite literals in go](https://medium.com/golangspec/composite-literals-in-go-10dc62eec06a)
 1. [Breakdown of Reflections](https://golangbot.com/reflection/)
 1. [Reflections Deep Dive](https://medium.com/swlh/go-reflections-deep-dive-from-structs-and-interfaces-e1931f0c99af)
+1. [Interfaces and Reflect](https://blog.gopheracademy.com/advent-2018/interfaces-and-reflect/)
