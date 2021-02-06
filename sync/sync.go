@@ -4,13 +4,13 @@ import "sync"
 
 type Counter struct {
 	// mutex contains filtered or unexported fields
-	lock  sync.Mutex
+	sync.Mutex
 	value int
 }
 
 func (c *Counter) Inc() {
-	c.lock.Lock()
-	defer c.lock.Unlock()
+	c.Lock()
+	defer c.Unlock()
 	c.value++
 }
 

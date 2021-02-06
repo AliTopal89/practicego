@@ -1152,6 +1152,12 @@ mutex.Unlock()
 > the number of goroutines to wait for. Then each of the goroutines runs and calls Done when
 > finished. At the same time, Wait can be used to block until all goroutines have finished.
 
+Functions of the form below
+
+```func BenchmarkXxx(*testing.B)```
+
+are considered benchmarks, and are executed by the "go test" command when its -bench flag is provided. Benchmarks are run sequentially.
+
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
