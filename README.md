@@ -1158,6 +1158,29 @@ Functions of the form below
 
 are considered benchmarks, and are executed by the "go test" command when its -bench flag is provided. Benchmarks are run sequentially.
 
+#### Goroutines
+
+Goroutines are functions or methods that run concurrently with other functions or methods. Goroutines can be thought of as light weight threads. The cost of creating a Goroutine is tiny when compared to a thread. Hence it's common for Go applications to have thousands of Goroutines running concurrently.
+
+#### Defer
+
+```go
+package main
+
+import "fmt"
+
+func foo() {
+    defer fmt.Println("Goku: No Vegeta")
+    fmt.Println("Vegeta: I will destroy Earth Kakarot hahaha")
+}
+
+func main() {
+    foo()
+```
+
+A defer statement defers the execution of a function until the surrounding function returns.
+
+The deferred call's arguments are evaluated immediately, but the function call is not executed until the surrounding function returns.
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
@@ -1180,3 +1203,5 @@ are considered benchmarks, and are executed by the "go test" command when its -b
 1. [Breakdown of Reflections](https://golangbot.com/reflection/)
 1. [Reflections Deep Dive](https://medium.com/swlh/go-reflections-deep-dive-from-structs-and-interfaces-e1931f0c99af)
 1. [Interfaces and Reflect](https://blog.gopheracademy.com/advent-2018/interfaces-and-reflect/)
+1. [Go Routines](https://golangbot.com/goroutines/)
+1. [Basic defer tutorial](https://www.youtube.com/watch?v=aVDkuViaJfY)
