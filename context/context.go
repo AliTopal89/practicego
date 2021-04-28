@@ -1,23 +1,25 @@
 package context
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 )
 
-/*
-The function Server takes a Store and returns us a
-"http.HandlerFunc". Store is defined as
-the returned function calls the store's Fetch method
-to get the data and writes it to the response.
-*/
-
+// Store fetches data.
 type Store interface {
-	Fetch() string
+	Fetch(ctx context.Context) (string, error)
 }
 
+// Server returns a handler for calling Store.
 func Server(store Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, store.Fetch())
+		data, err := store.Fetch(r.Context())
+
+		if err != nil {
+			return // todo: log error however you like
+		}
+
+		fmt.Fprint(w, data)
 	}
 }
