@@ -1215,7 +1215,33 @@ func WithCancel(parent Context) (ctx Context, cancel CancelFunc)
 // A CancelFunc cancels a Context.
 type CancelFunc func()
 ```
+context has a method `Done()` which returns a channel which gets sent a signal when the context is "done" or "cancelled". We want to listen to that signal and call `store.Cancel` if we get it but we want to ignore it if our Store manages to Fetch before it.
 
+To manage this we run `Fetch` in a goroutine and it will write the result into a new channel `data`.
+
+```go
+/*
+The function Server takes a Store and returns us a
+"http.HandlerFunc". Store is defined as
+the returned function calls the store's Fetch method
+to get the data and writes it to the response.
+*/
+
+type Store interface {
+	Fetch() string
+}
+
+func Server(store Store) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, store.Fetch())
+	}
+}
+
+```
+
+The problem with `context.Values` is that it's just an untyped map so you have no type-safety and you have to handle it not actually containing your value. You have to create a coupling of map keys from one module to another and if someone changes something things start breaking.
+
+In short, if a function needs some values, put them as typed parameters rather than trying to fetch them from context.Value. This makes it statically checked and documented for everyone to see.
 
 
 #### Useful Resources:
