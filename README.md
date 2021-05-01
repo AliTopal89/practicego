@@ -1278,6 +1278,12 @@ The problem with `context.Values` is that it's just an untyped map so you have n
 
 In short, if a function needs some values, put them as typed parameters rather than trying to fetch them from `context.Value`. This makes it statically checked and documented for everyone to see.
 
+`"context"` package does solve these problems, better than anything else for Go:
+
+- The cancelation channels are usually not accepted by other libraries and functions and thus cancelation is only possible ‘in-between’ the slow operations.
+
+- Considering a ‘tree of goroutines’ (where children goroutines are the ones spawned by the parent goroutines), it’s easy to cancel the whole tree (just close the cancelation channel), but it’s harder to cancel a sub-tree (you need to introduce another channel for that, or some other solution).
+
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
@@ -1302,3 +1308,4 @@ In short, if a function needs some values, put them as typed parameters rather t
 1. [Interfaces and Reflect](https://blog.gopheracademy.com/advent-2018/interfaces-and-reflect/)
 1. [Go Routines](https://golangbot.com/goroutines/)
 1. [Basic defer tutorial](https://www.youtube.com/watch?v=aVDkuViaJfY)
+1. [Context](https://faiface.github.io/post/context-should-go-away-go2/)
