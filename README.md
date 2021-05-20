@@ -1284,6 +1284,31 @@ In short, if a function needs some values, put them as typed parameters rather t
 
 - Considering a ‘tree of goroutines’ (where children goroutines are the ones spawned by the parent goroutines), it’s easy to cancel the whole tree (just close the cancelation channel), but it’s harder to cancel a sub-tree (you need to introduce another channel for that, or some other solution).
 
+#### Porperty Based Tests 
+
+`strings.Builder` - A Builder is used to efficiently build a string using Write methods.
+
+```go
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	var b strings.Builder
+	for i := 3; i >= 1; i-- {
+		fmt.Fprintf(&b, "%d...", i)
+	}
+	b.WriteString("ignition")
+	fmt.Println(b.String())
+
+}
+// Output:
+//3...2...1...ignition
+```
+
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
