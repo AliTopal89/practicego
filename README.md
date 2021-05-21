@@ -1308,7 +1308,7 @@ func main() {
 // Output:
 //3...2...1...ignition
 ```
-
+In addition to providing the `WriteString`, `WriteRune`, and `WriteByte` methods, the string builder also implements the `io.Writer` interface. At first this may not seem very important - why would we want to write a byte slice when we could just write a string? - but because the string builder implements the io.Writer interface it means that we can use functions like `fmt.Fprintf` along with the string builder. 
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
@@ -1334,3 +1334,4 @@ func main() {
 1. [Go Routines](https://golangbot.com/goroutines/)
 1. [Basic defer tutorial](https://www.youtube.com/watch?v=aVDkuViaJfY)
 1. [Context](https://faiface.github.io/post/context-should-go-away-go2/)
+1. [Strings.builder](https://www.calhoun.io/concatenating-and-building-strings-in-go/)
