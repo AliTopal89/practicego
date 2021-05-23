@@ -9,14 +9,22 @@ func ConvertToRoman(num int) string {
 
 	var result strings.Builder
 
-	for i := num; i > 0; i-- {
-		if i == 4 {
+	for num > 0 {
+		switch {
+		case num > 8:
+			result.WriteString("IX")
+			num -= 9
+		case num > 4:
+			result.WriteString("V")
+			num -= 5
+		case num > 3:
 			result.WriteString("IV")
-			break
+			num -= 4
+		default:
+			result.WriteString("I")
+			num--
 		}
-		result.WriteString("I")
 		fmt.Println(result.String())
 	}
-
 	return result.String()
 }
