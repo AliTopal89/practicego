@@ -5,26 +5,24 @@ import (
 	"strings"
 )
 
-func ConvertToRoman(num int) string {
+type RomanNumeral struct {
+	Value  int
+	Symbol string
+}
+
+var symboltonum = []RomanNumeral{
+	{1000, "M"}, {500, "D"}, {100, "C"}, {50, "L"}, {40, "XL"}, {10, "X"}, {9, "IX"}, {5, "V"}, {4, "IV"}, {1, "I"},
+}
+
+func ConvertToRoman(roman int) string {
 
 	var result strings.Builder
-
-	for num > 0 {
-		switch {
-		case num > 8:
-			result.WriteString("IX")
-			num -= 9
-		case num > 4:
-			result.WriteString("V")
-			num -= 5
-		case num > 3:
-			result.WriteString("IV")
-			num -= 4
-		default:
-			result.WriteString("I")
-			num--
+	for _, numerals := range symboltonum {
+		for roman >= numerals.Value {
+			result.WriteString(numerals.Symbol)
+			roman -= numerals.Value
 		}
-		fmt.Println(result.String())
 	}
+	fmt.Println(result.String())
 	return result.String()
 }
