@@ -5,12 +5,14 @@ import (
 	"strings"
 )
 
-type RomanNumeral struct {
+type romanNumeral struct {
 	Value  int
 	Symbol string
 }
 
-var symboltonum = []RomanNumeral{
+type romanNumerals []romanNumeral
+
+var allSymboltonum = romanNumerals{
 	{1000, "M"},
 	{900, "CM"},
 	{500, "D"},
@@ -28,7 +30,7 @@ var symboltonum = []RomanNumeral{
 func ConvertToRoman(roman int) string {
 
 	var result strings.Builder
-	for _, numerals := range symboltonum {
+	for _, numerals := range allSymboltonum {
 		for roman >= numerals.Value {
 			result.WriteString(numerals.Symbol)
 			roman -= numerals.Value
@@ -38,6 +40,38 @@ func ConvertToRoman(roman int) string {
 	return result.String()
 }
 
+func (r romanNumerals) ValueOf(symbols ...byte) int {
+	symbol := string(symbols)
+	for _, s := range r {
+		if s.Symbol == symbol {
+			return s.Value
+		}
+	}
+
+	return 0
+}
+
 func ConvertToNum(num string) int {
-	return 1
+	total := 0
+
+	for i := 0; i < len(num); i++ {
+		symbol := num[i]
+
+		if couldBeSubtractive(i, symbol, num) {
+			if value := allSymboltonum.ValueOf(symbol, num[i+1]); value != 0 {
+				total += value
+				i++ // move past this character too for the next loop
+			} else {
+				total += allSymboltonum.ValueOf(symbol)
+			}
+		} else {
+			total += allSymboltonum.ValueOf(symbol)
+		}
+	}
+	return total
+}
+
+func couldBeSubtractive(index int, currentSymbol uint8, num string) bool {
+	isSubtractiveSymbol := currentSymbol == 'I' || currentSymbol == 'X' || currentSymbol == 'C'
+	return index+1 < len(num) && isSubtractiveSymbol
 }
