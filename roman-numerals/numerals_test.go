@@ -44,7 +44,7 @@ func TestConvertingToRoman(t *testing.T) {
 func TestConvertingtoNumerals(t *testing.T) {
 	for _, test := range cases[:1] {
 		t.Run(fmt.Sprintf("%q gets converted to %d", test.Roman, test.Num), func(t *testing.T) {
-			got := ConvertToNum(test.Roman)
+			got := ConverttoNum(test.Roman)
 			if got != test.Num {
 				t.Errorf("got %d want %d", got, test.Num)
 			}

@@ -12,6 +12,8 @@ type romanNumeral struct {
 
 type romanNumerals []romanNumeral
 
+type windowedRoman string
+
 var allSymboltonum = romanNumerals{
 	{1000, "M"},
 	{900, "CM"},
@@ -25,6 +27,14 @@ var allSymboltonum = romanNumerals{
 	{5, "V"},
 	{4, "IV"},
 	{1, "I"},
+}
+
+func ConverttoNum(num string) (total int) {
+	for _, symbols := range windowedRoman(num).Symbols() {
+		total += allSymboltonum.ValueOf(symbols...)
+	}
+	fmt.Println("what the total", total)
+	return
 }
 
 func ConvertToRoman(roman int) string {
@@ -51,27 +61,32 @@ func (r romanNumerals) ValueOf(symbols ...byte) int {
 	return 0
 }
 
-func ConvertToNum(num string) int {
-	total := 0
-
-	for i := 0; i < len(num); i++ {
-		symbol := num[i]
-
-		if couldBeSubtractive(i, symbol, num) {
-			if value := allSymboltonum.ValueOf(symbol, num[i+1]); value != 0 {
-				total += value
-				i++ // move past this character too for the next loop
-			} else {
-				total += allSymboltonum.ValueOf(symbol)
-			}
-		} else {
-			total += allSymboltonum.ValueOf(symbol)
+func (r romanNumerals) Exists(symbols ...byte) bool {
+	symbol := string(symbols)
+	for _, s := range r {
+		if s.Symbol == symbol {
+			return true
 		}
 	}
-	return total
+	return false
 }
 
-func couldBeSubtractive(index int, currentSymbol uint8, num string) bool {
-	isSubtractiveSymbol := currentSymbol == 'I' || currentSymbol == 'X' || currentSymbol == 'C'
-	return index+1 < len(num) && isSubtractiveSymbol
+func (w windowedRoman) Symbols() (symbols [][]byte) {
+
+	for i := 0; i < len(w); i++ {
+		symbol := w[i]
+		notAtEnd := i+1 < len(w)
+
+		if notAtEnd && couldBeSubtractive(symbol) && allSymboltonum.Exists(symbol, w[i]) {
+			symbols = append(symbols, []byte{symbol, w[i+1]})
+			i++
+		} else {
+			symbols = append(symbols, []byte{symbol})
+		}
+	}
+	return
+}
+
+func couldBeSubtractive(symbol uint8) bool {
+	return symbol == 'I' || symbol == 'X' || symbol == 'C'
 }
