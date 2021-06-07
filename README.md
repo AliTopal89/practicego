@@ -1314,6 +1314,50 @@ Property based tests help you exercise them against our code by throwing random 
 
 provided - `quick.Check` a function that it will run against a number of random inputs, if the function returns false it will be seen as failing the check.
 
+```go
+func TestPropertiesOfConversion(t *testing.T) {
+	assertion := func(num int) bool {
+    roman := ConvertToRoman(num)
+    fromRoman := ConverttoNum(roman)
+	return fromRoman == num
+	}
+
+	if err := quick.Check(assertion, nil); err != nil {
+		t.Error("failed checks", err)
+	}
+}
+
+```
+Given random number (e.g 4).
+Call `ConvertToRoman` with random number (should return `IV` if `4`).
+Take the result of above and pass it to `ConverttoNum`.
+The above should give us our original input (4).
+
+**`uint16`**
+Go has types for unsigned integers, which means they cannot be negative; so that rules out one class of bug in our code immediately. By adding 16, it means it is a 16 bit integer which can store a max of 65535, which is still too big but gets us closer to what we need.
+
+``` go
+func quick.Check(f interface{}, config *quick.Config) error
+```
+Check looks for an input to f, any function that returns bool, such that f returns false. It calls f repeatedly, with arbitrary values for each argument. If f returns false on a given input, Check returns that input as a *CheckError. For example:
+
+```go
+func TestOddMultipleOfThree(t *testing.T) {
+
+    f := func(x int) bool {
+
+        y := OddMultipleOfThree(x)
+
+        return y%2 == 1 && y%3 == 0
+    }
+    if err := quick.Check(f, nil); err != nil {
+
+        t.Error(err)
+
+    }
+
+}
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)

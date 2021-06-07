@@ -3,12 +3,13 @@ package numerals
 import (
 	"fmt"
 	"testing"
+	"testing/quick"
 )
 
 var (
 	cases = []struct {
 		Description string
-		Num         int
+		Num         uint16
 		Roman       string
 	}{
 		{"1 gets converted to I", 1, "I"},
@@ -49,5 +50,22 @@ func TestConvertingtoNumerals(t *testing.T) {
 				t.Errorf("got %d want %d", got, test.Num)
 			}
 		})
+	}
+}
+func TestPropertiesOfConversion(t *testing.T) {
+	assertion := func(num uint16) bool {
+		if num > 3999 {
+			return true
+		}
+		t.Log("testing", num)
+		roman := ConvertToRoman(num)
+		fromRoman := ConverttoNum(roman)
+		return fromRoman == num
+	}
+
+	if err := quick.Check(assertion, &quick.Config{
+		MaxCount: 1000,
+	}); err != nil {
+		t.Error("failed checks", err)
 	}
 }

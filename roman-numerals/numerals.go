@@ -6,12 +6,13 @@ import (
 )
 
 type romanNumeral struct {
-	Value  int
+	Value  uint16
 	Symbol string
 }
 
 type romanNumerals []romanNumeral
 
+// extracting the numerals, offering a Symbols method to retrieve them as a slice.
 type windowedRoman string
 
 var allSymboltonum = romanNumerals{
@@ -29,15 +30,15 @@ var allSymboltonum = romanNumerals{
 	{1, "I"},
 }
 
-func ConverttoNum(num string) (total int) {
+func ConverttoNum(num string) (total uint16) {
 	for _, symbols := range windowedRoman(num).Symbols() {
 		total += allSymboltonum.ValueOf(symbols...)
 	}
-	fmt.Println("what the total", total)
+	fmt.Println("what is the total", total)
 	return
 }
 
-func ConvertToRoman(roman int) string {
+func ConvertToRoman(roman uint16) string {
 
 	var result strings.Builder
 	for _, numerals := range allSymboltonum {
@@ -50,7 +51,7 @@ func ConvertToRoman(roman int) string {
 	return result.String()
 }
 
-func (r romanNumerals) ValueOf(symbols ...byte) int {
+func (r romanNumerals) ValueOf(symbols ...byte) uint16 {
 	symbol := string(symbols)
 	for _, s := range r {
 		if s.Symbol == symbol {
@@ -78,7 +79,7 @@ func (w windowedRoman) Symbols() (symbols [][]byte) {
 		symbol := w[i]
 		notAtEnd := i+1 < len(w)
 
-		if notAtEnd && couldBeSubtractive(symbol) && allSymboltonum.Exists(symbol, w[i]) {
+		if notAtEnd && couldBeSubtractive(symbol) && allSymboltonum.Exists(symbol, w[i+1]) {
 			symbols = append(symbols, []byte{symbol, w[i+1]})
 			i++
 		} else {
