@@ -72,6 +72,7 @@ func (r romanNumerals) Exists(symbols ...byte) bool {
 }
 
 func (w windowedRoman) Symbols() (symbols [][]byte) {
+	//[][] byte - slice of slices of bytes
 
 	for i := 0; i < len(w); i++ {
 		symbol := w[i]

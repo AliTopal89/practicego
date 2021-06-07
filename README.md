@@ -1310,6 +1310,10 @@ func main() {
 ```
 In addition to providing the `WriteString`, `WriteRune`, and `WriteByte` methods, the string builder also implements the `io.Writer` interface. At first this may not seem very important - why would we want to write a byte slice when we could just write a string? - but because the string builder implements the io.Writer interface it means that we can use functions like `fmt.Fprintf` along with the string builder. 
 
+Property based tests help you exercise them against our code by throwing random data at your code and verifying the rules you describe always hold true. The real challenge about property based tests is having a good understanding of your domain so you can write these properties.
+
+provided - `quick.Check` a function that it will run against a number of random inputs, if the function returns false it will be seen as failing the check.
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
