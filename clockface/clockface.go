@@ -18,5 +18,11 @@ func SecondHand(t time.Time) Point {
 }
 
 func secondsInRadians(t time.Time) float64 {
-	return math.Pi
+	return (math.Pi / (30 / (float64(t.Second()))))
 }
+
+/*
+Going to use SVG of a clock for us to play with.
+SVGs are a fantastic image format to manipulate programmatically because
+they're written as a series of shapes, described in XML
+*/

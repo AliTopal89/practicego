@@ -1359,6 +1359,30 @@ func TestOddMultipleOfThree(t *testing.T) {
 }
 ```
 
+#### Mathematics
+
+Alas trigonometry and vectors will have some use, can't say "why did I learn this never gonna use" anymore
+
+Go `math` package has both `sin` & `cos`, with one small snag we'll need to get our heads around; if we look at the description of `math.Cos`:
+
+> Cos returns the cosine of the radian argument x.
+
+It wants the angle to be in radians. So what's a radian? Instead of defining the full turn of a circle to be made up of 360 degrees, we define a full turn as being 2π radians.
+
+`math.Sin`:
+> Sin returns the sine of the radian argument x
+
+```go
+func secondsInRadians (t time.Time) float64 {
+  return float64(t.Second()) * (math.Pi / 30)
+}
+
+// "go test" Output:
+// clockface_test.go:24: Wanted 3.141592653589793 radians, but got 3.1415926535897936
+```
+
+Floating point arithmetic is notoriously inaccurate. Computers can only really handle integers, and rational numbers to some extent. Decimal numbers start to become inaccurate, especially when you factor them up and down as shown in the `secondsInRadians` function above.
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
