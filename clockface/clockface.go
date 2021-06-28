@@ -1,6 +1,7 @@
 package clockface
 
 import (
+	"fmt"
 	"math"
 	"time"
 )
@@ -28,8 +29,9 @@ they're written as a series of shapes, described in XML
 */
 
 func SecondHandPoint(t time.Time) Point {
-	return Point{
-		X: 0,
-		Y: -1,
-	}
+	angle := secondsInRadians(t)
+	X := math.Sin(angle)
+	Y := math.Cos(angle)
+	fmt.Println("MY precisesness", Point{X, Y})
+	return Point{X, Y}
 }
