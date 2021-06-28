@@ -26,3 +26,10 @@ Going to use SVG of a clock for us to play with.
 SVGs are a fantastic image format to manipulate programmatically because
 they're written as a series of shapes, described in XML
 */
+
+func SecondHandPoint(t time.Time) Point {
+	return Point{
+		X: 0,
+		Y: -1,
+	}
+}

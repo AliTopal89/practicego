@@ -1381,6 +1381,8 @@ func secondsInRadians (t time.Time) float64 {
 // clockface_test.go:24: Wanted 3.141592653589793 radians, but got 3.1415926535897936
 ```
 
+Programs using times should typically store and pass them as values, not pointers. That is, time variables and struct fields should be of type `time.Time`, not `*time.Time`
+
 Floating point arithmetic is notoriously inaccurate. Computers can only really handle integers, and rational numbers to some extent. Decimal numbers start to become inaccurate, especially when you factor them up and down as shown in the `secondsInRadians` function above.
 
 #### Useful Resources:
