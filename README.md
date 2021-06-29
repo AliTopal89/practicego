@@ -1385,6 +1385,8 @@ Programs using times should typically store and pass them as values, not pointer
 
 Floating point arithmetic is notoriously inaccurate. Computers can only really handle integers, and rational numbers to some extent. Decimal numbers start to become inaccurate, especially when you factor them up and down as shown in the `secondsInRadians` function above.
 
+Due to rounding errors, most f`loating-point` numbers end up being slightly imprecise. As long as this imprecision stays small, it can usually be ignored. However, it also means that numbers expected to be equal (e.g. when calculating the same result through different correct methods) often differ slightly, and a simple equality test fails
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
@@ -1410,3 +1412,5 @@ Floating point arithmetic is notoriously inaccurate. Computers can only really h
 1. [Basic defer tutorial](https://www.youtube.com/watch?v=aVDkuViaJfY)
 1. [Context](https://faiface.github.io/post/context-should-go-away-go2/)
 1. [Strings.builder](https://www.calhoun.io/concatenating-and-building-strings-in-go/)
+1. [Comparing Floating Point Numbers](https://gopherlabs.kubedaily.com/StandardLib/Comparing_floating_point_numbers.html)
+1. [Floating Point Guide](https://floating-point-gui.de/errors/comparison/)
