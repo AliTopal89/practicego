@@ -16,17 +16,27 @@ type Point struct {
 const secondHandLength = 90
 const clockCentreX = 150
 const clockCentreY = 150
+const minuteHandLength = 80
+
+func minuteHand(w io.Writer, t time.Time) {
+	p := minuteHandPoint(t)
+	p = Point{p.X * minuteHandLength, p.Y * minuteHandLength}
+	p = Point{p.X, -p.Y}
+	p = Point{p.X + clockCentreX, p.Y + clockCentreY}
+	fmt.Fprintf(w, `<line x1="150" y1="150" x2="%.3f" y2="%.3f" style="fill:none;stroke:#000;stroke-width:3px;"/>`, p.X, p.Y)
+}
 
 //SVGWriter writes an SVG representation of an analogue clock, showing the time t, to the writer w
 func SVGWriter(w io.Writer, t time.Time) {
 	io.WriteString(w, svgStart)
 	io.WriteString(w, bezel)
 	secondHandSVG(w, t)
+	minuteHand(w, t)
 	io.WriteString(w, svgEnd)
 }
 
 func secondHandSVG(w io.Writer, t time.Time) {
-	p := SecondHandPoint(t)
+	p := secondHandPoint(t)
 	p = Point{p.X * secondHandLength, p.Y * secondHandLength} // scale, it to the length of hand
 	p = Point{p.X, -p.Y}                                      // flip, it over X axis to account for the
 	// SVG having an origin in the top left hand corner
@@ -37,7 +47,7 @@ func secondHandSVG(w io.Writer, t time.Time) {
 // SecondHand is the unit vector of the second hand of an analogue clock at time `t`
 // represented as a Point.
 func SecondHand(t time.Time) Point {
-	p := SecondHandPoint(t)
+	p := secondHandPoint(t)
 	p = Point{p.X * secondHandLength, p.Y * secondHandLength} // scale, it to the length of hand
 	p = Point{p.X, -p.Y}                                      // flip, it over X axis to account for the
 	// SVG having an origin in the top left hand corner
@@ -68,10 +78,22 @@ SVGs are a fantastic image format to manipulate programmatically because
 they're written as a series of shapes, described in XML
 */
 
-func SecondHandPoint(t time.Time) Point {
-	angle := secondsInRadians(t)
-	X := math.Sin(angle)
-	Y := math.Cos(angle)
-	fmt.Println("MY preciseness", Point{X, Y})
-	return Point{X, Y}
+func secondHandPoint(t time.Time) Point {
+	return angleToPoint(secondsInRadians(t))
+}
+
+func minutesInRadians(t time.Time) float64 {
+	return (secondsInRadians(t) / 60) +
+		(math.Pi / (30 / float64(t.Minute())))
+}
+
+func angleToPoint(angle float64) Point {
+	x := math.Sin(angle)
+	y := math.Cos(angle)
+
+	return Point{x, y}
+}
+
+func minuteHandPoint(t time.Time) Point {
+	return angleToPoint(minutesInRadians(t))
 }

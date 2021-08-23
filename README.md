@@ -1385,7 +1385,9 @@ Programs using times should typically store and pass them as values, not pointer
 
 Floating point arithmetic is notoriously inaccurate. Computers can only really handle integers, and rational numbers to some extent. Decimal numbers start to become inaccurate, especially when you factor them up and down as shown in the `secondsInRadians` function above.
 
-Due to rounding errors, most f`loating-point` numbers end up being slightly imprecise. As long as this imprecision stays small, it can usually be ignored. However, it also means that numbers expected to be equal (e.g. when calculating the same result through different correct methods) often differ slightly, and a simple equality test fails
+Due to rounding errors, most `floating-point` numbers end up being slightly imprecise. As long as this imprecision stays small, it can usually be ignored. However, it also means that numbers expected to be equal (e.g. when calculating the same result through different correct methods) often differ slightly, and a simple equality test fails
+
+When printing a struct, the modified format `%+v` annotates the fields of the structure with their names
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
