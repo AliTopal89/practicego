@@ -1389,6 +1389,20 @@ Due to rounding errors, most `floating-point` numbers end up being slightly impr
 
 When printing a struct, the modified format `%+v` annotates the fields of the structure with their names
 
+Computers often don't like dividing by zero because infinity is a bit strange.
+
+`math.Inf()` - The Inf() function is an inbuilt function of the math package which is used to get the positive infinity or negative infinity. It returns the positive infinity (+Inf) if sign >= 0, the negative infinity (-Inf) if sign < 0. Where the sign is the given parameter.
+
+It accepts a parameter (sign), and returns the positive infinity if sign >= 0, negative infinity if sign < 0.
+
+```go
+func Inf(sign int) float64
+```
+- sign : The value to be used to get the positive or negative infinity. The return type of Inf() function is a float64, it returns the positive infinity if sign >= 0, negative infinity if sign < 0.
+
+
+
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)
@@ -1416,3 +1430,5 @@ When printing a struct, the modified format `%+v` annotates the fields of the st
 1. [Strings.builder](https://www.calhoun.io/concatenating-and-building-strings-in-go/)
 1. [Comparing Floating Point Numbers](https://gopherlabs.kubedaily.com/StandardLib/Comparing_floating_point_numbers.html)
 1. [Floating Point Guide](https://floating-point-gui.de/errors/comparison/)
+1. [Zero Values in GoLang](https://dave.cheney.net/2013/01/19/what-is-the-zero-value-and-why-is-it-useful)
+1. [Math.Inf walkthrough](https://www.includehelp.com/golang/math-inf-function-with-examples.aspx)
