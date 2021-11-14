@@ -1400,8 +1400,30 @@ func Inf(sign int) float64
 ```
 - sign : The value to be used to get the positive or negative infinity. The return type of Inf() function is a float64, it returns the positive infinity if sign >= 0, negative infinity if sign < 0.
 
+#### Reading Files
+
+Iterative test driven development requires us to break up our work, but we should be careful not to fall into the trap of taking a `"bottom up"` approach.
+
+In  a `Bottom Up` - approach the individual base elements of the system are first specified in great detail. These elements are then linked together to form larger subsystems, which then in turn are linked, sometimes in many levels, until a complete top-level system is formed. This strategy often resembles a "seed" model, by which the beginnings are small but eventually grow in complexity and completeness.
 
 
+`Loose coupling` is an approach to interconnecting the components in a system or network so that those components, also called elements, depend on each other to the least extent practicable.
+
+```go
+  pacakage blogposts_test
+```
+
+By appending `_test` to our intended package name, we only access exported members from our package - just like a real user of our package.
+
+```go
+func TestNewBlogPosts(t *testing.T) {
+	fs := fstest.MapFS{
+    ...}
+}
+// A MapFS is a simple in-memory file system for use in tests,
+// represented as a map from path names to information about 
+// the files or directories they represent.
+```
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
@@ -1432,3 +1454,4 @@ func Inf(sign int) float64
 1. [Floating Point Guide](https://floating-point-gui.de/errors/comparison/)
 1. [Zero Values in GoLang](https://dave.cheney.net/2013/01/19/what-is-the-zero-value-and-why-is-it-useful)
 1. [Math.Inf walkthrough](https://www.includehelp.com/golang/math-inf-function-with-examples.aspx)
+1. [Top-down Bottom-Up](https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design)
