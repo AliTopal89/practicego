@@ -1455,3 +1455,4 @@ func TestNewBlogPosts(t *testing.T) {
 1. [Zero Values in GoLang](https://dave.cheney.net/2013/01/19/what-is-the-zero-value-and-why-is-it-useful)
 1. [Math.Inf walkthrough](https://www.includehelp.com/golang/math-inf-function-with-examples.aspx)
 1. [Top-down Bottom-Up](https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design)
+1. [GoLang workspace folders](https://github.com/golang/tools/blob/master/gopls/doc/workspace.md)
