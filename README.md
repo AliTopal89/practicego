@@ -1415,6 +1415,71 @@ In  a `Bottom Up` - approach the individual base elements of the system are firs
 
 By appending `_test` to our intended package name, we only access exported members from our package - just like a real user of our package.
 
+Now, in Go 1.16, there’s a new `io/fs` package that provides a common filesystem interface: `fs.FS`. At first glance, the FS interface is puzzlingly small:
+
+```go
+type FS interface {
+    Open(name string) (File, error)
+}
+```
+
+You can read this as “the most atomic type of filesystem is just an object that can open a file at a path, and return a file object”.
+
+An `FS` provides access to a hierarchical file system.
+
+The Go library allows for more complex behavior by providing other filesystem interfaces that can be composed on top of the base `fs.FS` interface, such as `ReadDirFS`, which allows you to list the contents of a directory. The `FS` interface is the minimum implementation required of the file system. `fs.FS` gives us a way of opening a file within it by name with its `Open` method. 
+
+From there we read the data from the file and, for now, we do not need any sophisticated parsing, just cutting out the `Title`: text by slicing the string.
+
+Separating the 'opening file code' from the 'parsing file contents code' will make the code simpler. 
+
+```go
+func getPost(fileSystem fs.FS, f fs.DirEntry) (Post, error) {
+	postFile, err := fileSystem.Open(f.Name())
+	if err != nil {
+		return Post{}, err
+	}
+	defer postFile.Close()
+	return newPost(postFile)
+}
+
+func newPost(postFile fs.File) (Post, error) {
+	postData, err := io.ReadAll(postFile)
+	if err != nil {
+		return Post{}, err
+	}
+
+	post := Post{Title: string(postData)[7:]}
+	return post, nil
+}
+```
+
+> Does `newPost` have to be coupled to an `fs.File` ? Do we use all the methods
+> and data from this type? What do we really need?
+
+In our case we only use it as an argument to `io.ReadAll` which needs an 
+`io.Reader`. So we should loosen the coupling in our function and ask for an `io.Reader`.
+
+
+```go
+func ReadAll(r io.Reader) ([]byte, error)
+```
+`ReadAll` reads from r until an error or EOF and returns the data it read. A successful call returns err == nil, not err == EOF. Because `ReadAll` is defined to read from src until EOF, it does not treat an EOF from Read as an error to be reported. 
+
+The `io` package specifies the `io.Reader` interface, which represents the read end of a stream of data.
+
+The Go standard library contains many implementations of this interface, including files, network connections, compressors, ciphers, and others.
+
+The `io.Reader` interface has a `Read` method:
+
+```go
+func (T) Read(b []byte) (n int, err error)
+```
+
+`Read` populates the given byte slice with data and returns the number of bytes populated and an error value. It returns an `io.EOF` error when the stream ends. 
+
+Also, while testing you can use `MapFS` to
+
 ```go
 func TestNewBlogPosts(t *testing.T) {
 	fs := fstest.MapFS{
@@ -1456,3 +1521,4 @@ func TestNewBlogPosts(t *testing.T) {
 1. [Math.Inf walkthrough](https://www.includehelp.com/golang/math-inf-function-with-examples.aspx)
 1. [Top-down Bottom-Up](https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design)
 1. [GoLang workspace folders](https://github.com/golang/tools/blob/master/gopls/doc/workspace.md)
+1. [Tour of io/fs package](https://benjamincongdon.me/blog/2021/01/21/A-Tour-of-Go-116s-iofs-package/)
