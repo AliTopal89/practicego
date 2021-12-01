@@ -1,13 +1,20 @@
 package blogposts
 
 import (
+	"bufio"
 	"io"
 	"io/fs"
 )
 
 type Post struct {
-	Title string
+	Title       string
+	Description string
 }
+
+// const (
+// 	titleSeparator       = "Title: "
+// 	descriptionSeparator = "Description: "
+// )
 
 // Package fs defines basic interfaces to a file system.
 
@@ -39,11 +46,15 @@ func getPost(fileSystem fs.FS, fileName string) (Post, error) {
 }
 
 func newPost(postFile io.Reader) (Post, error) {
-	postData, err := io.ReadAll(postFile)
-	if err != nil {
-		return Post{}, err
+	scanner := bufio.NewScanner(postFile)
+
+	readLine := func() string {
+		scanner.Scan()
+		return scanner.Text()
 	}
 
-	post := Post{Title: string(postData)[7:]}
-	return post, nil
+	title := readLine()[7:]
+	description := readLine()[13:]
+
+	return Post{Title: title, Description: description}, nil
 }
