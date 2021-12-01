@@ -1490,6 +1490,35 @@ func TestNewBlogPosts(t *testing.T) {
 // the files or directories they represent.
 ```
 
+bufio.Scanner: 
+ - Package `bufio` implements buffered I/O. It wraps an io.Reader or io.Writer object, creating another object (Reader or Writer) that also implements the interface but provides buffering and some help for textual I/O. 
+ - `Scanner` provides a convenient interface for reading data such as a file of newline-delimited lines of text. Successive calls to the Scan method will step through the 'tokens' of a file, skipping the bytes between the tokens.
+
+strings.TrimPrefix
+- Package `strings` implements simple functions to manipulate UTF-8 encoded strings. 
+- ```go
+    func TrimPrefix(s, prefix string) string
+  ```
+- ```go
+   package main
+
+    import (
+        "fmt"
+        "strings"
+    )
+
+    func main() {
+        var s = "¡¡¡Hello, Gophers!!!"
+        s = strings.TrimPrefix(s, "¡¡¡Hello, ")
+        s = strings.TrimPrefix(s, "¡¡¡Howdy, ")
+        fmt.Print(s)
+    }
+
+    // Output :
+    // Gophers!!!
+  ```
+  - TrimPrefix returns s without the provided leading prefix string. If `s` doesn't start with prefix, `s` is returned unchanged. 
+
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
 1. [Static vs. Dynamic](https://hackernoon.com/i-finally-understand-static-vs-dynamic-typing-and-you-will-too-ad0c2bd0acc7)

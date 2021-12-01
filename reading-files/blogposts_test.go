@@ -1,6 +1,7 @@
 package blogposts_test
 
 import (
+	"fmt"
 	"reflect"
 	"testing"
 	"testing/fstest"
@@ -9,15 +10,19 @@ import (
 )
 
 type Post struct {
-	Title string
+	Title       string
+	Description string
+	Tag         string
 }
 
 func TestNewBlogPosts(t *testing.T) {
 	const (
 		firstBody = `Title: Post 1
-Description: Description 1`
+Description: Description 1
+Tag: tdd, go`
 		secondBody = `Title: Post 2
-Description: Description 2`
+Description: Description 2
+Tag: blah, blah`
 	)
 	fs := fstest.MapFS{
 		"hello world.md":  {Data: []byte(firstBody)},
@@ -37,7 +42,9 @@ Description: Description 2`
 	assertPost(t, posts[0], blogposts.Post{
 		Title:       "Post 1",
 		Description: "Description 1",
+		Tag:         []string{"tdd", "go"},
 	})
+	fmt.Printf(" this is what I am looking for %v\n", posts[0])
 }
 
 func assertPost(t *testing.T, got blogposts.Post, want blogposts.Post) {
