@@ -19,10 +19,14 @@ func TestNewBlogPosts(t *testing.T) {
 	const (
 		firstBody = `Title: Post 1
 Description: Description 1
-Tag: tdd, go`
+Tag: tdd, go
+---
+Hello World`
 		secondBody = `Title: Post 2
 Description: Description 2
-Tag: blah, blah`
+Tag: blah, blah
+---
+Gohan Is Stronger`
 	)
 	fs := fstest.MapFS{
 		"hello world.md":  {Data: []byte(firstBody)},
@@ -43,6 +47,7 @@ Tag: blah, blah`
 		Title:       "Post 1",
 		Description: "Description 1",
 		Tag:         []string{"tdd", "go"},
+		Body:        `Hello World`,
 	})
 	fmt.Printf(" this is what I am looking for %v\n", posts[0])
 }

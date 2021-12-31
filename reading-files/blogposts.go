@@ -2,6 +2,7 @@ package blogposts
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"io"
 	"io/fs"
@@ -12,6 +13,7 @@ type Post struct {
 	Title       string
 	Description string
 	Tag         []string
+	Body        string
 	//remember string is a single string
 	// []string is array of strings
 }
@@ -51,18 +53,33 @@ func getPost(fileSystem fs.FS, fileName string) (Post, error) {
 	return newPost(postFile)
 }
 
-func newPost(postFile io.Reader) (Post, error) {
-	scanner := bufio.NewScanner(postFile)
+func newPost(postBody io.Reader) (Post, error) {
+	scanner := bufio.NewScanner(postBody)
 
-	readLine := func(tagName string) string {
+	readMetaLine := func(tagName string) string {
 		scanner.Scan()
 		return strings.TrimPrefix(scanner.Text(), tagName)
 	}
 
-	title := readLine(titleSeparator)
-	description := readLine(descriptionSeparator)
-	tag := strings.Split(readLine(tagSeperator), ", ")
-	fmt.Println("what is the post", postFile)
+	fmt.Println("what is the post", postBody)
 
-	return Post{Title: title, Description: description, Tag: tag}, nil
+	return Post{
+		Title:       readMetaLine(titleSeparator),
+		Description: readMetaLine(descriptionSeparator),
+		Tag:         strings.Split(readMetaLine(tagSeperator), ", "),
+		Body:        readBody(scanner),
+	}, nil
+
+	// body := strings.TrimSuffix(buf.String(), "\n")
+
+}
+
+func readBody(scanner *bufio.Scanner) string {
+	scanner.Scan() // ignore a line
+	buf := bytes.Buffer{}
+	for scanner.Scan() {
+		fmt.Fprintln(&buf, scanner.Text())
+	}
+
+	return strings.TrimSuffix(buf.String(), "\n")
 }

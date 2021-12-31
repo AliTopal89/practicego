@@ -1490,11 +1490,11 @@ func TestNewBlogPosts(t *testing.T) {
 // the files or directories they represent.
 ```
 
-bufio.Scanner: 
+`bufio.Scanner`: 
  - Package `bufio` implements buffered I/O. It wraps an io.Reader or io.Writer object, creating another object (Reader or Writer) that also implements the interface but provides buffering and some help for textual I/O. 
  - `Scanner` provides a convenient interface for reading data such as a file of newline-delimited lines of text. Successive calls to the Scan method will step through the 'tokens' of a file, skipping the bytes between the tokens.
 
-strings.TrimPrefix
+`strings.TrimPrefix`
 - Package `strings` implements simple functions to manipulate UTF-8 encoded strings. 
 - ```go
     func TrimPrefix(s, prefix string) string
@@ -1518,6 +1518,31 @@ strings.TrimPrefix
     // Gophers!!!
   ```
   - TrimPrefix returns s without the provided leading prefix string. If `s` doesn't start with prefix, `s` is returned unchanged. 
+
+`scanner.Scan()`: 
+- returns a `bool` which indicates whether there's more data to scan, so we can use that with a `for` loop to keep reading through the data until the end.
+
+`strings.TrimSuffix`
+- TrimSuffix returns s without the provided trailing suffix string. If s doesn't end with suffix, s is returned unchanged.
+- ```go
+    package main
+
+    import (
+        "fmt"
+        "strings"
+    )
+
+    func main() {
+        var s = "¡¡¡Hello, Gophers!!!"
+        s = strings.TrimSuffix(s, ", Gophers!!!")
+        s = strings.TrimSuffix(s, ", Marmots!!!")
+        fmt.Print(s)
+    }
+
+    // Output:
+    // ¡¡¡Hello
+  ```
+
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
