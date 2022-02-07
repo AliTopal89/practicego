@@ -1543,6 +1543,9 @@ func TestNewBlogPosts(t *testing.T) {
     // ¡¡¡Hello
   ```
 
+The state of the art for filesystem abstraction (prior to Go 1.16) has been the `afero` library, which contains an interface type for filesystems and a number of common implementations that provide this interface. For example, `afero.OsFs` wraps the os package and `afero.MemMapFs` is an in-memory simulated filesystem that’s useful for testing. Since afero.Fs is just an interface, you can theoretically write any type of client that provides filesystem like behavior (e.g. S3, zip archives, SSHFS, etc.), and use it transparently by anything that acts on an `afero.Fs`.
+
+
 
 #### Useful Resources:
 1. [GoLang Guide](https://golang.org/doc/)
