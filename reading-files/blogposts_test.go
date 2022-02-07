@@ -21,7 +21,7 @@ func TestNewBlogPosts(t *testing.T) {
 Description: Description 1
 Tag: tdd, go
 ---
-Hello World`
+Power level over 9000`
 		secondBody = `Title: Post 2
 Description: Description 2
 Tag: blah, blah
@@ -47,7 +47,7 @@ Gohan Is Stronger`
 		Title:       "Post 1",
 		Description: "Description 1",
 		Tag:         []string{"tdd", "go"},
-		Body:        `Hello World`,
+		Body:        `Power level over 9000`,
 	})
 	fmt.Printf(" this is what I am looking for %v\n", posts[0])
 }
