@@ -1545,6 +1545,19 @@ func TestNewBlogPosts(t *testing.T) {
 
 The state of the art for filesystem abstraction (prior to Go 1.16) has been the `afero` library, which contains an interface type for filesystems and a number of common implementations that provide this interface. For example, `afero.OsFs` wraps the os package and `afero.MemMapFs` is an in-memory simulated filesystem that’s useful for testing. Since afero.Fs is just an interface, you can theoretically write any type of client that provides filesystem like behavior (e.g. S3, zip archives, SSHFS, etc.), and use it transparently by anything that acts on an `afero.Fs`.
 
+One downside, similar to the `io `package, is that not all combinations of interface types are covered, so you may need to sprinkle some helper interfaces throughout library code. For example, if I want a `fs.FS` that supports `ReadDir` and `Stat`, I’d need to write my own interface like this:
+
+```go
+type readDirStatFS interface {
+    fs.ReadDirFS
+    fs.StatFS
+}
+```
+There’s one big caveat that you’ll notice if you look at what’s conspicuously absent from the `fs.File` interface: any ability to *write* files. The `fs` package provides a *read-only* interface for filesystems.
+
+
+So, **to conclude**: out-of-the-box with Go `1.16` you can use `fs.FS` in place of `afero.Fs` for testing and in cases when you’re only performing *read-only* operations
+
 
 
 #### Useful Resources:
