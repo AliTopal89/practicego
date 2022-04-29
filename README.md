@@ -1558,6 +1558,27 @@ There’s one big caveat that you’ll notice if you look at what’s conspicuou
 
 So, **to conclude**: out-of-the-box with Go `1.16` you can use `fs.FS` in place of `afero.Fs` for testing and in cases when you’re only performing *read-only* operations
 
+#### HTML Templates
+
+Many websites do not need to be a `Single-Page Application`. HTML and CSS are fantastic ways of delivering content and you can use Go to make a website to deliver HTML.
+
+You can generate your HTML in Go with elaborate usage of 
+`fmt.Fprintf` (`func Fprintf(w io.Writer, format string, a ...any) (n int, err error)`), but in this chapter you'll learn that Go's standard library has some tools to generate HTML in a simpler and more maintainable way.
+
+We'll design our code so it accepts an io.Writer. This means the caller of our code has the flexibility to:
+
+- Write them to an `os.File` , so they can be statically served
+- Write out the HTML directly to a `http.ResponseWriter`
+- Or just write them to anything really! So long as it implements `io.Writer`
+the user can generate some HTML from a Post
+
+#### Troubleshooting
+- ` go mod init` - initialize go module in your project
+- `gopls -rpc.trace -v check ~/file_name.go`
+ - ```log
+     discovered missing identifiers: map[memRecordCycle:true pageBits:true]
+	 package="runtime"
+   ```
 
 
 #### Useful Resources:
