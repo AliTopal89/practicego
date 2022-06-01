@@ -1572,6 +1572,12 @@ We'll design our code so it accepts an io.Writer. This means the caller of our c
 - Or just write them to anything really! So long as it implements `io.Writer`
 the user can generate some HTML from a Post
 
+Go has two templating packages text/template and html/template and they share the same interface. What they both do is allow you to combine a template and some data to produce a string.
+
+What's the difference with the HTML version?
+
+Package template (html/template) implements data-driven templates for generating HTML output safe against code injection. Package template implements data-driven templates for generating textual output. It provides the same interface as package text/template and should be used instead of text/template whenever the output is HTML.
+
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
 - `gopls -rpc.trace -v check ~/file_name.go`
@@ -1613,3 +1619,4 @@ the user can generate some HTML from a Post
 1. [Top-down Bottom-Up](https://en.wikipedia.org/wiki/Top-down_and_bottom-up_design)
 1. [GoLang workspace folders](https://github.com/golang/tools/blob/master/gopls/doc/workspace.md)
 1. [Tour of io/fs package](https://benjamincongdon.me/blog/2021/01/21/A-Tour-of-Go-116s-iofs-package/)
+1. [Text/Template](https://pkg.go.dev/text/template)

@@ -3,11 +3,11 @@ module github.com/AliTopal89
 go 1.16
 
 require (
+	github.com/approvals/go-approval-tests v0.0.0-20211008131110-0c40b30e0000 // indirect
+	github.com/gomarkdown/markdown v0.0.0-20211212230626-5af6ad2f47df // indirect
 	github.com/jawher/mow.cli v1.2.0
-	github.com/kisielk/gotool v1.0.0 // indirect
-	github.com/konsorten/go-windows-terminal-sequences v1.0.3 // indirect
-	github.com/quii/learn-go-with-tests v0.0.0-20211117162920-aad7a5b68c9d
+	github.com/quii/learn-go-with-tests v0.0.0-20220430154026-0bf1d56944af
 	github.com/sirupsen/logrus v1.8.1
 	github.com/urfave/cli/v2 v2.3.0
-	honnef.co/go/tools v0.2.2 // indirect
+	golang.org/x/sys v0.0.0-20220209214540-3681064d5158 // indirect
 )
