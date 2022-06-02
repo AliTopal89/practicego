@@ -1572,11 +1572,128 @@ We'll design our code so it accepts an io.Writer. This means the caller of our c
 - Or just write them to anything really! So long as it implements `io.Writer`
 the user can generate some HTML from a Post
 
-Go has two templating packages text/template and html/template and they share the same interface. What they both do is allow you to combine a template and some data to produce a string.
+Go has two templating packages `text/template` and `html/template` and they share the same interface. What they both do is allow you to combine a template and some data to produce a string.
+
+`text/template` example
+
+```go
+package main
+
+import (
+	"os"
+	"text/template"
+)
+
+func main() {
+	type Inventory struct {
+		Material string
+		Count    uint
+	}
+	sweaters := Inventory{"wool", 17}
+	tmpl, err := template.New("test").Parse("{{.Count}} items are made of {{.Material}}")
+	if err != nil {
+		panic(err)
+	}
+	err = tmpl.Execute(os.Stdout, sweaters)
+	if err != nil {
+		panic(err)
+	}
+
+}
+// Output:
+// 17 items are made of wool
+```
 
 What's the difference with the HTML version?
 
-Package template (html/template) implements data-driven templates for generating HTML output safe against code injection. Package template implements data-driven templates for generating textual output. It provides the same interface as package text/template and should be used instead of text/template whenever the output is HTML.
+`Package template` (html/template) implements data-driven templates for generating HTML output safe against code injection. 
+
+`Package template` implements data-driven templates for generating textual output. It provides the same interface as package text/template and should be used instead of text/template whenever the output is HTML.
+
+`package/template` example:
+
+```go
+package main
+
+import (
+	"html/template"
+	"log"
+	"os"
+)
+
+func main() {
+	const tpl = `
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{.Title}}</title>
+    </head>
+    <body>
+        {{range .Items}}<div>{{.}}</div>
+        {{else}}<div><strong>no rows</strong></div>{{end}}
+    </body>
+</html>`
+
+	check := func(err error) {
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	t, err := template.New("webpage").Parse(tpl)
+	check(err)
+
+	data := struct {
+		Title string
+		Items []string
+	}{
+		Title: "Disney plus Programs",
+		Items: []string{
+			"The Mandalorian",
+			"Avengers Endgame",
+			"Lock Stock and Two Smoking Barrels",
+		},
+	}
+	err = t.Execute(os.Stdout, data)
+	check(err)
+
+	noItems := struct {
+		Title string
+		Items []string
+	}{
+		Title: "Upcoming Programs",
+		Items: []string{},
+	}
+
+	err = t.Execute(os.Stdout, noItems)
+	check(err)
+
+}
+// Output: 
+// <!DOCTYPE html>
+// <html>
+//     <head>
+//         <meta charset="UTF-8">
+//         <title>Disney plus Programs</title>
+//     </head>
+//     <body>
+//         <div>The Mandalorian</div>
+//         <div>Avengers Endgame</div>
+//         <div>Lock Stock and Two Smoking Barrels</div>
+        
+//     </body>
+// </html>
+// <!DOCTYPE html>
+// <html>
+//     <head>
+//         <meta charset="UTF-8">
+//         <title>Upcoming Programs</title>
+//     </head>
+//     <body>
+//         <div><strong>no rows</strong></div>
+//     </body>
+// </html>
+```
 
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
@@ -1620,3 +1737,4 @@ Package template (html/template) implements data-driven templates for generating
 1. [GoLang workspace folders](https://github.com/golang/tools/blob/master/gopls/doc/workspace.md)
 1. [Tour of io/fs package](https://benjamincongdon.me/blog/2021/01/21/A-Tour-of-Go-116s-iofs-package/)
 1. [Text/Template](https://pkg.go.dev/text/template)
+1. [How to Use Package Template in Go](https://appdividend.com/2019/11/27/golang-template-example-package-template-in-golang/)
