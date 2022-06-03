@@ -1695,6 +1695,37 @@ func main() {
 // </html>
 ```
 
+However, it is hard to read and any IDE would not have the correct syntax recognition like it would use package embded
+
+```go
+import "embed"
+var (
+	//go:embed "templates/*"
+	postTemplates embed.FS
+    // An FS is a read-only collection of files, usually initialized with 
+    //"//go:embed" directive.
+)
+```
+
+Package embed provides access to files embedded in the running Go program.
+
+Go source files that import "embed" can use the `//go:embed` directive to initialize a variable of type string, []byte, or FS with the contents of files read from the package directory or subdirectories at compile time. 
+
+```go
+package server
+
+import "embed"
+
+// content holds our static web server content.
+//go:embed image/* template/*
+//go:embed html/index.html
+var content embed.FS
+```
+
+A `//go:embed` directive above a variable declaration specifies which files to embed, using one or more path.Match patterns.
+
+The directive must immediately precede a line containing the declaration of a single variable. Only blank lines and ‘//’ line comments are permitted between the directive and the declaration. 
+
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
 - `gopls -rpc.trace -v check ~/file_name.go`
