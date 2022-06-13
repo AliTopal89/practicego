@@ -1574,6 +1574,21 @@ the user can generate some HTML from a Post
 
 Go has two templating packages `text/template` and `html/template` and they share the same interface. What they both do is allow you to combine a template and some data to produce a string.
 
+Execution of the template walks the structure and sets the cursor, represented by a period '.' and called "dot", to the value at the current location in the structure as execution proceeds.
+
+The input text for a template is UTF-8-encoded text in any format. `"Actions"`--data evaluations or control structures--are delimited by `"{{" and "}}"`
+
+In trim markers, the white space must be present: `"{{- 3}}"` is like `"{{3}}"` but trims the immediately preceding text, while `"{{-3}}"` parses as an action containing the number `-3`.
+
+For example:
+
+```go
+"{{23 -}} < {{- 45}}"
+// Outputs:
+
+//"23<45"
+```
+
 `text/template` example
 
 ```go
@@ -1604,11 +1619,19 @@ func main() {
 // 17 items are made of wool
 ```
 
+
 What's the difference with the HTML version?
 
 `Package template` (html/template) implements data-driven templates for generating HTML output safe against code injection. 
 
 `Package template` implements data-driven templates for generating textual output. It provides the same interface as package text/template and should be used instead of text/template whenever the output is HTML.
+
+For Actions - "Arguments" and "pipelines" are evaluations of data.
+
+```
+{{range pipeline}} T1 {{end}}
+	The value of the pipeline must be an array, slice, map, or channel(pipes that connect concurrent goroutines). If the value of the pipeline has length zero, nothing is output; Otherwise, dot is set to the successive elements of the array, slice, or map and T1 is executed. If the value is a map and the keys are of basic type with a defined order, the elements will be visited in sorted key order.
+```
 
 `package/template` example:
 
@@ -1695,7 +1718,7 @@ func main() {
 // </html>
 ```
 
-However, it is hard to read and any IDE would not have the correct syntax recognition like it would use package embded
+**However, it is hard to read and any IDE would not have the correct syntax recognition like it would use package embded!**
 
 ```go
 import "embed"
