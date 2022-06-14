@@ -32,7 +32,9 @@ Welcome to my **amazing blog**. I am going to write about my family recipes, and
 		if err := postRenderer.Render(&buf, aPost); err != nil {
 			t.Fatal(err)
 		}
-
+		// VerifyString stores the passed string into the received file
+		// and confirms that it matches the approved local file.
+		// On failure, it will launch a reporter.
 		approvals.VerifyString(t, buf.String())
 	})
 

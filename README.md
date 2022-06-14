@@ -1749,6 +1749,14 @@ A `//go:embed` directive above a variable declaration specifies which files to e
 
 The directive must immediately precede a line containing the declaration of a single variable. Only blank lines and ‘//’ line comments are permitted between the directive and the declaration. 
 
+`ApprovalTests` allows for easy testing of larger objects, strings and anything else that can be saved to a file (images, sounds, csv, etc...)
+
+`VerifyString` stores the passed string into the received file and confirms that it matches the approved local file. On failure, it will launch a reporter.
+
+Package reporters provides types to report comparison results.
+Reporters launch programs on failure to help you understand, fix and approve results.
+
+
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
 - `gopls -rpc.trace -v check ~/file_name.go`
@@ -1792,3 +1800,4 @@ The directive must immediately precede a line containing the declaration of a si
 1. [Tour of io/fs package](https://benjamincongdon.me/blog/2021/01/21/A-Tour-of-Go-116s-iofs-package/)
 1. [Text/Template](https://pkg.go.dev/text/template)
 1. [How to Use Package Template in Go](https://appdividend.com/2019/11/27/golang-template-example-package-template-in-golang/)
+1. [Go Templates](https://zetcode.com/golang/template/)
