@@ -1758,12 +1758,29 @@ The directive must immediately precede a line containing the declaration of a si
      `renderer_test.TestRender.it_converts_a_single_post_into_HTML.approved.txt`
    The received file has the new, unapproved version of the output. Copy that into the empty approved file and re-run the test.
 
+Store approved files in testdata subfolder:
+
+```go
+func TestMain(m *testing.M) {
+    //  To configure this, add a call to UseFolder to your TestMain
+	UseFolder("testdata")
+	os.Exit(m.Run())
+}
+```
+
 
 `VerifyString` stores the passed string into the received file and confirms that it matches the approved local file. On failure, it will launch a reporter.
 
 Package reporters provides types to report comparison results.
 Reporters launch programs on failure to help you understand, fix and approve results.
 
+```go
+type Reporter interface {
+	// Report is called when the approved and received file do not match.
+	Report(approved, received string) bool
+}
+```
+Reporter are called on failing approvals.
 
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
@@ -1809,3 +1826,5 @@ Reporters launch programs on failure to help you understand, fix and approve res
 1. [Text/Template](https://pkg.go.dev/text/template)
 1. [How to Use Package Template in Go](https://appdividend.com/2019/11/27/golang-template-example-package-template-in-golang/)
 1. [Go Templates](https://zetcode.com/golang/template/)
+1. [Approval Tests](https://approvaltests.com/)
+1. [Approval Tests Importance](https://understandlegacycode.com/blog/characterization-tests-or-approval-tests/)
