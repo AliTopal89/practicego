@@ -1749,7 +1749,15 @@ A `//go:embed` directive above a variable declaration specifies which files to e
 
 The directive must immediately precede a line containing the declaration of a single variable. Only blank lines and ‘//’ line comments are permitted between the directive and the declaration. 
 
-`ApprovalTests` allows for easy testing of larger objects, strings and anything else that can be saved to a file (images, sounds, csv, etc...)
+`ApprovalTests` allows for easy testing of larger objects, strings and anything else that can be saved to a file (images, sounds, csv, etc...), the approval tool can compare the output for you with an "approved" file you created.
+
+ - Add a dependency to `"github.com/approvals/go-approval-tests"` to your project and edit the test
+ - The first time you run it, it will fail because we haven't approved anything yet
+ - It will have created two files, that look like the following
+     `renderer_test.TestRender.it_converts_a_single_post_into_HTML.received.txt`
+     `renderer_test.TestRender.it_converts_a_single_post_into_HTML.approved.txt`
+   The received file has the new, unapproved version of the output. Copy that into the empty approved file and re-run the test.
+
 
 `VerifyString` stores the passed string into the received file and confirms that it matches the approved local file. On failure, it will launch a reporter.
 
