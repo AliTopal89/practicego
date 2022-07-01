@@ -1767,7 +1767,9 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 ```
+`Render` is a package that provides functionality for easily rendering JSON, XML, text, binary data, and HTML templates.
 
+After adding `RenderIndex` method to our `PostRenderer` that again takes an `io.Writer` and a slice of `Post`
 
 `VerifyString` stores the passed string into the received file and confirms that it matches the approved local file. On failure, it will launch a reporter.
 

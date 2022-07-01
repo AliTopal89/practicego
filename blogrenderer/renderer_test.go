@@ -40,7 +40,12 @@ Welcome to my **amazing blog**. I am going to write about my family recipes, and
 
 	t.Run("it renders an index of posts", func(t *testing.T) {
 		buf := bytes.Buffer{}
-		posts := []blogrenderer.Post{{Title: "Hello World"}, {Title: "Hello World 2"}}
+		posts := []blogrenderer.Post{{
+			Title:       "Hello World",
+			Description: "",
+			Body:        "",
+			Tags:        []string{},
+		}, {Title: "Hello World 2"}}
 
 		if err := postRenderer.RenderIndex(&buf, posts); err != nil {
 			t.Fatal(err)
@@ -49,7 +54,6 @@ Welcome to my **amazing blog**. I am going to write about my family recipes, and
 		approvals.VerifyString(t, buf.String())
 	})
 }
-
 func BenchmarkRender(b *testing.B) {
 	var (
 		aPost = blogrenderer.Post{
@@ -62,12 +66,16 @@ func BenchmarkRender(b *testing.B) {
 
 	postRenderer, err := blogrenderer.NewPostRenderer()
 
-	if err != nil {
-		b.Fatal(err)
-	}
+	newFunction(err, b)
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		postRenderer.Render(io.Discard, aPost)
+	}
+}
+
+func newFunction(err error, b *testing.B) {
+	if err != nil {
+		b.Fatal(err)
 	}
 }
