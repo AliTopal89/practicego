@@ -12,7 +12,8 @@ import (
 type Post struct {
 	Title       string
 	Description string
-	Tag         string
+	Tag         []string
+	Body        string
 }
 
 func TestNewBlogPosts(t *testing.T) {
