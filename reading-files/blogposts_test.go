@@ -2,19 +2,11 @@ package blogposts_test
 
 import (
 	"fmt"
+	blogposts "github.com/quii/learn-go-with-tests/reading-files"
 	"reflect"
 	"testing"
 	"testing/fstest"
-
-	blogposts "github.com/quii/learn-go-with-tests/reading-files"
 )
-
-type Post struct {
-	Title       string
-	Description string
-	Tag         []string
-	Body        string
-}
 
 func TestNewBlogPosts(t *testing.T) {
 	const (
@@ -29,6 +21,7 @@ Tag: blah, blah
 ---
 Gohan Is Stronger`
 	)
+
 	fs := fstest.MapFS{
 		"hello world.md":  {Data: []byte(firstBody)},
 		"hello-world2.md": {Data: []byte(secondBody)},
@@ -36,10 +29,27 @@ Gohan Is Stronger`
 
 	posts, err := blogposts.NewPostsFromFS(fs)
 
+	New(t, err)
+
+	assertPostsLength(t, posts, fs)
+
+	assertPost(t, posts[0], blogposts.Post{
+		Title:       "Post 1",
+		Description: "Description 1",
+		Tag:         []string{"tdd", "go"},
+		Body:        `Power level over 9000`,
+	})
+}
+
+func New(t *testing.T, err error) {
+	t.Helper()
 	if err != nil {
 		t.Fatal(err)
 	}
+}
 
+func assertPostsLength(t *testing.T, posts []blogposts.Post, fs fstest.MapFS) {
+	t.Helper()
 	if len(posts) != len(fs) {
 		t.Errorf("got %d posts, wanted %d posts", len(posts), len(fs))
 	}
