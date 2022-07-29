@@ -1767,6 +1767,16 @@ func TestMain(m *testing.M) {
 	os.Exit(m.Run())
 }
 ```
+
+**Benchmarking:**
+
+`b.N` specifies the number of iterations; the value is not fixed, but dynamically allocated, ensuring that the benchmark runs `for` at least one second by `default`.
+
+the reason behind:
+
+`panic: runtime error: invalid memory address or nil pointer dereference` - it's didn't give a memory address to the new variable.To avoid this error, just new the variable, and it will be grant a memory address.
+
+```
 `Render` is a package that provides functionality for easily rendering JSON, XML, text, binary data, and HTML templates.
 
 After adding `RenderIndex` method to our `PostRenderer` that again takes an `io.Writer` and a slice of `Post`
@@ -1830,3 +1840,4 @@ Reporter are called on failing approvals.
 1. [Go Templates](https://zetcode.com/golang/template/)
 1. [Approval Tests](https://approvaltests.com/)
 1. [Approval Tests Importance](https://understandlegacycode.com/blog/characterization-tests-or-approval-tests/)
+1. [GoLang Panic Runtme](https://blog.wuhsun.com/panic-runtime-error-invalid-memory-address-or-nil-pointer-dereference/)
