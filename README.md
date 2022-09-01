@@ -1776,7 +1776,6 @@ the reason behind:
 
 `panic: runtime error: invalid memory address or nil pointer dereference` - it's didn't give a memory address to the new variable.To avoid this error, just new the variable, and it will be grant a memory address.
 
-```
 `Render` is a package that provides functionality for easily rendering JSON, XML, text, binary data, and HTML templates.
 
 After adding `RenderIndex` method to our `PostRenderer` that again takes an `io.Writer` and a slice of `Post`
@@ -1793,6 +1792,18 @@ type Reporter interface {
 }
 ```
 Reporter are called on failing approvals.
+
+**Passing functions in templates**
+
+Going back to the principles of Mustache and logic-less templates, why did they advocate for logic-less? What is wrong with logic in templates?
+
+Even though the approval tests technique has reduced the cost of maintaining these tests, they're still more expensive to maintain than most unit tests you'll write. They're still sensitive to any minor markup changes you might make, it's just we've made it easier to manage. Instead embrace the idea of `view model`, where you construct specific types that contain the data you need to render, in a way that's convenient for the templating language.
+
+This way, whatever important business logic you use to generate that bag of data can be unit tested separately, away from the messy world of HTML and templating.
+
+A `view model` represents the data that you want to display on your view/page, whether it be used for static text or for input values (like textboxes and dropdown lists) that can be added to the database (or edited). It is something different than your domain model.
+
+
 
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
@@ -1841,3 +1852,4 @@ Reporter are called on failing approvals.
 1. [Approval Tests](https://approvaltests.com/)
 1. [Approval Tests Importance](https://understandlegacycode.com/blog/characterization-tests-or-approval-tests/)
 1. [GoLang Panic Runtme](https://blog.wuhsun.com/panic-runtime-error-invalid-memory-address-or-nil-pointer-dereference/)
+1. [View Model example](https://stackoverflow.com/a/11074506)
