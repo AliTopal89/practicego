@@ -1803,7 +1803,30 @@ This way, whatever important business logic you use to generate that bag of data
 
 A `view model` represents the data that you want to display on your view/page, whether it be used for static text or for input values (like textboxes and dropdown lists) that can be added to the database (or edited). It is something different than your domain model.
 
+Body render had the HTML escaped This is a security feature of Go's html/template package to stop malicious 3rd-party HTML being outputted, to circumvent this `template.HTML` package can be used
 
+```golang
+type HTML string
+```
+
+HTML encapsulates a known safe HTML document fragment. It should not be used for HTML from a third-party, or HTML with unclosed tags or comments. The outputs of a sound HTML sanitizer and a template escaped by this package are fine for use with HTML.
+
+Use of this type presents a security risk: the encapsulated content should come from a trusted source, as it will be included verbatim in the template output.
+
+```golang
+
+type postViewModel struct {
+	Post
+	HTMLBody template.HTML
+}
+
+func newPostVM(p Post, r *PostRenderer) postViewModel {
+	vm := postViewModel{Post: p}
+    // parse the Body into HTMLBody and then use that field in the template to render the HTML
+	vm.HTMLBody = template.HTML(markdown.ToHTML([]byte(p.Body), r.mdParser, nil))
+	return vm
+}
+```
 
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
