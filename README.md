@@ -1400,7 +1400,7 @@ func Inf(sign int) float64
 ```
 - sign : The value to be used to get the positive or negative infinity. The return type of Inf() function is a float64, it returns the positive infinity if sign >= 0, negative infinity if sign < 0.
 
-#### Reading Files
+### Reading Files
 
 Iterative test driven development requires us to break up our work, but we should be careful not to fall into the trap of taking a `"bottom up"` approach.
 
@@ -1558,7 +1558,7 @@ There’s one big caveat that you’ll notice if you look at what’s conspicuou
 
 So, **to conclude**: out-of-the-box with Go `1.16` you can use `fs.FS` in place of `afero.Fs` for testing and in cases when you’re only performing *read-only* operations
 
-#### HTML Templates
+### HTML Templates
 
 Many websites do not need to be a `Single-Page Application`. HTML and CSS are fantastic ways of delivering content and you can use Go to make a website to deliver HTML.
 
@@ -1827,6 +1827,15 @@ func newPostVM(p Post, r *PostRenderer) postViewModel {
 	return vm
 }
 ```
+
+### Generics
+
+The Go compiler expects you to write your functions, structs e.t.c. by describing what types you wish to work with.
+
+You can't pass a `string` to a function that expects an `integer`.
+ - Make function implementation simpler. By describing to the compiler what types you work with, you constrain the number of possible valid implementations. You can't "add" a `Person` and a `BankAccount`. You can't `capitalise` an `integer`. In software, constraints are often extremely helpful.
+
+As we may know from previous chapters - Go offers you a way to be more abstract with your types with `interfaces`, so that you can design functions that do not take concrete types but instead, types that offer the behaviour you need.
 
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
