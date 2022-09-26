@@ -1837,6 +1837,36 @@ You can't pass a `string` to a function that expects an `integer`.
 
 As we may know from previous chapters - Go offers you a way to be more abstract with your types with `interfaces`, so that you can design functions that do not take concrete types but instead, types that offer the behaviour you need.
 
+By using `interface{}` the compiler can't help us when writing our code, because we're not telling it anything useful about the types of things passed to the function. Try comparing two different types.
+
+```golang
+func (is *I) Equal(a, b interface{})
+//...
+AssertNotEqual(1, "1")
+// the test compiles but fails with "got 1, want 1" 
+```
+the error message got 1, want 1 is unclear. Writing functions that take `interface{}` can be extremely challenging and bug-prone because we've lost our constraints, and we have no information at compile time as to what kinds of data we're dealing with.
+
+Generics offer us a way to make abstractions (like interfaces) by letting us **describe our constraints**. They allow us to write functions that have a similar level of flexibility that `interface{}` offers but retain type-safety and provide a better developer experience for callers.
+
+In our case the type of our type parameter is comparable and we've given it the label of T. This label then lets us describe the types for the arguments to our function (got, want T).
+
+```golang
+// change from interface to type Parameter
+func AssertEqual(t*testing.T, got, want, interface{})
+//..
+func AssertEqual[T comparable](t *testing.T, got, want T) {}
+// change from interface to type Parameter
+func AssertEqual(t*testing.T, got, want, interface{})
+// ...
+func AssertNotEqual[T comparable](t *testing.T, got, want T) {}
+```
+In our greetings test case we want to use `comparable` with label `T`. This label then lets us describe the types for the arguments to our function (got, want T).
+
+In this case we are using `comparable` because we want to tell the compiler that we wish to use `==` & `!=` operators on things of type `T`.
+
+
+
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
 - `gopls -rpc.trace -v check ~/file_name.go`
