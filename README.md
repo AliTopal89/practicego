@@ -1865,6 +1865,39 @@ In our greetings test case we want to use `comparable` with label `T`. This labe
 
 In this case we are using `comparable` because we want to tell the compiler that we wish to use `==` & `!=` operators on things of type `T`.
 
+##### `T any` vs. `interface{}`
+
+```golang
+func GenericFoo[T any](x, y T)
+
+func InterfaceyFoo(x, y interface{})
+```
+
+In terms of constraints, `any` does mean "anything" and so does `interface{}` but the difference is that with the generic version *you are still describing a specific type*, there is still constraint that this will be work with "one" type.
+
+What this means is you can call `InterfaceyFoo` with any combination of types (e.g `InterfaceyFoo(apple, orange))`. However GenericFoo still offers some constraints because we've said that it only works with one type, T.
+
+```golang
+func GenericFoo[T any](x, y T)
+
+// Valid:
+// GenericFoo(apple1, apple2)
+// GenericFoo(orange1, orange2)
+// GenericFoo(1, 2)
+// GenericFoo("one", "two")
+
+// Not Valid:
+// GenericFoo(apple1, orange1)
+// GenericFoo(1, "1")
+```
+
+If your function returns the generic type, the caller can also use the type as it was, rather than having to make a type assertion because when a function returns interface{} the compiler cannot make any guarantees about the type.
+
+```golang
+func PrintAnything[T any](v T) {}
+```
+We can read this as saying:
+- *For any type T, PrintAnything[T] takes a parameter of type T.*
 
 
 #### Troubleshooting
@@ -1915,3 +1948,4 @@ In this case we are using `comparable` because we want to tell the compiler that
 1. [Approval Tests Importance](https://understandlegacycode.com/blog/characterization-tests-or-approval-tests/)
 1. [GoLang Panic Runtme](https://blog.wuhsun.com/panic-runtime-error-invalid-memory-address-or-nil-pointer-dereference/)
 1. [View Model example](https://stackoverflow.com/a/11074506)
+1. [Type Parameters](https://bitfieldconsulting.com/golang/type-parameters)
