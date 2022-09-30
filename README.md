@@ -1899,6 +1899,9 @@ func PrintAnything[T any](v T) {}
 We can read this as saying:
 - *For any type T, PrintAnything[T] takes a parameter of type T.*
 
+Stacks are  a collection of items where you can `Push` items to the "top" and to get items back again you `Pop` items from the top (LIFO - last in, first out)
+
+*Last In First Out: It is a method for handling data structures where the first element is processed last and the last element is processed first.* 
 
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
