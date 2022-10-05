@@ -1903,6 +1903,63 @@ Stacks are  a collection of items where you can `Push` items to the "top" and to
 
 *Last In First Out: It is a method for handling data structures where the first element is processed last and the last element is processed first.* 
 
+try interface routes and see type safety error:
+
+ - We really want to capture the idea of a stack in one type, and have one set of tests for them.
+ - ```go
+    // stack.go refactored with interface
+    type StackOfInts = Stack
+    type StackOfStrings = Stack
+
+    type Stack struct {
+        values []interface{}
+    }
+    //...
+    // generics_test
+    func AssertEqual(t *testing.T, got, want interface{}) {
+	    //test block for got != want
+    }
+
+    func AssertNotEqual(t *testing.T, got, want interface{}) {
+       //test block for got == want
+    }
+   ```
+
+ - We're aliasing our previous implementations of `StackOfInts` and `StackOfStrings` to a new unified type Stack
+
+ - type safety is removed by by making it so `values` is a `slice` of `interface{}` [for example](https://medium.com/@SaifAbid/slice-interfaces-8c78f8b6345d)
+
+ - ```go
+       t.Run("interface stack dx is horrid", func(t *testing.T) {
+        myStackOfInts := new(StackOfInts)
+
+        myStackOfInts.Push(1)
+        myStackOfInts.Push(2)
+        firstNum, _ := myStackOfInts.Pop()
+        secondNum, _ := myStackOfInts.Pop()
+        AssertEqual(firstNum+secondNum, 3)
+      })
+      // Output of "go test": invalid operation: operator + not defined on firstNum (variable of type interface{})
+      // needs to be fixed with typeAssertion because compiler doesn't know what the data is
+   ```
+ - problem with type safety here comes from when `Pop` returns `interface{}` compiler doesn't know what the data is, doesn't let you use the operator `+` because can't know that it should be an `integer`.
+
+ - A type assertion used in an assignment statement or initialization of the special form
+
+ - ```go
+    // get our ints from out interface{}
+	reallyFirstNum, ok := firstNum.(int)
+	AssertTrue(t, ok) // need to check we definitely got an int out of the interface{}
+
+	reallySecondNum, ok := secondNum.(int)
+	AssertTrue(t, ok) // and again!
+
+	AssertEqual(t, reallyFirstNum+reallySecondNum, 3)
+   ```
+ - asserts that *firstNum/secondNum* is an `integer` and that the value (in this case `firstNumIsInt` and `secondNumIsInt`) stored in firstNum/seconNum is of type int. The notation `firstNum.(int)`, `secondNum.(int)` in this case is called a type assertion
+
+
+
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
 - `gopls -rpc.trace -v check ~/file_name.go`

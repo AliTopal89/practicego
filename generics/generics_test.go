@@ -14,15 +14,19 @@ func TestAssertFunction(t *testing.T) {
 	})
 }
 
+// func AssertEqual[T comparable](t *testing.T, got, want T) {..}
+// func AssertNotEqual[T comparable](t *testing.T, got, want T) {..}
+
 // %+v - any kind value
-func AssertEqual[T comparable](t *testing.T, got, want T) {
+// example with interface that doesn't check for
+func AssertEqual(t *testing.T, got, want interface{}) {
 	t.Helper()
 	if got != want {
 		t.Errorf("got %+v, want %+v", got, want)
 	}
 }
 
-func AssertNotEqual[T comparable](t *testing.T, got, want T) {
+func AssertNotEqual(t *testing.T, got, want interface{}) {
 	t.Helper()
 	if got == want {
 		t.Errorf("didn't want %+v", got)
@@ -80,5 +84,22 @@ func TestStack(t *testing.T) {
 		value, _ = myStackOfStrings.Pop()
 		AssertEqual(t, value, "123")
 		AssertTrue(t, myStackOfStrings.IsEmpty())
+	})
+
+	t.Run("interface stack dx is horrid", func(t *testing.T) {
+		myStackOfInts := new(StackOfInts)
+
+		myStackOfInts.Push(1)
+		myStackOfInts.Push(2)
+		firstNum, _ := myStackOfInts.Pop()
+		secondNum, _ := myStackOfInts.Pop()
+
+		// get integers from interface {}
+		firstNumIsInt, ok := firstNum.(int)
+		AssertTrue(t, ok) // need to check we definitely got an int out of the interface{}
+		secondNumIsInt, ok := secondNum.(int)
+		AssertTrue(t, ok)
+
+		AssertEqual(t, firstNumIsInt+secondNumIsInt, 3)
 	})
 }
