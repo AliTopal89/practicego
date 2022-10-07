@@ -1958,6 +1958,41 @@ try interface routes and see type safety error:
    ```
  - asserts that *firstNum/secondNum* is an `integer` and that the value (in this case `firstNumIsInt` and `secondNumIsInt`) stored in firstNum/seconNum is of type int. The notation `firstNum.(int)`, `secondNum.(int)` in this case is called a type assertion
 
+##### Generic arguments to functions recap
+
+> from:
+>
+>```go
+>type Deck struct {
+>	cards []interface{}
+>}
+>//...
+> func (d *Deck) AddCard(card interface{}) {
+>	d.cards = append(d.cards, card)
+>}
+>```
+>
+>to:
+>
+>```go
+>type Deck[C any] struct {
+>	cards []C
+>}
+>```
+>
+ > `[]` allow you to define one or more of these type parameters for your struct. Create a generic type parameter named `C` that I can use in my struct, and allow it to be `any` type. the `any` type is actually an alias to the `interface{}` type introduced in go version 1.18, however `any` does have a constraint unlike `interface`. Because we've said that it only works with one *type*, `C`
+ > in the above declaration, we updated the type of the cards slice in the struct to use the `C` type parameter.
+ > `[]` slice type declaration followed by the `C` parameter declaration.
+>
+>```go
+> func (d *Deck[C]) AddCard(card C) {
+>	d.cards = append(d.cards, card)
+> }
+>```
+>
+> Deck’s AddCard method - first added the `[C]` generic type parameter to the method’s receiver
+> In this case, no need to provide the `any` constraint because it is already in Deck’s declaration
+> Card function parameter updated to use the `C` placeholder type instead of the original `interface{}` type. This allows the method, to use the specific type `C` will eventually become.
 
 
 #### Troubleshooting
