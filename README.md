@@ -1994,6 +1994,23 @@ try interface routes and see type safety error:
 > In this case, no need to provide the `any` constraint because it is already in Deck’s declaration
 > Card function parameter updated to use the `C` placeholder type instead of the original `interface{}` type. This allows the method, to use the specific type `C` will eventually become.
 
+```go
+type Stack[T any] struct {
+	values []T
+}
+```
+- What this is saying is that the **type of the stack constrains what type of values you can work with.**
+
+- With generic data types the duplication is reduced.
+
+- `interface{}` are likely to rely on "reflection"(*At the basic level, reflection is just a mechanism to examine the type and value pair stored inside an interface variable.*), type-assertions etc which makes your code more difficult to work with and more error prone as it pushes checks from compile-time to runtime
+
+`func (s *Stack[T]) Pop() (T, bool)`
+
+- Made `Pop` return `T` so that if we create a Stack[int] we in practice get back `int` from `Pop`; we can now use `+` without the need for type assertion gymnastics
+
+*Notes: Abstraction is used to hide background details or any unnecessary implementation about the data so that users only see the required information*
+
 
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
