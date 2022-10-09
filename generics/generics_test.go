@@ -49,7 +49,7 @@ func AssertFalse(t *testing.T, got bool) {
 
 func TestStack(t *testing.T) {
 	t.Run("integer stack", func(t *testing.T) {
-		myStackOfInts := new(StackOfInts)
+		myStackOfInts := new(Stack[int])
 
 		// check stack is empty
 		AssertTrue(t, myStackOfInts.IsEmpty())
@@ -68,7 +68,7 @@ func TestStack(t *testing.T) {
 	})
 
 	t.Run("string stack", func(t *testing.T) {
-		myStackOfStrings := new(StackOfStrings)
+		myStackOfStrings := new(Stack[string])
 
 		// check stack is empty
 		AssertTrue(t, myStackOfStrings.IsEmpty())
@@ -87,7 +87,7 @@ func TestStack(t *testing.T) {
 	})
 
 	t.Run("interface stack dx is horrid", func(t *testing.T) {
-		myStackOfInts := new(StackOfInts)
+		myStackOfInts := new(Stack[int])
 
 		myStackOfInts.Push(1)
 		myStackOfInts.Push(2)
@@ -95,11 +95,11 @@ func TestStack(t *testing.T) {
 		secondNum, _ := myStackOfInts.Pop()
 
 		// get integers from interface {}
-		firstNumIsInt, ok := firstNum.(int)
-		AssertTrue(t, ok) // need to check we definitely got an int out of the interface{}
-		secondNumIsInt, ok := secondNum.(int)
-		AssertTrue(t, ok)
+		// firstNumIsInt, ok := firstNum.(int) - not an interface anymore so no need for type assertions
+		// AssertTrue(t, ok) // need to check we definitely got an int out of the interface{}
+		//secondNumIsInt, ok := secondNum.(int) - invalid operation: secondNum (variable of type int) is not an interface
+		// AssertTrue(t, ok)
 
-		AssertEqual(t, firstNumIsInt+secondNumIsInt, 3)
+		AssertEqual(t, firstNum+secondNum, 3)
 	})
 }
