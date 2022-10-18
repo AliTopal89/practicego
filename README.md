@@ -2012,6 +2012,51 @@ type Stack[T any] struct {
 *Notes: Abstraction is used to hide background details or any unnecessary implementation about the data so that users only see the required information*
 
 
+### Arrays and Slices with Generics
+
+Copy the content from arrays_slices chapter
+
+```go
+// Sum calculates the total from a slice of numbers.
+func Sum(numbers []int) int {
+	var sum int
+	for _, number := range numbers {
+		sum += number
+	}
+	return sum
+}
+
+// SumAllTails calculates the sums of all but the first number given a collection of slices.
+func SumAllTails(numbersToSum ...[]int) []int {
+	var sums []int
+	for _, numbers := range numbersToSum {
+		if len(numbers) == 0 {
+			sums = append(sums, 0)
+		} else {
+			tail := numbers[1:]
+			sums = append(sums, Sum(tail))
+		}
+	}
+
+	return sums
+}
+```
+- Create some kind od initial result value, 
+- Iterate over the collection, appy some kind of operation or function
+- Return the result.
+
+This is commonly known in functional programming as `reduce/fold`. 
+
+> In functional programming, `fold` (also termed reduce, accumulate, aggregate, compress, or inject) refers  to a family of higher-order functions that analyze a recursive data structure and through use of a given combining operation, recombine the results of recursively processing its constituent parts, building up a return value.
+
+##### Notes: 
+
+***Functional Programing: is to write the function having statements to execute a particular task for the application***
+
+***Object Oriented Programing: The objects hold data about them in attributes. The attributes in the objects are manipulated through methods or functions that are given to the object.***
+
+
+
 #### Troubleshooting
 - ` go mod init` - initialize go module in your project
 - `gopls -rpc.trace -v check ~/file_name.go`
@@ -2061,3 +2106,4 @@ type Stack[T any] struct {
 1. [GoLang Panic Runtme](https://blog.wuhsun.com/panic-runtime-error-invalid-memory-address-or-nil-pointer-dereference/)
 1. [View Model example](https://stackoverflow.com/a/11074506)
 1. [Type Parameters](https://bitfieldconsulting.com/golang/type-parameters)
+1. [Functional vs. OOP Programming](https://medium.com/@shaistha24/functional-programming-vs-object-oriented-programming-oop-which-is-better-82172e53a526)
