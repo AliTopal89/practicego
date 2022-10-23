@@ -2049,6 +2049,19 @@ This is commonly known in functional programming as `reduce/fold`.
 
 > In functional programming, `fold` (also termed reduce, accumulate, aggregate, compress, or inject) refers  to a family of higher-order functions that analyze a recursive data structure and through use of a given combining operation, recombine the results of recursively processing its constituent parts, building up a return value.
 
+```go
+func TestReduce(t *testing.T) {
+	t.Run("multiplication of all elements", func(t *testing.T) {
+		multiply := func(x, y int) int {
+			return x * y
+		}
+
+		AssertEqual(t, Reduce([]int{1, 2, 3}, multiply, 1), 6)
+	})
+```
+-  In the multiplication example, we show the reason for having a default value as an argument to `Reduce`. If we relied on Go's default value of `0` for `int`, we would multiply our initial value by `0`, and then the following ones, so you'd only ever get 0. By setting it to `1`, the first element in the slice will stay the same, and the rest will multiply by the next elements.
+
+
 ##### Notes: 
 
 ***Functional Programing: is to write the function having statements to execute a particular task for the application***
