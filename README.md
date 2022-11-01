@@ -2049,6 +2049,19 @@ This is commonly known in functional programming as `reduce/fold`.
 
 > In functional programming, `fold` (also termed reduce, accumulate, aggregate, compress, or inject) refers  to a family of higher-order functions that analyze a recursive data structure and through use of a given combining operation, recombine the results of recursively processing its constituent parts, building up a return value.
 
+***Quick note on identity element:***
+
+> In mathematics, an identity element, or neutral element, of a binary operation operating on a set is an element of the set which leaves unchanged every element of the set when the operation is applied.
+
+In addition, the identity element is 0.
+
+`1 + 0 = 1`
+
+With multiplication, it is 1.
+
+`1 * 1 = 1`
+
+
 ```go
 func TestReduce(t *testing.T) {
 	t.Run("multiplication of all elements", func(t *testing.T) {
