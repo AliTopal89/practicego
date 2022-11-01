@@ -1,5 +1,10 @@
 package arrays
 
+import (
+	"fmt"
+	"strconv"
+)
+
 // Reduce captures the essence of the pattern, it's a function that takes a collection,
 // an accumulating function, an initial value, and returns a single value.
 func Reduce[A any](collection []A, accumulator func(A, A) A, initialValue A) A {
@@ -28,4 +33,24 @@ func SumAllTails(numbers ...[]int) []int {
 	}
 
 	return Reduce(numbers, sumTail, []int{})
+}
+
+type Transaction struct {
+	From string
+	To   string
+	Sum  float64
+}
+
+func BalanceFor(transactions []Transaction, name string) float64 {
+	var balance float64
+	t := strconv.FormatFloat(balance, 'E', -1, 64)
+	fmt.Println(t)
+	for _, t := range transactions {
+		if t.From == name {
+			balance -= t.Sum
+		} else if t.To == name {
+			balance += t.Sum
+		}
+	}
+	return balance
 }
