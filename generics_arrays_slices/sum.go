@@ -1,10 +1,5 @@
 package arrays
 
-import (
-	"fmt"
-	"strconv"
-)
-
 // Reduce captures the essence of the pattern, it's a function that takes a collection,
 // an accumulating function, an initial value, and returns a single value.
 func Reduce[A, B any](collection []A, accumulator func(B, A) B, initialValue B) B {
@@ -13,6 +8,16 @@ func Reduce[A, B any](collection []A, accumulator func(B, A) B, initialValue B) 
 		result = accumulator(result, x)
 	}
 	return result
+}
+
+// Package "Find" implements inventory listing and searching.
+func Find[A any](items []A, predicate func(A) bool) (value A, found bool) {
+	for _, v := range items {
+		if predicate(v) {
+			return v, true
+		}
+	}
+	return
 }
 
 // Sum calculates the total from a slice of numbers.
@@ -70,12 +75,11 @@ func applyTransaction(a Account, transaction Transaction) Account {
 
 func BalanceFor(transactions []Transaction, name string) float64 {
 	var balance float64
-	t := strconv.FormatFloat(balance, 'E', -1, 64)
-	fmt.Println(t)
 	for _, t := range transactions {
 		if t.From == name {
 			balance -= t.Sum
-		} else if t.To == name {
+		}
+		if t.To == name {
 			balance += t.Sum
 		}
 	}

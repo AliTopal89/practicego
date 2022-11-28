@@ -2047,7 +2047,12 @@ func SumAllTails(numbersToSum ...[]int) []int {
 
 This is commonly known in functional programming as `reduce/fold`. 
 
-> In functional programming, `fold` (also termed reduce, accumulate, aggregate, compress, or inject) refers  to a family of higher-order functions that analyze a recursive data structure and through use of a given combining operation, recombine the results of recursively processing its constituent parts, building up a return value.
+> In functional programming, `fold` (also termed reduce, accumulate, aggregate, compress, or inject) refers  to a family of higher-order functions that analyze a recursive data structure and through use of a given combining operation, recombine the results of recursively processing its constituent parts, building up a return value. `Reduce` works by reducing an array to a single value by applying a function generating a partial result to each element of the array.
+
+```go
+    numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+// equals 55 if you add them, reduce does that for you if you define number of sums
+```
 
 ***Quick note on identity element:***
 
@@ -2075,11 +2080,45 @@ func TestReduce(t *testing.T) {
 -  In the multiplication example, we show the reason for having a default value as an argument to `Reduce`. If we relied on Go's default value of `0` for `int`, we would multiply our initial value by `0`, and then the following ones, so you'd only ever get 0. By setting it to `1`, the first element in the slice will stay the same, and the rest will multiply by the next elements.
 
 
+- For `Find` the various Finder methods accept a "path" argument, which can absolute or relative to the Folder for the object type. The Finder supports two modes, "list" and "find". The "list" mode behaves like the "ls" command, only searching within the immediate path. The "find" mode behaves like the "find" command, with the search starting at the immediate path but also recursing into sub Folders relative to the Datacenter. The default mode is "list" if the given path contains a "/", otherwise "find" mode is used. 
+
+```go
+func Find[A any](items []A, predicate func(A) bool) (value A, found bool) {
+	for _, v := range items {
+		if predicate(v) {
+			return v, true
+		}
+	}
+	return
+}
+```
+
+A predicate in general meaning is a statement about something that is either true or false. In programming, predicates represent single argument functions that return a boolean value. 
+
+```go
+func isPositive(val int) bool {
+
+    if val > 0 {
+
+        return true
+    } else {
+
+        return false
+    }
+}
+```
+
+The `isPositive` function is a predicate. It returns a boolean value indicating whether a value is positive.
+
+
+
 ##### Notes: 
 
 ***Functional Programing: is to write the function having statements to execute a particular task for the application***
 
 ***Object Oriented Programing: The objects hold data about them in attributes. The attributes in the objects are manipulated through methods or functions that are given to the object.***
+
+***Idiomatic: using, containing, or denoting expressions that are natural to a native speaker.***
 
 
 
