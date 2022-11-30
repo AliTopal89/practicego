@@ -2049,9 +2049,28 @@ This is commonly known in functional programming as `reduce/fold`.
 
 > In functional programming, `fold` (also termed reduce, accumulate, aggregate, compress, or inject) refers  to a family of higher-order functions that analyze a recursive data structure and through use of a given combining operation, recombine the results of recursively processing its constituent parts, building up a return value. `Reduce` works by reducing an array to a single value by applying a function generating a partial result to each element of the array.
 
+```golang
+func reduce[T, M any](s []T, f func(M, T) M, initValue M) M {
+    acc := initValue
+    for _, v := range s {
+        acc = f(acc, v)
+    }
+    return acc
+}
+```
+- The `reduce()` function parameters:
+  - A slice of `any` type `T`
+  - An initial value of `any` type `M which is a start value of our *accumulator* - the value that accumulates partial results of reducer function calls. Note that the *accumulator* type need not be the same as the slice type.
+  - A `reducer` function that takes the *accumulator* and current value of the slice and returns the new *accumulator*.
+
 ```go
     numbers := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 // equals 55 if you add them, reduce does that for you if you define number of sums
+    sum := reduce(numbers, func(acc, current int) int {
+        return acc + current
+    }, 0)
+    fmt.Println(sum)
+
 ```
 
 ***Quick note on identity element:***
@@ -2065,6 +2084,37 @@ In addition, the identity element is 0.
 With multiplication, it is 1.
 
 `1 * 1 = 1`
+
+> Accumulate - gradually gather or acquire (a resulting whole).
+
+Accumulate example:
+
+```golang
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+
+	var builder strings.Builder
+
+	builder.WriteString("There")
+	builder.WriteString(" are")
+	builder.WriteString(" two")
+	builder.WriteString(" falcons")
+	builder.WriteString(" in")
+	builder.WriteString(" the")
+	builder.WriteString(" sky")
+
+    // builder.String gets accumulated with builder write Strings, 
+	fmt.Println(builder.String())
+    // The String returns the accumulated string
+}
+// Output: There are two falcons in the sky
+```
 
 
 ```go
