@@ -1830,6 +1830,8 @@ func newPostVM(p Post, r *PostRenderer) postViewModel {
 
 ### Generics
 
+Generics are a way of writing code that is independent of the specific types being used. Functions and types may now be written to use any of a set of types.
+
 The Go compiler expects you to write your functions, structs e.t.c. by describing what types you wish to work with.
 
 You can't pass a `string` to a function that expects an `integer`.
@@ -2164,11 +2166,11 @@ The `isPositive` function is a predicate. It returns a boolean value indicating 
 
 ##### Notes: 
 
-***Functional Programing: is to write the function having statements to execute a particular task for the application***
+*Functional Programing: is to write the function having statements to execute a particular task for the application*
 
-***Object Oriented Programing: The objects hold data about them in attributes. The attributes in the objects are manipulated through methods or functions that are given to the object.***
+*Object Oriented Programing: The objects hold data about them in attributes. The attributes in the objects are manipulated through methods or functions that are given to the object.*
 
-***Idiomatic: using, containing, or denoting expressions that are natural to a native speaker.***
+*Idiomatic: using, containing, or denoting expressions that are natural to a native speaker.*
 
 
 
@@ -2220,5 +2222,6 @@ The `isPositive` function is a predicate. It returns a boolean value indicating 
 1. [Approval Tests Importance](https://understandlegacycode.com/blog/characterization-tests-or-approval-tests/)
 1. [GoLang Panic Runtme](https://blog.wuhsun.com/panic-runtime-error-invalid-memory-address-or-nil-pointer-dereference/)
 1. [View Model example](https://stackoverflow.com/a/11074506)
+1. [Generics Intro](https://go.dev/blog/intro-generics)
 1. [Type Parameters](https://bitfieldconsulting.com/golang/type-parameters)
 1. [Functional vs. OOP Programming](https://medium.com/@shaistha24/functional-programming-vs-object-oriented-programming-oop-which-is-better-82172e53a526)
