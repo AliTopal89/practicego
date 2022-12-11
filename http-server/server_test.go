@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -8,32 +9,34 @@ import (
 
 func TestGETPlayers(t *testing.T) {
 	t.Run("returns Mojojo's score", func(t *testing.T) {
-		request, _ := http.NewRequest(http.MethodGet, "/players/Mojojo", nil)
+		request := NewGetScoreRequest("Mojojo")
 		response := httptest.NewRecorder()
 
 		PlayerServer(response, request)
 
-		got := response.Body.String()
-		want := "20"
-
-		if got != want {
-			t.Errorf("got %q, want %q", got, want)
-		}
+		assertResponseBody(t, response.Body.String(), "20")
 	})
 
 	t.Run("returns Megatron's score", func(t *testing.T) {
-		request, _ := http.NewRequest(http.MethodGet, "/players/Megatron", nil)
+		request := NewGetScoreRequest("Megatron")
 		response := httptest.NewRecorder()
 
 		PlayerServer(response, request)
 
-		got := response.Body.String()
-		want := "10"
-
-		if got != want {
-			t.Errorf("got %q, want %q", got, want)
-		}
+		assertResponseBody(t, response.Body.String(), "10")
 	})
+}
+
+func NewGetScoreRequest(name string) *http.Request {
+	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/players/%s", name), nil)
+	return req
+}
+
+func assertResponseBody(t testing.TB, got, want string) {
+	t.Helper()
+	if got != want {
+		t.Errorf("response of the body is wrong got %q want %q", got, want)
+	}
 }
 
 /*
