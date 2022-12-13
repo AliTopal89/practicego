@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	server := http.HandlerFunc(PlayerServer)
+	server := &PlayerServer{}
 	log.Fatal(http.ListenAndServe(":5000", server))
 }
 

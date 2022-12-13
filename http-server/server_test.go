@@ -7,12 +7,29 @@ import (
 	"testing"
 )
 
+// A map is a quick and easy way of making a stub key/value store for our tests
+type StubPlayerStore struct {
+	scores map[string]int
+}
+
+func (s *StubPlayerStore) GetPlayerScore(name string) int {
+	score := s.scores[name]
+	return score
+}
+
 func TestGETPlayers(t *testing.T) {
+	store := StubPlayerStore{
+		map[string]int{
+			"Mojojo":   20,
+			"Megatron": 10,
+		},
+	}
+	server := &PlayerServer{&store}
 	t.Run("returns Mojojo's score", func(t *testing.T) {
 		request := NewGetScoreRequest("Mojojo")
 		response := httptest.NewRecorder()
 
-		PlayerServer(response, request)
+		server.ServeHTTP(response, request)
 
 		assertResponseBody(t, response.Body.String(), "20")
 	})
@@ -21,7 +38,7 @@ func TestGETPlayers(t *testing.T) {
 		request := NewGetScoreRequest("Megatron")
 		response := httptest.NewRecorder()
 
-		PlayerServer(response, request)
+		server.ServeHTTP(response, request)
 
 		assertResponseBody(t, response.Body.String(), "10")
 	})

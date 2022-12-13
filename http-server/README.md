@@ -77,3 +77,7 @@ From the documentation, we see that type `HandlerFunc` has already implemented t
 
 	  // Output: invalid operation: x * y (mismatched types int and float32)
     ```
+
+**General Reminder Notes**:
+`&` - variable's memory address
+`*` - holds a memory address and resolves it, goes and gets the thing that the pointer was pointing at
