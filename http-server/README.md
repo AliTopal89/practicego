@@ -30,6 +30,14 @@ From the documentation, we see that type `HandlerFunc` has already implemented t
 
 `ListenAndServe` takes a port to listen on a `Handler`. If there is a problem the web server will return an error, an example of that might be the port already being listened to. For that reason we wrap the call in 	`log.Fatal` to log the error to the user.
 
+
+```go
+switch r.Method {...}
+//
+```
+field `Method` string
+Method specifies the HTTP method (GET, POST, PUT, etc.). For client requests, an empty string means GET
+
 **Notes on type casting/conversion:**
 
 - Type conversion happens when we assign the value of one data type to another
@@ -77,6 +85,7 @@ From the documentation, we see that type `HandlerFunc` has already implemented t
 
 	  // Output: invalid operation: x * y (mismatched types int and float32)
     ```
+
 
 **General Reminder Notes**:
 `&` - variable's memory address
