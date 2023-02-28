@@ -121,6 +121,10 @@ func main() {
 
 The router matches incoming requests by the request method and the path. If a handle is registered for this path and method, the router delegates the request to that function. For the methods `GET, POST, PUT, PATCH and DELETE` shortcut functions exist to register handles, for all other methods router.Handle can be used.
 
+```go
+func (*http.ServeMux).Handle(pattern string, handler http.Handler)
+```
+Handle registers the handler for the given pattern. If a handler already exists for pattern, Handle panics.
 
 **General Reminder Notes**:
 `&` - variable's memory address
