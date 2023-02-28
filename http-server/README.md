@@ -86,6 +86,41 @@ Method specifies the HTTP method (GET, POST, PUT, etc.). For client requests, an
 	  // Output: invalid operation: x * y (mismatched types int and float32)
     ```
 
+`ServeMux` is an HTTP request multiplexer. It matches the URL of each incoming request against a list of registered patterns and calls the handler for the pattern that most closely matches the URL.
+
+Patterns name fixed, rooted paths, like `"/favicon.ico"`, or rooted subtrees, like `"/images/"` (note the trailing slash). Longer patterns take precedence over shorter ones, so that if there are handlers registered for both `"/images/"` and `"/images/thumbnails/"`, the latter handler will be called for paths beginning `"/images/thumbnails/"` and the former will receive requests for any other paths in the `"/images/"` subtree.
+
+Package `httprouter` is a trie based high performance HTTP request router.
+
+```go
+package main
+
+import (
+    "fmt"
+    "github.com/julienschmidt/httprouter"
+    "net/http"
+    "log"
+)
+
+func Index(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+    fmt.Fprint(w, "Welcome!\n")
+}
+
+func Hello(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+    fmt.Fprintf(w, "hello, %s!\n", ps.ByName("name"))
+}
+
+func main() {
+    router := httprouter.New()
+    router.GET("/", Index)
+    router.GET("/hello/:name", Hello)
+
+    log.Fatal(http.ListenAndServe(":8080", router))
+}
+```
+
+The router matches incoming requests by the request method and the path. If a handle is registered for this path and method, the router delegates the request to that function. For the methods `GET, POST, PUT, PATCH and DELETE` shortcut functions exist to register handles, for all other methods router.Handle can be used.
+
 
 **General Reminder Notes**:
 `&` - variable's memory address
