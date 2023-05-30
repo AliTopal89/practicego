@@ -6,59 +6,19 @@ import (
 	"strings"
 )
 
+// PlayerStore stores score information about players.
 type PlayerStore interface {
 	GetPlayerScore(name string) int
 	RecordWin(name string)
 }
 
-// func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-// 	player := strings.TrimPrefix(r.URL.Path, "/players/")
-
-// 	switch r.Method {
-// 	case http.MethodPost:
-// 		p.processWin(w, player)
-// 	case http.MethodGet:
-// 		p.showScore(w, player)
-// 	}
-// }
-
+// PlayerServer is a HTTP interface for player information.
 type PlayerServer struct {
-	store  PlayerStore
-	router *http.ServeMux
-}
-
-func NewPlayerServer(store PlayerStore) *PlayerServer {
-	p := &PlayerServer{
-		store,
-		http.NewServeMux(),
-	}
-
-	p.router.Handle("/league", http.HandlerFunc(p.leagueHandler))
-	p.router.Handle("/players/", http.HandlerFunc(p.playersHandler))
-
-	return p
+	store PlayerStore
 }
 
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	p.router.ServeHTTP(w, r)
-}
-
-// func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
-// 	router := http.NewServeMux()
-// 	router.Handle("/league", http.HandlerFunc(p.leagueHandler))
-// 	router.Handle("/players/", http.HandlerFunc(p.playersHandler))
-
-// 	router.ServeHTTP(w, r)
-// }
-
-func (p *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-}
-
-func (p *PlayerServer) playersHandler(w http.ResponseWriter, r *http.Request) {
 	player := strings.TrimPrefix(r.URL.Path, "/players/")
-
 	switch r.Method {
 	case http.MethodPost:
 		p.processWin(w, player)
@@ -106,3 +66,21 @@ r.URL.Path returns the path of the request which we can then use
 `strings.TrimPrefix`` to trim away /players/ to get the requested player.
 It's not very robust but will do the trick for now.
 */
+
+// func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+
+// 	router := http.NewServeMux()
+// 	router.Handle("/league", http.HandlerFunc(p.leagueHandler))
+// 	router.Handle("/players/", http.HandlerFunc(p.playersHandler))
+
+// 	router.ServeHTTP(w, r)
+// }
+
+// func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+
+// 	router := http.NewServeMux()
+// 	router.Handle("/league", http.HandlerFunc(p.leagueHandler))
+// 	router.Handle("/players/", http.HandlerFunc(p.playersHandler))
+
+// 	router.ServeHTTP(w, r)
+// }

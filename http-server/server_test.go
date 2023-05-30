@@ -30,49 +30,43 @@ func TestGETPlayers(t *testing.T) {
 		},
 		nil,
 	}
-	x := NewPlayerServer(&store)
-	server := x
-	t.Run("returns Mojojo's score", func(t *testing.T) {
-		request := NewGetScoreRequest("Mojojo")
-		response := httptest.NewRecorder()
+	server := &PlayerServer{&store}
+	tests := []struct {
+		name               string
+		player             string
+		expectedHTTPStatus int
+		expectedScore      string
+	}{
+		{
+			name:               "Returns Mojojo's score",
+			player:             "Mojojo",
+			expectedHTTPStatus: http.StatusOK,
+			expectedScore:      "20",
+		},
+		{
+			name:               "Returns Megatron's score",
+			player:             "Megatron",
+			expectedHTTPStatus: http.StatusOK,
+			expectedScore:      "10",
+		},
+		{
+			name:               "Returns 404 on missing players",
+			player:             "USPS",
+			expectedHTTPStatus: http.StatusNotFound,
+			expectedScore:      "0",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			request := newGetScoreRequest(tt.player)
+			response := httptest.NewRecorder()
 
-		server.ServeHTTP(response, request)
+			server.ServeHTTP(response, request)
 
-		assertStatus(t, response.Code, http.StatusOK)
-		assertResponseBody(t, response.Body.String(), "20")
-	})
-
-	t.Run("returns Megatron's score", func(t *testing.T) {
-		request := NewGetScoreRequest("Megatron")
-		response := httptest.NewRecorder()
-
-		server.ServeHTTP(response, request)
-		assertStatus(t, response.Code, http.StatusOK)
-		assertResponseBody(t, response.Body.String(), "10")
-	})
-
-	t.Run("returns 404 on USPS because they fail to deliver so they dont get a score", func(t *testing.T) {
-		request := NewGetScoreRequest("USPS")
-		response := httptest.NewRecorder()
-
-		server.ServeHTTP(response, request)
-
-		assertStatus(t, response.Code, http.StatusNotFound)
-	})
-}
-
-func TestLeague(t *testing.T) {
-	store := StubPlayerStore{}
-	server := NewPlayerServer(&store)
-
-	t.Run("it returns 200 on /league", func(t *testing.T) {
-		request, _ := http.NewRequest(http.MethodGet, "/league", nil)
-		response := httptest.NewRecorder()
-
-		server.ServeHTTP(response, request)
-
-		assertStatus(t, response.Code, http.StatusOK)
-	})
+			assertStatus(t, response.Code, tt.expectedHTTPStatus)
+			assertResponseBody(t, response.Body.String(), tt.expectedScore)
+		})
+	}
 }
 
 func TestStoreWins(t *testing.T) {
@@ -80,10 +74,11 @@ func TestStoreWins(t *testing.T) {
 		map[string]int{},
 		nil,
 	}
-	server := NewPlayerServer(&store)
+	server := &PlayerServer{&store}
 
-	t.Run("it records wins when POST", func(t *testing.T) {
-		player := "Mojojo"
+	t.Run("it records wins on POST", func(t *testing.T) {
+		player := "Pepper"
+
 		request := newPostWinRequest(player)
 		response := httptest.NewRecorder()
 
@@ -92,7 +87,7 @@ func TestStoreWins(t *testing.T) {
 		assertStatus(t, response.Code, http.StatusAccepted)
 
 		if len(store.winCalls) != 1 {
-			t.Errorf("got %d calls to RecordWin want %d", len(store.winCalls), 1)
+			t.Fatalf("got %d calls to RecordWin want %d", len(store.winCalls), 1)
 		}
 
 		if store.winCalls[0] != player {
@@ -104,12 +99,11 @@ func TestStoreWins(t *testing.T) {
 func assertStatus(t testing.TB, got, want int) {
 	t.Helper()
 	if got != want {
-		t.Errorf("got status %d want status %d", got, want)
+		t.Errorf("did not get correct status, got %d, want %d", got, want)
 	}
-
 }
 
-func NewGetScoreRequest(name string) *http.Request {
+func newGetScoreRequest(name string) *http.Request {
 	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/players/%s", name), nil)
 	return req
 }
@@ -122,7 +116,7 @@ func newPostWinRequest(name string) *http.Request {
 func assertResponseBody(t testing.TB, got, want string) {
 	t.Helper()
 	if got != want {
-		t.Errorf("response of the body is wrong got %q want %q", got, want)
+		t.Errorf("response body is wrong, got %q want %q", got, want)
 	}
 }
 
