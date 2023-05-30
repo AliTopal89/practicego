@@ -126,6 +126,84 @@ func (*http.ServeMux).Handle(pattern string, handler http.Handler)
 ```
 Handle registers the handler for the given pattern. If a handler already exists for pattern, Handle panics.
 
+**Spying on Invocations**:
+
+spying is that a single method of an object is faked or mocked while others are not. That's not possible in Go. But you can fake or mock your entire dependencies using interfaces.
+
+write a test where we want to be sure we invoke the `Searcher.Search` function. How can we do that?
+
+```go
+// main.go
+...
+type Searcher interface {
+	Search(people []*Person, firstName string, lastName string) *Person
+}
+
+type Person struct {
+	FirstName string
+	LastName  string
+	Phone     string
+}
+
+type Phonebook struct {
+	People []*Person
+}
+
+func (p *Phonebook) Find(searcher Searcher, firstName, lastName string) (string, error) {
+	if firstName == "" || lastName == "" {
+		return "", ErrMissingArgs
+	}
+
+	person := searcher.Search(p.People, firstName, lastName)
+
+	if person == nil {
+		return "", ErrNoPersonFound
+	}
+
+	return person.Phone, nil
+}
+...
+
+//main_test.go
+type SpySearcher struct {
+	phone           string
+	searchWasCalled bool
+}
+
+func (ss *SpySearcher) Search(people []*Person, firstName, lastName string) *Person {
+	ss.searchWasCalled = true
+	return &Person{
+		FirstName: firstName,
+		LastName:  lastName,
+		Phone:     ss.phone,
+	}
+}
+
+func TestFindCallsSearchAndReturnsPerson(t *testing.T) {
+	fakePhone := "+31 65 222 333"
+	phonebook := &Phonebook{}
+	spy := &SpySearcher{phone: fakePhone}
+
+	phone, _ := phonebook.Find(spy, "Jane", "Doe")
+
+	if !spy.searchWasCalled {
+		t.Errorf("Expected to call 'Search' in 'Find', but it wasn't.")
+	}
+
+	if phone != fakePhone {
+		t.Errorf("Want '%s', got '%s'", fakePhone, phone)
+	}
+}
+```
+Think of spies as an upgrade of stubs. While they return a predefined value, just like stubs, spies also remember **whether we called a specific method**. Often, spies also keep track of how many times we call a particular function.
+
+That’s what spy is - a stub that keeps track of invocations of its methods.
+
+
 **General Reminder Notes**:
 `&` - variable's memory address
 `*` - holds a memory address and resolves it, goes and gets the thing that the pointer was pointing at
+
+#### Useful Resources:
+1. [Spying in Go](https://stackoverflow.com/a/54049902)
+1. [Dummy, Stub, Spy, Mock](https://ieftimov.com/posts/testing-in-go-test-doubles-by-example/#spies)
