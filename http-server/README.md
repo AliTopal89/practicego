@@ -199,6 +199,40 @@ Think of spies as an upgrade of stubs. While they return a predefined value, jus
 
 That’s what spy is - a stub that keeps track of invocations of its methods.
 
+#### Locks
+
+```go
+func (i *InMemoryPlayerStore) RecordWin(name string) {
+	i.lock.Lock()
+	defer i.lock.Unlock()
+	i.store[name]++
+
+```
+
+```go
+func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
+	i.lock.RLock()
+	defer i.lock.RUnlock()
+	return i.store[name]
+```
+
+Simply put locks *protect a shared memory (once acquired), until the lock is released.*
+
+`Lock():` only one go routine read/write at a time by acquiring the lock, lock which is simply mean write lock
+
+`RLock():` multiple go routine can read(not write) at a time by acquiring the lock.
+
+```go
+T1 -> Get key <= map
+T1 -> Get key2 <= map
+T1 -> Get key3 <= map
+T1 -> Get key4 <= map
+T1 -> Set key4,value4 => map
+T1 -> Get key5 <= map
+
+```
+`Get/Set` call for key4 is in race condition and our call won’t be consistent! What we could do? That’s where `RWMutex` comes into picture! `RWMutex` has a special type of lock called as `RLock`
+
 
 **General Reminder Notes**:
 `&` - variable's memory address
@@ -207,3 +241,4 @@ That’s what spy is - a stub that keeps track of invocations of its methods.
 #### Useful Resources:
 1. [Spying in Go](https://stackoverflow.com/a/54049902)
 1. [Dummy, Stub, Spy, Mock](https://ieftimov.com/posts/testing-in-go-test-doubles-by-example/#spies)
+1. [Lock vs Rlock](https://medium.com/@anto_rayen/understanding-locks-rwmutex-in-golang-3c468c65062a)
