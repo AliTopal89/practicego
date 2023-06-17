@@ -216,7 +216,9 @@ func (i *InMemoryPlayerStore) GetPlayerScore(name string) int {
 	return i.store[name]
 ```
 
-Simply put locks *protect a shared memory (once acquired), until the lock is released.*
+Simply put `locks` *protect a shared memory (once acquired), until the lock is released.*
+
+`Lock` the mutex before accessing counters; unlock it at the end of the function using a `defer` statement.
 
 `Lock():` only one go routine read/write at a time by acquiring the lock, lock which is simply mean write lock
 
