@@ -235,6 +235,29 @@ T1 -> Get key5 <= map
 ```
 `Get/Set` call for key4 is in race condition and our call won’t be consistent! What we could do? That’s where `RWMutex` comes into picture! `RWMutex` has a special type of lock called as `RLock`
 
+Go does have the traditional `mutex` (mutual exclusion construct) to coordinate access to shared memory, but it favors the use of channels to share information among goroutines.
+
+A `thread` is a sequence of executable instructions, and threads within the same process share an address space: Every thread in a multi-threaded process has read/write access to the very same memory locations. A memory-based *race condition* occurs if two or more threads (at least one of which performs a *write* operation) have uncoordinated access to the same memory location.
+
+example of two threads to alter its content
+
+```go
+ n = n + 10  +-----+  n = n - 10
+Thread1------------>| 777 |<------------Thread2
+                    +-----+
+                       n
+```
+On a multiprocessor machine, the two threads could execute literally at the same time. The impact on variable n is then indeterminate
+
+1. Thread1 does the addition to compute 787, which is saved in a temporary location (on the stack or in a CPU register).
+2. Thread2 does the subtraction to compute 767, also saved in a temporary location.
+3. Thread2 performs the assignment; the value of n is now 767.
+4. Thread1 performs the assignment; the value of n is now 787.
+
+By coming in last, Thread1 has won the race against Thread2. It's clear that improper interleaving has occurred. Thread1 performs an addition operation, is delayed for two ticks, and then performs the assignment. By contrast, Thread2 performs the subtraction and subsequent assignment operations without interruption
+
+The fix is clear: The arithmetic and assignment operations should occur as if they were a single, atomic operation. A construct such as a mutex provides the required fix, and Go has the mutex.
+
 
 **General Reminder Notes**:
 `&` - variable's memory address
@@ -244,3 +267,4 @@ T1 -> Get key5 <= map
 1. [Spying in Go](https://stackoverflow.com/a/54049902)
 1. [Dummy, Stub, Spy, Mock](https://ieftimov.com/posts/testing-in-go-test-doubles-by-example/#spies)
 1. [Lock vs Rlock](https://medium.com/@anto_rayen/understanding-locks-rwmutex-in-golang-3c468c65062a)
+1. [Lock vs Channels](https://opensource.com/article/18/7/locks-versus-channels-concurrent-go)
