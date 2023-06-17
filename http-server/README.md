@@ -258,12 +258,75 @@ By coming in last, Thread1 has won the race against Thread2. It's clear that imp
 
 The fix is clear: The arithmetic and assignment operations should occur as if they were a single, atomic operation. A construct such as a mutex provides the required fix, and Go has the mutex.
 
+```go
+import (
+   "os"
+   "fmt"
+   "runtime"
+   "strconv"
+   "sync"
+)
+
+var accountBalance = 0    // balance for shared bank account
+var mutex = &sync.Mutex{} // mutual-exclusion lock
+
+// critical-section code with explicit locking/unlocking
+func updateBalance(amt int) {
+   mutex.Lock()
+   accountBalance += amt  // two operations: update and assignment
+   mutex.Unlock()
+}
+func reportAndExit(msg string) {
+   fmt.Println(msg)
+   os.Exit(-1) // all 1s in binary
+}
+
+func main() {
+   if len(os.Args) < 2 {
+      reportAndExit("\nUsage: go ms1.go <number of updates per thread>")
+   }
+   iterations, err := strconv.Atoi(os.Args[1])
+   if err != nil {
+      reportAndExit("Bad command-line argument: " + os.Args[1]);
+   }
+
+   var wg sync.WaitGroup  // wait group to ensure goroutine coordination
+
+   // miser increments the balance
+   wg.Add(1)           // increment WaitGroup counter
+   go func() {
+      defer wg.Done()  // invoke Done on the WaitGroup when finished
+      for i := 0; i < iterations ; i++ {
+         updateBalance(1)
+         runtime.Gosched()  // yield to another goroutine
+      }
+   }()
+
+   // spendthrift decrements the balance
+   wg.Add(1)           // increment WaitGroup counter
+   go func() {
+      defer wg.Done()
+      for i := 0; i < iterations; i++ {
+         updateBalance(-1)
+         runtime.Gosched()  // be nice--yield
+      }
+   }()
+
+   wg.Wait()  // await completion of miser and spendthrift
+   fmt.Println("Final balance: ", accountBalance)  // confirm final balance is zero
+}
+
+```
+The program uses a `sync.WaitGroup` to ensure that the main goroutine does not print the final balance until the *miser* and the *spendthrift* goroutines have finished
+
+The critical section is the statement between the `Lock()` and `Unlock()` calls. Although a single line in Go source code, this statement involves two distinct operations: an *arithmetic operation* followed by an *assignment*. These two operations must be executed together, one thread at a time, which the `mutex` code ensures. With the locking code in place, the accountBalance is zero at the end because the number of additions by 1 and subtractions by 1 is the same.
 
 **General Reminder Notes**:
 `&` - variable's memory address
 `*` - holds a memory address and resolves it, goes and gets the thing that the pointer was pointing at
 
 #### Useful Resources:
+##### Thank you all for your great write ups that helped me hope it helps others
 1. [Spying in Go](https://stackoverflow.com/a/54049902)
 1. [Dummy, Stub, Spy, Mock](https://ieftimov.com/posts/testing-in-go-test-doubles-by-example/#spies)
 1. [Lock vs Rlock](https://medium.com/@anto_rayen/understanding-locks-rwmutex-in-golang-3c468c65062a)
