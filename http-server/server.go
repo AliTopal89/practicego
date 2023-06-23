@@ -13,9 +13,11 @@ type PlayerStore interface {
 }
 
 // PlayerServer is a HTTP interface for player information.
+// removing the named property router http.ServeMux and replace
+// it with http.Handler; this is called embedding.
 type PlayerServer struct {
-	store  PlayerStore
-	router *http.ServeMux
+	store PlayerStore
+	http.Handler
 }
 
 // So for our new endpoint, we use http.HandlerFunc and an anonymous function
@@ -25,19 +27,17 @@ type PlayerServer struct {
 // We have moved the routing creation out of ServeHTTP and into our
 // NewPlayerServer so this only has to be done once, not per request.
 func NewPlayerServer(store PlayerStore) *PlayerServer {
-	p := &PlayerServer{
-		store,
-		http.NewServeMux(),
-	}
+	p := new(PlayerServer)
 
-	p.router.Handle("/league", http.HandlerFunc(p.leagueHandler))
-	p.router.Handle("/players/", http.HandlerFunc(p.playersHandler))
+	p.store = store
+
+	router := http.NewServeMux()
+	router.Handle("/league", http.HandlerFunc(p.leagueHandler))
+	router.Handle("/players/", http.HandlerFunc(p.playersHandler))
+
+	p.Handler = router
 
 	return p
-}
-
-func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	p.router.ServeHTTP(w, r)
 }
 
 func (p *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {
