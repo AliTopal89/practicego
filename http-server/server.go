@@ -14,19 +14,30 @@ type PlayerStore interface {
 
 // PlayerServer is a HTTP interface for player information.
 type PlayerServer struct {
-	store PlayerStore
+	store  PlayerStore
+	router *http.ServeMux
 }
 
 // So for our new endpoint, we use http.HandlerFunc and an anonymous function
-//to w.WriteHeader(http.StatusOK) when '/league' is requested to make
+// to w.WriteHeader(http.StatusOK) when '/league' is requested to make
 // our new test pass.
+
+// We have moved the routing creation out of ServeHTTP and into our
+// NewPlayerServer so this only has to be done once, not per request.
+func NewPlayerServer(store PlayerStore) *PlayerServer {
+	p := &PlayerServer{
+		store,
+		http.NewServeMux(),
+	}
+
+	p.router.Handle("/league", http.HandlerFunc(p.leagueHandler))
+	p.router.Handle("/players/", http.HandlerFunc(p.playersHandler))
+
+	return p
+}
+
 func (p *PlayerServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-
-	router := http.NewServeMux()
-	router.Handle("/league", http.HandlerFunc(p.leagueHandler))
-	router.Handle("/players/", http.HandlerFunc(p.playersHandler))
-
-	router.ServeHTTP(w, r)
+	p.router.ServeHTTP(w, r)
 }
 
 func (p *PlayerServer) leagueHandler(w http.ResponseWriter, r *http.Request) {

@@ -11,7 +11,7 @@ import (
 // because we are going to try and get the player's score.
 func TestRecordingWinsAndRetrievingThem(t *testing.T) {
 	store := NewInMemoryPlayerStore()
-	server := PlayerServer{store}
+	server := NewPlayerServer(store)
 	player := "Mojojo"
 
 	server.ServeHTTP(httptest.NewRecorder(), newPostWinRequest(player))
