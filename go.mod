@@ -3,7 +3,7 @@ module github.com/AliTopal89
 go 1.18
 
 require (
-	github.com/approvals/go-approval-tests v0.0.0-20220530063708-32d5677069bd
+	github.com/approvals/go-approval-tests v1.10.0
 	github.com/gomarkdown/markdown v0.0.0-20260411013819-759bbc3e3207
 	github.com/jawher/mow.cli v1.2.0
 	github.com/quii/learn-go-with-tests v0.0.0-20220616155735-ce3b9c7232e5
